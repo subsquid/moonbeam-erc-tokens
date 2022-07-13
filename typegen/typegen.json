@@ -1,0 +1,7 @@
+{
+  "outDir": "../src/types/generated",
+  "specVersions": "moonbeamVersions.jsonl",
+  "typesBundle": "moonbeam",
+  "events": true,
+  "calls": true
+}

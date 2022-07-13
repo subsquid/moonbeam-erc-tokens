@@ -1,0 +1,34 @@
+enum ContractStandard {
+  ERC20
+  ERC721
+}
+
+type Account @entity {
+  id: ID!
+  transfersTotalCount: Int!
+  transfersSent: [Transfer!] @derivedFrom(field: "from")
+  transfersSentCount: Int!
+  transfersReceived: [Transfer!] @derivedFrom(field: "to")
+  transfersReceivedCount: Int!
+}
+
+type Token @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+#  totalSupply: BigInt!
+  decimals: Int
+  contractStandard: ContractStandard
+  contractAddress: String!
+}
+
+type Transfer @entity {
+  id: ID!
+  blockNumber: BigInt!
+  timestamp: DateTime!
+  eventIndex: Int!
+  from: Account!
+  to: Account!
+  amount: BigInt
+  token: Token
+}
