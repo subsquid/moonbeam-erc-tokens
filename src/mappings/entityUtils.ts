@@ -1,7 +1,7 @@
 import { Account, ContractStandard, Token, Transfer } from '../model';
 import { Store } from '@subsquid/typeorm-store';
 import * as helpers from './helpers';
-import { getTokenId } from './utils';
+import { getNftId, getTokenId } from './utils';
 import { Context } from '../processor';
 
 const accounts: Map<string, Account> = new Map();
@@ -37,7 +37,7 @@ export async function getToken({
   contractStandard: ContractStandard;
   ctx: Context;
 }): Promise<Token> {
-  const currentTokenId = tokenId || getTokenId(contractAddress);
+  const currentTokenId = tokenId ? getNftId(contractAddress, tokenId): getTokenId(contractAddress);
   let token = tokens.get(currentTokenId);
 
   if (!token) {

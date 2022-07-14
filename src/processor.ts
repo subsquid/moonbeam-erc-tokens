@@ -13,6 +13,7 @@ import * as config from './config'
 const database = new TypeormDatabase();
 const processor = new SubstrateBatchProcessor()
   // .setBlockRange({ from: 179689 })
+  // .setBlockRange({ from: 193524 })
   .setBatchSize(config.batchSize)
   .setDataSource({
     chain: config.chainNode,
@@ -22,9 +23,9 @@ const processor = new SubstrateBatchProcessor()
   .addEvmLog('*', {
     filter: [erc20.events['Transfer(address,address,uint256)'].topic]
   })
-  .addEvmLog('*', {
-    filter: [erc721.events['Transfer(address,address,uint256)'].topic]
-  });
+  // .addEvmLog('*', {
+  //   filter: [erc721.events['Transfer(address,address,uint256)'].topic]
+  // });
 
 type Item = BatchProcessorItem<typeof processor>;
 export type Context = BatchContext<Store, Item>;

@@ -16,7 +16,6 @@ type Token @entity {
   id: ID!
   name: String!
   symbol: String!
-#  totalSupply: BigInt!
   decimals: Int
   contractStandard: ContractStandard
   contractAddress: String!
