@@ -1,69 +1,111 @@
 import { Account, ContractStandard, Token, Transfer } from '../model';
-import { Store } from '@subsquid/typeorm-store';
 import * as helpers from './helpers';
-import { getNftId, getTokenId } from './utils';
+import { getTokenEntityId } from './utils';
 import { Context } from '../processor';
+import { EntityManagerItem } from '../common/types';
 
-const accounts: Map<string, Account> = new Map();
-const tokens: Map<string, Token> = new Map();
-const transfers: Map<string, Transfer> = new Map();
+class EntitiesManager {
+  private context: Context | null = null;
 
-export async function getAccount(id: string, store: Store): Promise<Account> {
-  let account = accounts.get(id);
+  private entitiesScope: {
+    [key in EntityManagerItem]: Map<string, Transfer | Account | Token>;
+  } = {
+    [EntityManagerItem.account]: new Map(),
+    [EntityManagerItem.token]: new Map(),
+    [EntityManagerItem.transfer]: new Map()
+  };
 
-  if (!account) {
-    account = await store.get(Account, id);
+  get isInitialized() {
+    return !!this.context;
+  }
+
+  init(ctx: Context) {
+    this.context = ctx;
+
+    return this;
+  }
+
+  add(entityName: EntityManagerItem, entity: Transfer | Account | Token) {
+    this.entitiesScope[entityName].set(entity.id, entity);
+  }
+
+  get({
+    entityName,
+    id,
+    contractAddress,
+    contractStandard
+  }: {
+    entityName: EntityManagerItem;
+    id?: string;
+    contractAddress?: string;
+    contractStandard?: ContractStandard;
+  }): Promise<Transfer | Account | Token> {
+    switch (entityName) {
+      case EntityManagerItem.account:
+        if (!id) throw new Error();
+        return this.getAccount(id);
+      case EntityManagerItem.token:
+        if (!contractAddress || !contractStandard) throw new Error();
+        return this.getToken({ id, contractAddress, contractStandard });
+      default:
+        throw new Error();
+    }
+  }
+
+  private async getAccount(id: string) {
+    if (!this.context) throw new Error();
+    let account = this.entitiesScope[EntityManagerItem.account].get(id);
+
     if (!account) {
-      account = helpers.createAccount(id);
+      account = await this.context.store.get(Account, id);
+      if (!account) {
+        account = helpers.createAccount(id);
+      }
+      this.add(EntityManagerItem.account, account);
     }
-    setAccount(account);
+
+    return account;
   }
 
-  return account;
-}
+  private async getToken({
+    id,
+    contractAddress,
+    contractStandard
+  }: {
+    id?: string;
+    contractAddress: string;
+    contractStandard: ContractStandard;
+  }) {
+    if (!this.context) throw new Error();
+    const currentTokenId = getTokenEntityId(contractAddress, id);
+    let token = this.entitiesScope[EntityManagerItem.token].get(currentTokenId);
 
-export function setAccount(account: Account): void {
-  accounts.set(account.id, account);
-}
-
-export async function getToken({
-  tokenId,
-  contractAddress,
-  contractStandard,
-  ctx
-}: {
-  tokenId?: string;
-  contractAddress: string;
-  contractStandard: ContractStandard;
-  ctx: Context;
-}): Promise<Token> {
-  const currentTokenId = tokenId ? getNftId(contractAddress, tokenId): getTokenId(contractAddress);
-  let token = tokens.get(currentTokenId);
-
-  if (!token) {
-    token = await ctx.store.get(Token, currentTokenId);
     if (!token) {
-      token = await helpers.createToken(
-        currentTokenId,
-        contractAddress,
-        contractStandard
-      );
+      token = await this.context.store.get(Token, currentTokenId);
+      if (!token) {
+        token = await helpers.createToken(
+          currentTokenId,
+          contractAddress,
+          contractStandard
+        );
+      }
+      this.add(EntityManagerItem.token, token);
     }
-    tokens.set(token.id, token);
+
+    return token;
   }
 
-  return token;
+  async saveAll() {
+    if (!this.context) throw new Error();
+    let entityGroupName: EntityManagerItem;
+    for (entityGroupName in this.entitiesScope) {
+      if (!this.entitiesScope || !this.entitiesScope[entityGroupName]) return;
+      await this.context.store.save([
+        ...this.entitiesScope[entityGroupName]!.values()
+      ]);
+      this.entitiesScope[entityGroupName]!.clear();
+    }
+  }
 }
 
-export function addTransfer(transfer: Transfer) {
-  transfers.set(transfer.id, transfer);
-}
-
-export async function saveAll(ctx: Context): Promise<void> {
-  await ctx.store.save([...accounts.values()]);
-  await ctx.store.save([...tokens.values()]);
-  await ctx.store.save([...transfers.values()]);
-  accounts.clear();
-  tokens.clear();
-  transfers.clear();
-}
+export const entitiesManager = new EntitiesManager();

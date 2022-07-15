@@ -1,8 +1,9 @@
 import { Account, ContractStandard, Token } from '../model';
 import { ethers } from 'ethers';
+import { addTimeout } from '@subsquid/util-timeout';
 import * as erc20 from '../abi/erc20';
 import * as erc721 from '../abi/erc721';
-import { getContract } from '../contract';
+import { getContract } from './contract';
 
 export function createAccount(id: string): Account {
   return new Account({
@@ -30,16 +31,16 @@ export async function createToken(
 
   if (!abi) throw new Error();
 
-  const contractInst = await getContract(contractAddress, abi);
+  const contractInst = getContract(contractAddress, abi);
   if (!contractInst) throw new Error();
 
   return new Token({
     id: tokenId,
-    name: await contractInst.name(),
-    symbol: await contractInst.symbol(),
+    name: await addTimeout(contractInst.name(), 30),
+    symbol: await addTimeout(contractInst.symbol(), 30),
     decimals:
       contractStandard === ContractStandard.ERC20
-        ? await contractInst.decimals()
+        ? await addTimeout(contractInst.decimals(), 30)
         : null,
     contractStandard,
     contractAddress

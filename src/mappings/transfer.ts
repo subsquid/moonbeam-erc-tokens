@@ -1,9 +1,10 @@
-import { Transfer, ContractStandard } from '../model';
+import { ContractStandard, Transfer, Account, Token } from '../model';
 
 import { EvmLogEvent, SubstrateBlock } from '@subsquid/substrate-processor';
 import { BigNumber } from 'ethers';
-import { addTransfer, getAccount, getToken, setAccount } from './entityUtils';
+import { entitiesManager } from './entityUtils';
 import { Context } from '../processor';
+import { EntityManagerItem } from '../common/types';
 
 type SaveTransactionInput = {
   event: EvmLogEvent;
@@ -19,11 +20,16 @@ type SaveTransactionInput = {
 export async function handleTransfer(
   props: SaveTransactionInput
 ): Promise<void> {
-  const { block, event, from, to, value, tokenId, contractStandard, ctx } =
-    props;
+  const { block, event, from, to, value, tokenId, contractStandard } = props;
 
-  const fromAccount = await getAccount(from, ctx.store);
-  const toAccount = await getAccount(to, ctx.store);
+  const fromAccount = (await entitiesManager.get({
+    entityName: EntityManagerItem.account,
+    id: from
+  })) as Account;
+  const toAccount = (await entitiesManager.get({
+    entityName: EntityManagerItem.account,
+    id: to
+  })) as Account;
 
   const transfer = new Transfer({
     id: event.evmTxHash,
@@ -32,12 +38,12 @@ export async function handleTransfer(
     eventIndex: event.indexInBlock,
     from: fromAccount,
     to: toAccount,
-    token: await getToken({
+    token: (await entitiesManager.get({
+      entityName: EntityManagerItem.token,
       contractAddress: event.args.address,
       contractStandard,
-      tokenId,
-      ctx
-    }),
+      id: tokenId
+    })) as Token,
     amount: value ? BigInt(value.toString()) : null
   });
 
@@ -47,8 +53,5 @@ export async function handleTransfer(
   toAccount.transfersReceivedCount += 1;
   toAccount.transfersTotalCount += 1;
 
-  setAccount(fromAccount);
-  setAccount(toAccount);
-
-  addTransfer(transfer);
+  entitiesManager.add(EntityManagerItem.transfer, transfer);
 }
