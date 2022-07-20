@@ -23,11 +23,13 @@ const processor = new SubstrateBatchProcessor()
   })
   .setTypesBundle('moonbeam')
   .addEvmLog('*', {
-    filter: [erc20.events['Transfer(address,address,uint256)'].topic]
+    filter: [
+      [
+        erc20.events['Transfer(address,address,uint256)'].topic,
+        erc721.events['Transfer(address,address,uint256)'].topic
+      ]
+    ]
   });
-// .addEvmLog('*', {
-//   filter: [erc721.events['Transfer(address,address,uint256)'].topic]
-// });
 
 type Item = BatchProcessorItem<typeof processor>;
 export type Context = BatchContext<Store, Item>;
@@ -40,7 +42,9 @@ processor.run(database, async (ctx: Context) => {
       if (item.name === 'EVM.Log') {
         if (
           item.event.args.topics[0] ===
-          erc20.events['Transfer(address,address,uint256)'].topic
+            erc20.events['Transfer(address,address,uint256)'].topic ||
+          item.event.args.topics[0] ===
+            erc721.events['Transfer(address,address,uint256)'].topic
         ) {
           try {
             await modules.handleErc20Transfer(ctx, block.header, item.event);

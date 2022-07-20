@@ -1,9 +1,7 @@
 import { Account, ContractStandard, Token } from '../model';
-import { ethers } from 'ethers';
 import { addTimeout } from '@subsquid/util-timeout';
-import * as erc20 from '../abi/erc20';
-import * as erc721 from '../abi/erc721';
-import { getContract } from './contract';
+import { getContractInstance } from './contract';
+import { Context } from '../processor';
 
 export function createAccount(id: string): Account {
   return new Account({
@@ -14,33 +12,34 @@ export function createAccount(id: string): Account {
   });
 }
 
-export async function createToken(
-  tokenId: string,
-  contractAddress: string,
-  contractStandard: ContractStandard
-): Promise<Token> {
-  let abi: ethers.utils.Interface;
-  switch (contractStandard) {
-    case ContractStandard.ERC20:
-      abi = erc20.abi;
-      break;
-    case ContractStandard.ERC721:
-      abi = erc721.abi;
-      break;
-  }
-
-  if (!abi) throw new Error();
-
-  const contractInst = getContract(contractAddress, abi);
+export async function createToken({
+  tokenId,
+  contractAddress,
+  contractStandard,
+  blockHeight,
+  ctx
+}: {
+  tokenId: string;
+  contractAddress: string;
+  contractStandard: ContractStandard;
+  blockHeight: number;
+  ctx: Context;
+}): Promise<Token> {
+  const contractInst = getContractInstance({
+    ctx,
+    blockHeight,
+    contractStandard,
+    contractAddress
+  });
   if (!contractInst) throw new Error();
 
   return new Token({
     id: tokenId,
-    name: await addTimeout(contractInst.name(), 500),
-    symbol: await addTimeout(contractInst.symbol(), 500),
+    name: await addTimeout(contractInst.name(), 2),
+    symbol: await addTimeout(contractInst.symbol(), 2),
     decimals:
-      contractStandard === ContractStandard.ERC20
-        ? await addTimeout(contractInst.decimals(), 500)
+      contractStandard === ContractStandard.ERC20 && 'decimals' in contractInst
+        ? await addTimeout(contractInst.decimals(), 2)
         : null,
     contractStandard,
     contractAddress
