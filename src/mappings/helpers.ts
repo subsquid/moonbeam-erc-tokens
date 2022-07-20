@@ -36,11 +36,11 @@ export async function createToken(
 
   return new Token({
     id: tokenId,
-    name: await addTimeout(contractInst.name(), 500),
-    symbol: await addTimeout(contractInst.symbol(), 500),
+    name: await addTimeout(contractInst.name(), 3),
+    symbol: await addTimeout(contractInst.symbol(), 3),
     decimals:
-      contractStandard === ContractStandard.ERC20
-        ? await addTimeout(contractInst.decimals(), 500)
+      contractStandard === ContractStandard.ERC20 && 'decimals' in contractInst
+        ? await addTimeout(contractInst.decimals(), 3)
         : null,
     contractStandard,
     contractAddress
