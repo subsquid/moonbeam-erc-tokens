@@ -92,7 +92,7 @@ class EntitiesManager {
 
     if (!token) {
       token = await this.context.store.get(Token, currentTokenId);
-      if (!token) {
+      if (!token || (token && (!token.name || !token.symbol))) {
         token = await helpers.createToken({
           tokenId: currentTokenId,
           ctx: this.context,

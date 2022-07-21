@@ -15,7 +15,7 @@ const database = new TypeormDatabase();
 const processor = new SubstrateBatchProcessor()
   // .setBlockRange({ from: 179689 })
   // .setBlockRange({ from: 179689 })
-  // .setBlockRange({ from: 227565 })
+  // .setBlockRange({ from: 263764 })
   .setBatchSize(config.batchSize)
   .setDataSource({
     chain: config.chainNode,

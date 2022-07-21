@@ -220,7 +220,7 @@ export class AssetManagerRegisterLocalAssetCall {
    * and the local asset, as this conversion is deterministic
    * Further, we dont allow xcm fee payment in local assets
    */
-  get asV1401(): {creator: v1401.AccountId20, owner: v1401.AccountId20, isSufficient: boolean, minBalance: bigint} {
+  get asV1401(): {creator: Uint8Array, owner: Uint8Array, isSufficient: boolean, minBalance: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -389,7 +389,7 @@ export class AssetsApproveTransferCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, delegate: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, delegate: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -446,7 +446,7 @@ export class AssetsBurnCall {
    * Weight: `O(1)`
    * Modes: Post-existence of `who`; Pre & post Zombie-status of `who`.
    */
-  get asV1201(): {id: bigint, who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -499,7 +499,7 @@ export class AssetsCancelApprovalCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, delegate: v1201.AccountId20} {
+  get asV1201(): {id: bigint, delegate: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -613,7 +613,7 @@ export class AssetsCreateCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, admin: v1201.AccountId20, minBalance: bigint} {
+  get asV1201(): {id: bigint, admin: Uint8Array, minBalance: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -747,7 +747,7 @@ export class AssetsForceAssetStatusCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, owner: v1201.AccountId20, issuer: v1201.AccountId20, admin: v1201.AccountId20, freezer: v1201.AccountId20, minBalance: bigint, isSufficient: boolean, isFrozen: boolean} {
+  get asV1201(): {id: bigint, owner: Uint8Array, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array, minBalance: bigint, isSufficient: boolean, isFrozen: boolean} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -800,7 +800,7 @@ export class AssetsForceCancelApprovalCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, owner: v1201.AccountId20, delegate: v1201.AccountId20} {
+  get asV1201(): {id: bigint, owner: Uint8Array, delegate: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -914,7 +914,7 @@ export class AssetsForceCreateCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, owner: v1201.AccountId20, isSufficient: boolean, minBalance: bigint} {
+  get asV1201(): {id: bigint, owner: Uint8Array, isSufficient: boolean, minBalance: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1034,7 +1034,7 @@ export class AssetsForceTransferCall {
    * Modes: Pre-existence of `dest`; Post-existence of `source`; Account pre-existence of
    * `dest`.
    */
-  get asV1201(): {id: bigint, source: v1201.AccountId20, dest: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, source: Uint8Array, dest: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1081,7 +1081,7 @@ export class AssetsFreezeCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, who: v1201.AccountId20} {
+  get asV1201(): {id: bigint, who: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1177,7 +1177,7 @@ export class AssetsMintCall {
    * Weight: `O(1)`
    * Modes: Pre-existing balance of `beneficiary`; Account pre-existence of `beneficiary`.
    */
-  get asV1201(): {id: bigint, beneficiary: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, beneficiary: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1330,7 +1330,7 @@ export class AssetsSetTeamCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, issuer: v1201.AccountId20, admin: v1201.AccountId20, freezer: v1201.AccountId20} {
+  get asV1201(): {id: bigint, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1377,7 +1377,7 @@ export class AssetsThawCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, who: v1201.AccountId20} {
+  get asV1201(): {id: bigint, who: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1530,7 +1530,7 @@ export class AssetsTransferCall {
    * Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of
    * `target`.
    */
-  get asV1201(): {id: bigint, target: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, target: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1593,7 +1593,7 @@ export class AssetsTransferApprovedCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, owner: v1201.AccountId20, destination: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, owner: Uint8Array, destination: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1656,7 +1656,7 @@ export class AssetsTransferKeepAliveCall {
    * Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of
    * `target`.
    */
-  get asV1201(): {id: bigint, target: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {id: bigint, target: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1703,7 +1703,7 @@ export class AssetsTransferOwnershipCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1201(): {id: bigint, owner: v1201.AccountId20} {
+  get asV1201(): {id: bigint, owner: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -1732,7 +1732,7 @@ export class AuthorFilterSetEligibleCall {
   /**
    * Update the eligible ratio. Intended to be called by governance.
    */
-  get asV900(): {new: v900.Percent} {
+  get asV900(): {new: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -1747,7 +1747,7 @@ export class AuthorFilterSetEligibleCall {
   /**
    * Update the eligible count. Intended to be called by governance.
    */
-  get asV1502(): {new: v1502.NonZeroU32} {
+  get asV1502(): {new: number} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -1811,7 +1811,7 @@ export class AuthorInherentSetAuthorCall {
   /**
    * Inherent to set the author of a block
    */
-  get asV900(): {author: v900.Public} {
+  get asV900(): {author: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -1846,7 +1846,7 @@ export class AuthorMappingAddAssociationCall {
    * Users who have been (or will soon be) elected active collators in staking,
    * should submit this extrinsic to have their blocks accepted and earn rewards.
    */
-  get asV900(): {authorId: v900.Public} {
+  get asV900(): {authorId: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -1867,7 +1867,7 @@ export class AuthorMappingAddAssociationCall {
    * Users who have been (or will soon be) elected active collators in staking,
    * should submit this extrinsic to have their blocks accepted and earn rewards.
    */
-  get asV1606(): {nimbusId: v1606.Public} {
+  get asV1606(): {nimbusId: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
@@ -1902,7 +1902,7 @@ export class AuthorMappingClearAssociationCall {
    * This is useful when you are no longer an author and would like to re-claim your security
    * deposit.
    */
-  get asV900(): {authorId: v900.Public} {
+  get asV900(): {authorId: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -1923,7 +1923,7 @@ export class AuthorMappingClearAssociationCall {
    * This is useful when you are no longer an author and would like to re-claim your security
    * deposit.
    */
-  get asV1606(): {nimbusId: v1606.Public} {
+  get asV1606(): {nimbusId: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
@@ -1952,7 +1952,7 @@ export class AuthorMappingRegisterKeysCall {
   /**
    * Add association and set session keys
    */
-  get asV1502(): {authorId: v1502.Public, keys: v1502.Public} {
+  get asV1502(): {authorId: Uint8Array, keys: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -2024,7 +2024,7 @@ export class AuthorMappingSetKeysCall {
    * No new security deposit is required. Will replace `update_association` which is kept
    * now for backwards compatibility reasons.
    */
-  get asV1502(): {oldAuthorId: v1502.Public, newAuthorId: v1502.Public, newKeys: v1502.Public} {
+  get asV1502(): {oldAuthorId: Uint8Array, newAuthorId: Uint8Array, newKeys: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -2082,7 +2082,7 @@ export class AuthorMappingUpdateAssociationCall {
    * This is useful for normal key rotation or for when switching from one physical collator
    * machine to another. No new security deposit is required.
    */
-  get asV900(): {oldAuthorId: v900.Public, newAuthorId: v900.Public} {
+  get asV900(): {oldAuthorId: Uint8Array, newAuthorId: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2105,7 +2105,7 @@ export class AuthorMappingUpdateAssociationCall {
    * machine to another. No new security deposit is required.
    * This sets keys to new_nimbus_id.into() by default.
    */
-  get asV1606(): {oldNimbusId: v1606.Public, newNimbusId: v1606.Public} {
+  get asV1606(): {oldNimbusId: Uint8Array, newNimbusId: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
@@ -2144,7 +2144,7 @@ export class BalancesForceTransferCall {
    *   assumed to be in the overlay.
    * # </weight>
    */
-  get asV900(): {source: v900.H160, dest: v900.H160, value: bigint} {
+  get asV900(): {source: Uint8Array, dest: Uint8Array, value: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2177,7 +2177,7 @@ export class BalancesForceUnreserveCall {
    * 
    * Can only be called by ROOT.
    */
-  get asV900(): {who: v900.H160, amount: bigint} {
+  get asV900(): {who: Uint8Array, amount: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2240,7 +2240,7 @@ export class BalancesSetBalanceCall {
    * - DB Weight: 1 Read, 1 Write to `who`
    * # </weight>
    */
-  get asV900(): {who: v900.H160, newFree: bigint, newReserved: bigint} {
+  get asV900(): {who: Uint8Array, newFree: bigint, newReserved: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2323,7 +2323,7 @@ export class BalancesTransferCall {
    * - Origin account is already in memory, so no DB operations for them.
    * # </weight>
    */
-  get asV900(): {dest: v900.H160, value: bigint} {
+  get asV900(): {dest: Uint8Array, value: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2384,7 +2384,7 @@ export class BalancesTransferAllCall {
    * - O(1). Just like transfer, but reading the user's transferable balance first.
    *   #</weight>
    */
-  get asV900(): {dest: v900.H160, keepAlive: boolean} {
+  get asV900(): {dest: Uint8Array, keepAlive: boolean} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2433,7 +2433,7 @@ export class BalancesTransferKeepAliveCall {
    * - DB Weight: 1 Read and 1 Write to dest (sender is in overlay already)
    * #</weight>
    */
-  get asV900(): {dest: v900.H160, value: bigint} {
+  get asV900(): {dest: Uint8Array, value: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2456,7 +2456,7 @@ export class BaseFeeSetBaseFeePerGasCall {
     return this._chain.getCallHash('BaseFee.set_base_fee_per_gas') === '5bd81ad9acbdd818e9f9ac3692f947f6eb9f8929f0bd910ab889b377d83d3841'
   }
 
-  get asV1201(): {fee: v1201.U256} {
+  get asV1201(): {fee: bigint[]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -2479,7 +2479,7 @@ export class BaseFeeSetElasticityCall {
     return this._chain.getCallHash('BaseFee.set_elasticity') === 'efcd4cd6d4fde4342db62d270df85a88b1c153af50159f9bc1ba1ce1133f2524'
   }
 
-  get asV1201(): {elasticity: v1201.Permill} {
+  get asV1201(): {elasticity: number} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -2593,7 +2593,7 @@ export class CouncilCollectiveCloseCall {
    * - up to 3 events
    * # </weight>
    */
-  get asV900(): {proposalHash: v900.H256, index: number, proposalWeightBound: bigint, lengthBound: number} {
+  get asV900(): {proposalHash: Uint8Array, index: number, proposalWeightBound: bigint, lengthBound: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -2648,7 +2648,7 @@ export class CouncilCollectiveDisapproveProposalCall {
    * * Writes: Voting, Proposals, ProposalOf
    * # </weight>
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3569,7 +3569,7 @@ export class CouncilCollectiveSetMembersCall {
    *   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
    * # </weight>
    */
-  get asV900(): {newMembers: v900.H160[], prime: (v900.H160 | undefined), oldCount: number} {
+  get asV900(): {newMembers: Uint8Array[], prime: (Uint8Array | undefined), oldCount: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3626,7 +3626,7 @@ export class CouncilCollectiveVoteCall {
    * - 1 event
    * # </weight>
    */
-  get asV900(): {proposal: v900.H256, index: number, approve: boolean} {
+  get asV900(): {proposal: Uint8Array, index: number, approve: boolean} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3663,7 +3663,7 @@ export class CrowdloanRewardsAssociateNativeIdentityCall {
    * with the association
    * The proof is nothing but a signature over the reward_address using the relay keys
    */
-  get asV900(): {rewardAccount: v900.H160, relayAccount: v900.AccountId32, proof: v900.MultiSignature} {
+  get asV900(): {rewardAccount: Uint8Array, relayAccount: Uint8Array, proof: v900.MultiSignature} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3700,7 +3700,7 @@ export class CrowdloanRewardsChangeAssociationWithRelayKeysCall {
    * The account to be changed needs to be submitted as 'previous_account'
    * Origin must be RewardAddressChangeOrigin
    */
-  get asV900(): {rewardAccount: v900.H160, previousAccount: v900.H160, proofs: [v900.AccountId32, v900.MultiSignature][]} {
+  get asV900(): {rewardAccount: Uint8Array, previousAccount: Uint8Array, proofs: [Uint8Array, v900.MultiSignature][]} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3797,7 +3797,7 @@ export class CrowdloanRewardsInitializeRewardVecCall {
    * This does not enforce any checks other than making sure we dont go over funds
    * complete_initialization should perform any additional
    */
-  get asV900(): {rewards: [v900.AccountId32, (v900.H160 | undefined), bigint][]} {
+  get asV900(): {rewards: [Uint8Array, (Uint8Array | undefined), bigint][]} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3826,7 +3826,7 @@ export class CrowdloanRewardsUpdateRewardAddressCall {
   /**
    * Update reward address, proving that the caller owns the current native key
    */
-  get asV900(): {newRewardAccount: v900.H160} {
+  get asV900(): {newRewardAccount: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -3883,7 +3883,7 @@ export class DemocracyBlacklistCall {
    * Weight: `O(p)` (though as this is an high-privilege dispatch, we assume it has a
    *   reasonable value).
    */
-  get asV900(): {proposalHash: v900.H256, maybeRefIndex: (number | undefined)} {
+  get asV900(): {proposalHash: Uint8Array, maybeRefIndex: (number | undefined)} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4110,7 +4110,7 @@ export class DemocracyDelegateCall {
    * Weight: `O(R)` where R is the number of referendums the voter delegating to has
    *   voted on. Weight is charged as if maximum votes.
    */
-  get asV900(): {to: v900.H160, conviction: v900.Conviction, balance: bigint} {
+  get asV900(): {to: Uint8Array, conviction: v900.Conviction, balance: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4182,7 +4182,7 @@ export class DemocracyEnactProposalCall {
   /**
    * Enact a proposal from a referendum. For now we just make the weight be the maximum.
    */
-  get asV900(): {proposalHash: v900.H256, index: number} {
+  get asV900(): {proposalHash: Uint8Array, index: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4227,7 +4227,7 @@ export class DemocracyExternalProposeCall {
    * Weight: `O(V)` with V number of vetoers in the blacklist of proposal.
    *   Decoding vec of length V. Charged as maximum
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4276,7 +4276,7 @@ export class DemocracyExternalProposeDefaultCall {
    * 
    * Weight: `O(1)`
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4325,7 +4325,7 @@ export class DemocracyExternalProposeMajorityCall {
    * 
    * Weight: `O(1)`
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4382,7 +4382,7 @@ export class DemocracyFastTrackCall {
    * 
    * Weight: `O(1)`
    */
-  get asV900(): {proposalHash: v900.H256, votingPeriod: number, delay: number} {
+  get asV900(): {proposalHash: Uint8Array, votingPeriod: number, delay: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4587,7 +4587,7 @@ export class DemocracyProposeCall {
    * 
    * Weight: `O(p)`
    */
-  get asV900(): {proposalHash: v900.H256, value: bigint} {
+  get asV900(): {proposalHash: Uint8Array, value: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4644,7 +4644,7 @@ export class DemocracyReapPreimageCall {
    * 
    * Weight: `O(D)` where D is length of proposal.
    */
-  get asV900(): {proposalHash: v900.H256, proposalLenUpperBound: number} {
+  get asV900(): {proposalHash: Uint8Array, proposalLenUpperBound: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4701,7 +4701,7 @@ export class DemocracyRemoveOtherVoteCall {
    * Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.
    *   Weight is calculated for the maximum number of vote.
    */
-  get asV900(): {target: v900.H160, index: number} {
+  get asV900(): {target: Uint8Array, index: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4921,7 +4921,7 @@ export class DemocracyUnlockCall {
    * 
    * Weight: `O(R)` with R number of vote of target.
    */
-  get asV900(): {target: v900.H160} {
+  get asV900(): {target: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -4966,7 +4966,7 @@ export class DemocracyVetoExternalCall {
    * 
    * Weight: `O(V + log(V))` where V is number of `existing vetoers`
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5091,7 +5091,7 @@ export class EvmCallCall {
   /**
    * Issue an EVM call operation. This is similar to a message call transaction in Ethereum.
    */
-  get asV900(): {source: v900.H160, target: v900.H160, input: Uint8Array, value: v900.U256, gasLimit: bigint, gasPrice: v900.U256, nonce: (v900.U256 | undefined)} {
+  get asV900(): {source: Uint8Array, target: Uint8Array, input: Uint8Array, value: bigint[], gasLimit: bigint, gasPrice: bigint[], nonce: (bigint[] | undefined)} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5106,7 +5106,7 @@ export class EvmCallCall {
   /**
    * Issue an EVM call operation. This is similar to a message call transaction in Ethereum.
    */
-  get asV1201(): {source: v1201.H160, target: v1201.H160, input: Uint8Array, value: v1201.U256, gasLimit: bigint, maxFeePerGas: v1201.U256, maxPriorityFeePerGas: (v1201.U256 | undefined), nonce: (v1201.U256 | undefined), accessList: [v1201.H160, v1201.H256[]][]} {
+  get asV1201(): {source: Uint8Array, target: Uint8Array, input: Uint8Array, value: bigint[], gasLimit: bigint, maxFeePerGas: bigint[], maxPriorityFeePerGas: (bigint[] | undefined), nonce: (bigint[] | undefined), accessList: [Uint8Array, Uint8Array[]][]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -5137,7 +5137,7 @@ export class EvmCreateCall {
    * Issue an EVM create operation. This is similar to a contract creation transaction in
    * Ethereum.
    */
-  get asV900(): {source: v900.H160, init: Uint8Array, value: v900.U256, gasLimit: bigint, gasPrice: v900.U256, nonce: (v900.U256 | undefined)} {
+  get asV900(): {source: Uint8Array, init: Uint8Array, value: bigint[], gasLimit: bigint, gasPrice: bigint[], nonce: (bigint[] | undefined)} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5154,7 +5154,7 @@ export class EvmCreateCall {
    * Issue an EVM create operation. This is similar to a contract creation transaction in
    * Ethereum.
    */
-  get asV1201(): {source: v1201.H160, init: Uint8Array, value: v1201.U256, gasLimit: bigint, maxFeePerGas: v1201.U256, maxPriorityFeePerGas: (v1201.U256 | undefined), nonce: (v1201.U256 | undefined), accessList: [v1201.H160, v1201.H256[]][]} {
+  get asV1201(): {source: Uint8Array, init: Uint8Array, value: bigint[], gasLimit: bigint, maxFeePerGas: bigint[], maxPriorityFeePerGas: (bigint[] | undefined), nonce: (bigint[] | undefined), accessList: [Uint8Array, Uint8Array[]][]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -5183,7 +5183,7 @@ export class EvmCreate2Call {
   /**
    * Issue an EVM create2 operation.
    */
-  get asV900(): {source: v900.H160, init: Uint8Array, salt: v900.H256, value: v900.U256, gasLimit: bigint, gasPrice: v900.U256, nonce: (v900.U256 | undefined)} {
+  get asV900(): {source: Uint8Array, init: Uint8Array, salt: Uint8Array, value: bigint[], gasLimit: bigint, gasPrice: bigint[], nonce: (bigint[] | undefined)} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5198,7 +5198,7 @@ export class EvmCreate2Call {
   /**
    * Issue an EVM create2 operation.
    */
-  get asV1201(): {source: v1201.H160, init: Uint8Array, salt: v1201.H256, value: v1201.U256, gasLimit: bigint, maxFeePerGas: v1201.U256, maxPriorityFeePerGas: (v1201.U256 | undefined), nonce: (v1201.U256 | undefined), accessList: [v1201.H160, v1201.H256[]][]} {
+  get asV1201(): {source: Uint8Array, init: Uint8Array, salt: Uint8Array, value: bigint[], gasLimit: bigint, maxFeePerGas: bigint[], maxPriorityFeePerGas: (bigint[] | undefined), nonce: (bigint[] | undefined), accessList: [Uint8Array, Uint8Array[]][]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -5227,7 +5227,7 @@ export class EvmHotfixIncAccountSufficientsCall {
   /**
    * Increment `sufficients` for existing accounts having a nonzero `nonce` but zero `sufficients` value.
    */
-  get asV1401(): {addresses: v1401.H160[]} {
+  get asV1401(): {addresses: Uint8Array[]} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -5256,7 +5256,7 @@ export class EvmWithdrawCall {
   /**
    * Withdraw balance from EVM into currency/balances pallet.
    */
-  get asV900(): {address: v900.H160, value: bigint} {
+  get asV900(): {address: Uint8Array, value: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5353,7 +5353,7 @@ export class IdentityAddRegistrarCall {
    * - One event.
    * # </weight>
    */
-  get asV900(): {account: v900.H160} {
+  get asV900(): {account: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5394,7 +5394,7 @@ export class IdentityAddSubCall {
    * The dispatch origin for this call must be _Signed_ and the sender must have a registered
    * sub identity of `sub`.
    */
-  get asV900(): {sub: v900.H160, data: v900.Data} {
+  get asV900(): {sub: Uint8Array, data: v900.Data} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5583,7 +5583,7 @@ export class IdentityKillIdentityCall {
    * - One event.
    * # </weight>
    */
-  get asV900(): {target: v900.H160} {
+  get asV900(): {target: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5648,7 +5648,7 @@ export class IdentityProvideJudgementCall {
    * - One event.
    * # </weight>
    */
-  get asV900(): {regIndex: number, target: v900.H160, judgement: v900.Judgement} {
+  get asV900(): {regIndex: number, target: Uint8Array, judgement: v900.Judgement} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5736,7 +5736,7 @@ export class IdentityRemoveSubCall {
    * The dispatch origin for this call must be _Signed_ and the sender must have a registered
    * sub identity of `sub`.
    */
-  get asV900(): {sub: v900.H160} {
+  get asV900(): {sub: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5771,7 +5771,7 @@ export class IdentityRenameSubCall {
    * The dispatch origin for this call must be _Signed_ and the sender must have a registered
    * sub identity of `sub`.
    */
-  get asV900(): {sub: v900.H160, data: v900.Data} {
+  get asV900(): {sub: Uint8Array, data: v900.Data} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -5897,7 +5897,7 @@ export class IdentitySetAccountIdCall {
    * - Benchmark: 8.823 + R * 0.32 µs (min squares analysis)
    * # </weight>
    */
-  get asV900(): {index: number, new: v900.H160} {
+  get asV900(): {index: number, new: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -6003,7 +6003,7 @@ export class IdentitySetFieldsCall {
    * - Benchmark: 7.464 + R * 0.325 µs (min squares analysis)
    * # </weight>
    */
-  get asV900(): {index: number, fields: v900.BitFlags} {
+  get asV900(): {index: number, fields: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -6137,7 +6137,7 @@ export class IdentitySetSubsCall {
    *   - One storage-exists (`IdentityOf::contains_key`).
    * # </weight>
    */
-  get asV900(): {subs: [v900.H160, v900.Data][]} {
+  get asV900(): {subs: [Uint8Array, v900.Data][]} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -6204,7 +6204,7 @@ export class LocalAssetsApproveTransferCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, delegate: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, delegate: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6261,7 +6261,7 @@ export class LocalAssetsBurnCall {
    * Weight: `O(1)`
    * Modes: Post-existence of `who`; Pre & post Zombie-status of `who`.
    */
-  get asV1401(): {id: bigint, who: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, who: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6314,7 +6314,7 @@ export class LocalAssetsCancelApprovalCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, delegate: v1401.AccountId20} {
+  get asV1401(): {id: bigint, delegate: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6428,7 +6428,7 @@ export class LocalAssetsCreateCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, admin: v1401.AccountId20, minBalance: bigint} {
+  get asV1401(): {id: bigint, admin: Uint8Array, minBalance: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6562,7 +6562,7 @@ export class LocalAssetsForceAssetStatusCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, owner: v1401.AccountId20, issuer: v1401.AccountId20, admin: v1401.AccountId20, freezer: v1401.AccountId20, minBalance: bigint, isSufficient: boolean, isFrozen: boolean} {
+  get asV1401(): {id: bigint, owner: Uint8Array, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array, minBalance: bigint, isSufficient: boolean, isFrozen: boolean} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6615,7 +6615,7 @@ export class LocalAssetsForceCancelApprovalCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, owner: v1401.AccountId20, delegate: v1401.AccountId20} {
+  get asV1401(): {id: bigint, owner: Uint8Array, delegate: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6729,7 +6729,7 @@ export class LocalAssetsForceCreateCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, owner: v1401.AccountId20, isSufficient: boolean, minBalance: bigint} {
+  get asV1401(): {id: bigint, owner: Uint8Array, isSufficient: boolean, minBalance: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6849,7 +6849,7 @@ export class LocalAssetsForceTransferCall {
    * Modes: Pre-existence of `dest`; Post-existence of `source`; Account pre-existence of
    * `dest`.
    */
-  get asV1401(): {id: bigint, source: v1401.AccountId20, dest: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, source: Uint8Array, dest: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6896,7 +6896,7 @@ export class LocalAssetsFreezeCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, who: v1401.AccountId20} {
+  get asV1401(): {id: bigint, who: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -6992,7 +6992,7 @@ export class LocalAssetsMintCall {
    * Weight: `O(1)`
    * Modes: Pre-existing balance of `beneficiary`; Account pre-existence of `beneficiary`.
    */
-  get asV1401(): {id: bigint, beneficiary: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, beneficiary: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7145,7 +7145,7 @@ export class LocalAssetsSetTeamCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, issuer: v1401.AccountId20, admin: v1401.AccountId20, freezer: v1401.AccountId20} {
+  get asV1401(): {id: bigint, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7192,7 +7192,7 @@ export class LocalAssetsThawCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, who: v1401.AccountId20} {
+  get asV1401(): {id: bigint, who: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7345,7 +7345,7 @@ export class LocalAssetsTransferCall {
    * Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of
    * `target`.
    */
-  get asV1401(): {id: bigint, target: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, target: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7408,7 +7408,7 @@ export class LocalAssetsTransferApprovedCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, owner: v1401.AccountId20, destination: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, owner: Uint8Array, destination: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7471,7 +7471,7 @@ export class LocalAssetsTransferKeepAliveCall {
    * Modes: Pre-existence of `target`; Post-existence of sender; Account pre-existence of
    * `target`.
    */
-  get asV1401(): {id: bigint, target: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {id: bigint, target: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7518,7 +7518,7 @@ export class LocalAssetsTransferOwnershipCall {
    * 
    * Weight: `O(1)`
    */
-  get asV1401(): {id: bigint, owner: v1401.AccountId20} {
+  get asV1401(): {id: bigint, owner: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -7621,7 +7621,7 @@ export class MoonbeamOrbitersAddCollatorCall {
   /**
    * Add a collator to orbiters program.
    */
-  get asV1502(): {collator: v1502.AccountId20} {
+  get asV1502(): {collator: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -7650,7 +7650,7 @@ export class MoonbeamOrbitersCollatorAddOrbiterCall {
   /**
    * Add an orbiter in a collator pool
    */
-  get asV1502(): {orbiter: v1502.AccountId20} {
+  get asV1502(): {orbiter: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -7679,7 +7679,7 @@ export class MoonbeamOrbitersCollatorRemoveOrbiterCall {
   /**
    * Remove an orbiter from the caller collator pool
    */
-  get asV1502(): {orbiter: v1502.AccountId20} {
+  get asV1502(): {orbiter: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -7708,7 +7708,7 @@ export class MoonbeamOrbitersOrbiterLeaveCollatorPoolCall {
   /**
    * Remove the caller from the specified collator pool
    */
-  get asV1502(): {collator: v1502.AccountId20} {
+  get asV1502(): {collator: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -7795,7 +7795,7 @@ export class MoonbeamOrbitersRemoveCollatorCall {
   /**
    * Remove a collator from orbiters program.
    */
-  get asV1502(): {collator: v1502.AccountId20} {
+  get asV1502(): {collator: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -7853,7 +7853,7 @@ export class ParachainStakingCancelDelegationRequestCall {
   /**
    * Cancel request to change an existing delegation.
    */
-  get asV1001(): {candidate: v1001.AccountId20} {
+  get asV1001(): {candidate: Uint8Array} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8006,7 +8006,7 @@ export class ParachainStakingDelegateCall {
    * If caller is not a delegator and not a collator, then join the set of delegators
    * If caller is a delegator, then makes delegation to change their delegation state
    */
-  get asV1001(): {collator: v1001.AccountId20, amount: bigint, candidateDelegationCount: number, delegationCount: number} {
+  get asV1001(): {collator: Uint8Array, amount: bigint, candidateDelegationCount: number, delegationCount: number} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8023,7 +8023,7 @@ export class ParachainStakingDelegateCall {
    * If caller is not a delegator and not a collator, then join the set of delegators
    * If caller is a delegator, then makes delegation to change their delegation state
    */
-  get asV1201(): {candidate: v1201.AccountId20, amount: bigint, candidateDelegationCount: number, delegationCount: number} {
+  get asV1201(): {candidate: Uint8Array, amount: bigint, candidateDelegationCount: number, delegationCount: number} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -8052,7 +8052,7 @@ export class ParachainStakingDelegatorBondMoreCall {
   /**
    * Bond more for delegators wrt a specific collator candidate.
    */
-  get asV1001(): {candidate: v1001.AccountId20, more: bigint} {
+  get asV1001(): {candidate: Uint8Array, more: bigint} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8081,7 +8081,7 @@ export class ParachainStakingExecuteCandidateBondLessCall {
   /**
    * Execute pending request to adjust the collator candidate self bond
    */
-  get asV1001(): {candidate: v1001.AccountId20} {
+  get asV1001(): {candidate: Uint8Array} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8110,7 +8110,7 @@ export class ParachainStakingExecuteDelegationRequestCall {
   /**
    * Execute pending request to change an existing delegation
    */
-  get asV1001(): {delegator: v1001.AccountId20, candidate: v1001.AccountId20} {
+  get asV1001(): {delegator: Uint8Array, candidate: Uint8Array} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8139,7 +8139,7 @@ export class ParachainStakingExecuteLeaveCandidatesCall {
   /**
    * Execute leave candidates request
    */
-  get asV1001(): {candidate: v1001.AccountId20} {
+  get asV1001(): {candidate: Uint8Array} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8154,7 +8154,7 @@ export class ParachainStakingExecuteLeaveCandidatesCall {
   /**
    * Execute leave candidates request
    */
-  get asV1201(): {candidate: v1201.AccountId20, candidateDelegationCount: number} {
+  get asV1201(): {candidate: Uint8Array, candidateDelegationCount: number} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -8183,7 +8183,7 @@ export class ParachainStakingExecuteLeaveDelegatorsCall {
   /**
    * Execute the right to exit the set of delegators and revoke all ongoing delegations.
    */
-  get asV1001(): {delegator: v1001.AccountId20, delegationCount: number} {
+  get asV1001(): {delegator: Uint8Array, delegationCount: number} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8270,7 +8270,7 @@ export class ParachainStakingHotfixRemoveDelegationRequestsCall {
   /**
    * Hotfix patch to remove all delegation requests not removed during a candidate exit
    */
-  get asV1201(): {delegators: v1201.AccountId20[]} {
+  get asV1201(): {delegators: Uint8Array[]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -8301,7 +8301,7 @@ export class ParachainStakingHotfixUpdateCandidatePoolValueCall {
    * Hotfix patch to correct and update CandidatePool value for candidates that have
    * called candidate_bond_more when it did not update the CandidatePool value
    */
-  get asV1201(): {candidates: v1201.AccountId20[]} {
+  get asV1201(): {candidates: Uint8Array[]} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -8425,7 +8425,7 @@ export class ParachainStakingNominateCall {
    * If caller is not a nominator, then join the set of nominators
    * If caller is a nominator, then makes nomination to change their nomination state
    */
-  get asV900(): {collator: v900.H160, amount: bigint, collatorNominatorCount: number, nominationCount: number} {
+  get asV900(): {collator: Uint8Array, amount: bigint, collatorNominatorCount: number, nominationCount: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8454,7 +8454,7 @@ export class ParachainStakingNominatorBondLessCall {
   /**
    * Bond less for nominators with respect to a specific nominator candidate
    */
-  get asV900(): {candidate: v900.H160, less: bigint} {
+  get asV900(): {candidate: Uint8Array, less: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8483,7 +8483,7 @@ export class ParachainStakingNominatorBondMoreCall {
   /**
    * Bond more for nominators with respect to a specific collator candidate
    */
-  get asV900(): {candidate: v900.H160, more: bigint} {
+  get asV900(): {candidate: Uint8Array, more: bigint} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8514,7 +8514,7 @@ export class ParachainStakingRevokeNominationCall {
    * Request to revoke an existing nomination. If successful, the nomination is scheduled
    * to exit
    */
-  get asV900(): {collator: v900.H160} {
+  get asV900(): {collator: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8572,7 +8572,7 @@ export class ParachainStakingScheduleDelegatorBondLessCall {
   /**
    * Request bond less for delegators wrt a specific collator candidate.
    */
-  get asV1001(): {candidate: v1001.AccountId20, less: bigint} {
+  get asV1001(): {candidate: Uint8Array, less: bigint} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8667,7 +8667,7 @@ export class ParachainStakingScheduleRevokeDelegationCall {
    * Request to revoke an existing delegation. If successful, the delegation is scheduled
    * to be allowed to be revoked via the `execute_delegation_request` extrinsic.
    */
-  get asV1001(): {collator: v1001.AccountId20} {
+  get asV1001(): {collator: Uint8Array} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -8731,7 +8731,7 @@ export class ParachainStakingSetCollatorCommissionCall {
   /**
    * Set the commission for all collators
    */
-  get asV900(): {new: v900.Perbill} {
+  get asV900(): {new: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8760,7 +8760,7 @@ export class ParachainStakingSetInflationCall {
   /**
    * Set the annual inflation rate to derive per-round inflation
    */
-  get asV900(): {schedule: v900.Range_159} {
+  get asV900(): {schedule: v900.Type_159} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8789,7 +8789,7 @@ export class ParachainStakingSetParachainBondAccountCall {
   /**
    * Set the account that will hold funds set aside for parachain bond
    */
-  get asV900(): {new: v900.H160} {
+  get asV900(): {new: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8818,7 +8818,7 @@ export class ParachainStakingSetParachainBondReservePercentCall {
   /**
    * Set the percent of inflation set aside for parachain bond
    */
-  get asV900(): {new: v900.Percent} {
+  get asV900(): {new: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8849,7 +8849,7 @@ export class ParachainStakingSetStakingExpectationsCall {
    * Set the expectations for total staked. These expectations determine the issuance for
    * the round according to logic in `fn compute_issuance`
    */
-  get asV900(): {expectations: v900.Range_158} {
+  get asV900(): {expectations: v900.Range} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -8903,7 +8903,7 @@ export class ParachainSystemAuthorizeUpgradeCall {
     return this._chain.getCallHash('ParachainSystem.authorize_upgrade') === '9e5c86c297bd88fae31bc40119e44695818ddc3ab8842b90daeb12771005c70d'
   }
 
-  get asV900(): {codeHash: v900.H256} {
+  get asV900(): {codeHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -9082,7 +9082,7 @@ export class PolkadotXcmExecuteCall {
    * NOTE: A successful return to this does *not* imply that the `msg` was executed successfully
    * to completion; only that *some* of it was executed.
    */
-  get asV1201(): {message: v1201.VersionedXcm_323, maxWeight: bigint} {
+  get asV1201(): {message: v1201.Type_323, maxWeight: bigint} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -9117,7 +9117,7 @@ export class PolkadotXcmExecuteCall {
    * NOTE: A successful return to this does *not* imply that the `msg` was executed successfully
    * to completion; only that *some* of it was executed.
    */
-  get asV1300(): {message: v1300.VersionedXcm_322, maxWeight: bigint} {
+  get asV1300(): {message: v1300.Type_322, maxWeight: bigint} {
     assert(this.isV1300)
     return this._chain.decodeCall(this.call)
   }
@@ -9461,7 +9461,7 @@ export class PolkadotXcmSendCall {
     return this._chain.getCallHash('PolkadotXcm.send') === '9ec4149ae6cee6240a6e2aa06a8ef90285e68be29dd0de109b35af7922311609'
   }
 
-  get asV1201(): {dest: v1201.VersionedMultiLocation, message: v1201.VersionedXcm_312} {
+  get asV1201(): {dest: v1201.VersionedMultiLocation, message: v1201.VersionedXcm} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -9470,7 +9470,7 @@ export class PolkadotXcmSendCall {
     return this._chain.getCallHash('PolkadotXcm.send') === '3ca4beb317aeed3e0a00ae870ffd3bef841bb6f4e766db0b286c7fc5d8eef886'
   }
 
-  get asV1300(): {dest: v1300.VersionedMultiLocation, message: v1300.VersionedXcm_311} {
+  get asV1300(): {dest: v1300.VersionedMultiLocation, message: v1300.VersionedXcm} {
     assert(this.isV1300)
     return this._chain.decodeCall(this.call)
   }
@@ -9580,7 +9580,7 @@ export class ProxyAddProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV900(): {delegate: v900.H160, proxyType: v900.ProxyType, delay: number} {
+  get asV900(): {delegate: Uint8Array, proxyType: v900.ProxyType, delay: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -9649,7 +9649,7 @@ export class ProxyAnnounceCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV900(): {real: v900.H160, callHash: v900.H256} {
+  get asV900(): {real: Uint8Array, callHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -9789,7 +9789,7 @@ export class ProxyKillAnonymousCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV900(): {spawner: v900.H160, proxyType: v900.ProxyType, index: number, height: number, extIndex: number} {
+  get asV900(): {spawner: Uint8Array, proxyType: v900.ProxyType, index: number, height: number, extIndex: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -9846,7 +9846,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV900(): {real: v900.H160, forceProxyType: (v900.ProxyType | undefined), call: v900.Call} {
+  get asV900(): {real: Uint8Array, forceProxyType: (v900.ProxyType | undefined), call: v900.Call} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -9889,7 +9889,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1001(): {real: v1001.AccountId20, forceProxyType: (v1001.ProxyType | undefined), call: v1001.Call} {
+  get asV1001(): {real: Uint8Array, forceProxyType: (v1001.ProxyType | undefined), call: v1001.Call} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -9932,7 +9932,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1101(): {real: v1101.AccountId20, forceProxyType: (v1101.ProxyType | undefined), call: v1101.Call} {
+  get asV1101(): {real: Uint8Array, forceProxyType: (v1101.ProxyType | undefined), call: v1101.Call} {
     assert(this.isV1101)
     return this._chain.decodeCall(this.call)
   }
@@ -9975,7 +9975,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1201(): {real: v1201.AccountId20, forceProxyType: (v1201.ProxyType | undefined), call: v1201.Call} {
+  get asV1201(): {real: Uint8Array, forceProxyType: (v1201.ProxyType | undefined), call: v1201.Call} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -10018,7 +10018,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1300(): {real: v1300.AccountId20, forceProxyType: (v1300.ProxyType | undefined), call: v1300.Call} {
+  get asV1300(): {real: Uint8Array, forceProxyType: (v1300.ProxyType | undefined), call: v1300.Call} {
     assert(this.isV1300)
     return this._chain.decodeCall(this.call)
   }
@@ -10061,7 +10061,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1401(): {real: v1401.AccountId20, forceProxyType: (v1401.ProxyType | undefined), call: v1401.Call} {
+  get asV1401(): {real: Uint8Array, forceProxyType: (v1401.ProxyType | undefined), call: v1401.Call} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -10104,7 +10104,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1502(): {real: v1502.AccountId20, forceProxyType: (v1502.ProxyType | undefined), call: v1502.Call} {
+  get asV1502(): {real: Uint8Array, forceProxyType: (v1502.ProxyType | undefined), call: v1502.Call} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -10147,7 +10147,7 @@ export class ProxyProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV1606(): {real: v1606.AccountId20, forceProxyType: (v1606.ProxyType | undefined), call: v1606.Call} {
+  get asV1606(): {real: Uint8Array, forceProxyType: (v1606.ProxyType | undefined), call: v1606.Call} {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
@@ -10208,7 +10208,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV900(): {delegate: v900.H160, real: v900.H160, forceProxyType: (v900.ProxyType | undefined), call: v900.Call} {
+  get asV900(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v900.ProxyType | undefined), call: v900.Call} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -10255,7 +10255,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1001(): {delegate: v1001.AccountId20, real: v1001.AccountId20, forceProxyType: (v1001.ProxyType | undefined), call: v1001.Call} {
+  get asV1001(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1001.ProxyType | undefined), call: v1001.Call} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -10302,7 +10302,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1101(): {delegate: v1101.AccountId20, real: v1101.AccountId20, forceProxyType: (v1101.ProxyType | undefined), call: v1101.Call} {
+  get asV1101(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1101.ProxyType | undefined), call: v1101.Call} {
     assert(this.isV1101)
     return this._chain.decodeCall(this.call)
   }
@@ -10349,7 +10349,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1201(): {delegate: v1201.AccountId20, real: v1201.AccountId20, forceProxyType: (v1201.ProxyType | undefined), call: v1201.Call} {
+  get asV1201(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1201.ProxyType | undefined), call: v1201.Call} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -10396,7 +10396,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1300(): {delegate: v1300.AccountId20, real: v1300.AccountId20, forceProxyType: (v1300.ProxyType | undefined), call: v1300.Call} {
+  get asV1300(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1300.ProxyType | undefined), call: v1300.Call} {
     assert(this.isV1300)
     return this._chain.decodeCall(this.call)
   }
@@ -10443,7 +10443,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1401(): {delegate: v1401.AccountId20, real: v1401.AccountId20, forceProxyType: (v1401.ProxyType | undefined), call: v1401.Call} {
+  get asV1401(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1401.ProxyType | undefined), call: v1401.Call} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }
@@ -10490,7 +10490,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1502(): {delegate: v1502.AccountId20, real: v1502.AccountId20, forceProxyType: (v1502.ProxyType | undefined), call: v1502.Call} {
+  get asV1502(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1502.ProxyType | undefined), call: v1502.Call} {
     assert(this.isV1502)
     return this._chain.decodeCall(this.call)
   }
@@ -10537,7 +10537,7 @@ export class ProxyProxyAnnouncedCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV1606(): {delegate: v1606.AccountId20, real: v1606.AccountId20, forceProxyType: (v1606.ProxyType | undefined), call: v1606.Call} {
+  get asV1606(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1606.ProxyType | undefined), call: v1606.Call} {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
@@ -10596,7 +10596,7 @@ export class ProxyRejectAnnouncementCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV900(): {delegate: v900.H160, callHash: v900.H256} {
+  get asV900(): {delegate: Uint8Array, callHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -10655,7 +10655,7 @@ export class ProxyRemoveAnnouncementCall {
    * - P: the number of proxies the user has.
    * # </weight>
    */
-  get asV900(): {real: v900.H160, callHash: v900.H256} {
+  get asV900(): {real: Uint8Array, callHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -10751,7 +10751,7 @@ export class ProxyRemoveProxyCall {
    * Weight is a function of the number of proxies the user has (P).
    * # </weight>
    */
-  get asV900(): {delegate: v900.H160, proxyType: v900.ProxyType, delay: number} {
+  get asV900(): {delegate: Uint8Array, proxyType: v900.ProxyType, delay: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -11664,7 +11664,7 @@ export class SudoSetKeyCall {
    * - One DB change.
    * # </weight>
    */
-  get asV900(): {new: v900.H160} {
+  get asV900(): {new: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -11793,7 +11793,7 @@ export class SudoSudoAsCall {
    * - Weight of derivative `call` execution + 10,000.
    * # </weight>
    */
-  get asV900(): {who: v900.H160, call: v900.Call} {
+  get asV900(): {who: Uint8Array, call: v900.Call} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -11828,7 +11828,7 @@ export class SudoSudoAsCall {
    * - Weight of derivative `call` execution + 10,000.
    * # </weight>
    */
-  get asV1001(): {who: v1001.AccountId20, call: v1001.Call} {
+  get asV1001(): {who: Uint8Array, call: v1001.Call} {
     assert(this.isV1001)
     return this._chain.decodeCall(this.call)
   }
@@ -11937,7 +11937,7 @@ export class SystemFillBlockCall {
   /**
    * A dispatch that will fill the block weight up to the given ratio.
    */
-  get asV900(): {ratio: v900.Perbill} {
+  get asV900(): {ratio: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -12427,7 +12427,7 @@ export class TechCommitteeCollectiveCloseCall {
    * - up to 3 events
    * # </weight>
    */
-  get asV900(): {proposalHash: v900.H256, index: number, proposalWeightBound: bigint, lengthBound: number} {
+  get asV900(): {proposalHash: Uint8Array, index: number, proposalWeightBound: bigint, lengthBound: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -12482,7 +12482,7 @@ export class TechCommitteeCollectiveDisapproveProposalCall {
    * * Writes: Voting, Proposals, ProposalOf
    * # </weight>
    */
-  get asV900(): {proposalHash: v900.H256} {
+  get asV900(): {proposalHash: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -13403,7 +13403,7 @@ export class TechCommitteeCollectiveSetMembersCall {
    *   - 1 storage write (codec `O(1)`) for deleting the old `prime` and setting the new one
    * # </weight>
    */
-  get asV900(): {newMembers: v900.H160[], prime: (v900.H160 | undefined), oldCount: number} {
+  get asV900(): {newMembers: Uint8Array[], prime: (Uint8Array | undefined), oldCount: number} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -13460,7 +13460,7 @@ export class TechCommitteeCollectiveVoteCall {
    * - 1 event
    * # </weight>
    */
-  get asV900(): {proposal: v900.H256, index: number, approve: boolean} {
+  get asV900(): {proposal: Uint8Array, index: number, approve: boolean} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -13611,7 +13611,7 @@ export class TreasuryProposeSpendCall {
    * - DbWrites: `ProposalCount`, `Proposals`, `origin account`
    * # </weight>
    */
-  get asV900(): {value: bigint, beneficiary: v900.H160} {
+  get asV900(): {value: bigint, beneficiary: Uint8Array} {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
@@ -15488,7 +15488,7 @@ export class XcmTransactorRegisterCall {
    * For now an index is registered for all possible destinations and not per-destination.
    * We can change this in the future although it would just make things more complicated
    */
-  get asV1201(): {who: v1201.AccountId20, index: number} {
+  get asV1201(): {who: Uint8Array, index: number} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -15825,7 +15825,7 @@ export class XcmTransactorTransactThroughSovereignCall {
    * 
    * SovereignAccountDispatcherOrigin callable only
    */
-  get asV1201(): {dest: v1201.VersionedMultiLocation, feePayer: v1201.AccountId20, feeLocation: v1201.VersionedMultiLocation, destWeight: bigint, call: Uint8Array} {
+  get asV1201(): {dest: v1201.VersionedMultiLocation, feePayer: Uint8Array, feeLocation: v1201.VersionedMultiLocation, destWeight: bigint, call: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeCall(this.call)
   }
@@ -15846,7 +15846,7 @@ export class XcmTransactorTransactThroughSovereignCall {
    * 
    * SovereignAccountDispatcherOrigin callable only
    */
-  get asV1401(): {dest: v1401.VersionedMultiLocation, feePayer: v1401.AccountId20, feeLocation: v1401.VersionedMultiLocation, destWeight: bigint, call: Uint8Array, originKind: v1401.V0OriginKind} {
+  get asV1401(): {dest: v1401.VersionedMultiLocation, feePayer: Uint8Array, feeLocation: v1401.VersionedMultiLocation, destWeight: bigint, call: Uint8Array, originKind: v1401.V0OriginKind} {
     assert(this.isV1401)
     return this._chain.decodeCall(this.call)
   }

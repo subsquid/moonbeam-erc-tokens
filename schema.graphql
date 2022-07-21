@@ -14,8 +14,8 @@ type Account @entity {
 
 type Token @entity {
   id: ID!
-  name: String!
-  symbol: String!
+  name: String
+  symbol: String
   decimals: Int
   contractStandard: ContractStandard
   contractAddress: String!

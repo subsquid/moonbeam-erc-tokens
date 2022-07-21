@@ -252,7 +252,7 @@ export class AssetManagerLocalAssetRegisteredEvent {
   /**
    * Local asset was created
    */
-  get asV1401(): {assetId: bigint, creator: v1401.AccountId20, owner: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, creator: Uint8Array, owner: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -348,7 +348,7 @@ export class AssetsApprovalCancelledEvent {
   /**
    * An approval for account `delegate` was cancelled by `owner`.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20, delegate: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array, delegate: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -377,7 +377,7 @@ export class AssetsApprovedTransferEvent {
   /**
    * (Additional) funds have been approved for transfer to a destination account.
    */
-  get asV1201(): {assetId: bigint, source: v1201.AccountId20, delegate: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {assetId: bigint, source: Uint8Array, delegate: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -493,7 +493,7 @@ export class AssetsBurnedEvent {
   /**
    * Some assets were destroyed.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20, balance: bigint} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array, balance: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -522,7 +522,7 @@ export class AssetsCreatedEvent {
   /**
    * Some asset class was created.
    */
-  get asV1201(): {assetId: bigint, creator: v1201.AccountId20, owner: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, creator: Uint8Array, owner: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -580,7 +580,7 @@ export class AssetsForceCreatedEvent {
   /**
    * Some asset class was force-created.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -609,7 +609,7 @@ export class AssetsFrozenEvent {
   /**
    * Some account `who` was frozen.
    */
-  get asV1201(): {assetId: bigint, who: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, who: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -638,7 +638,7 @@ export class AssetsIssuedEvent {
   /**
    * Some assets were issued.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20, totalSupply: bigint} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array, totalSupply: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -725,7 +725,7 @@ export class AssetsOwnerChangedEvent {
   /**
    * The owner changed.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -754,7 +754,7 @@ export class AssetsTeamChangedEvent {
   /**
    * The management team changed.
    */
-  get asV1201(): {assetId: bigint, issuer: v1201.AccountId20, admin: v1201.AccountId20, freezer: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -783,7 +783,7 @@ export class AssetsThawedEvent {
   /**
    * Some account `who` was thawed.
    */
-  get asV1201(): {assetId: bigint, who: v1201.AccountId20} {
+  get asV1201(): {assetId: bigint, who: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -812,7 +812,7 @@ export class AssetsTransferredEvent {
   /**
    * Some assets were transferred.
    */
-  get asV1201(): {assetId: bigint, from: v1201.AccountId20, to: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {assetId: bigint, from: Uint8Array, to: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -843,7 +843,7 @@ export class AssetsTransferredApprovedEvent {
    * An `amount` was transferred in its entirety from `owner` to `destination` by
    * the approved `delegate`.
    */
-  get asV1201(): {assetId: bigint, owner: v1201.AccountId20, delegate: v1201.AccountId20, destination: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {assetId: bigint, owner: Uint8Array, delegate: Uint8Array, destination: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -872,7 +872,7 @@ export class AuthorFilterEligibleUpdatedEvent {
   /**
    * The amount of eligible authors for the filter to select has been changed.
    */
-  get asV900(): v900.Percent {
+  get asV900(): number {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -887,7 +887,7 @@ export class AuthorFilterEligibleUpdatedEvent {
   /**
    * The amount of eligible authors for the filter to select has been changed.
    */
-  get asV1502(): v1502.NonZeroU32 {
+  get asV1502(): number {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -916,7 +916,7 @@ export class AuthorMappingAuthorDeRegisteredEvent {
   /**
    * An AuthorId has been de-registered, and its AccountId mapping removed.
    */
-  get asV900(): v900.Public {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -931,7 +931,7 @@ export class AuthorMappingAuthorDeRegisteredEvent {
   /**
    * An NimbusId has been de-registered, and its AccountId mapping removed.
    */
-  get asV1300(): {authorId: v1300.Public} {
+  get asV1300(): {authorId: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -946,7 +946,7 @@ export class AuthorMappingAuthorDeRegisteredEvent {
   /**
    * An NimbusId has been de-registered, and its AccountId mapping removed.
    */
-  get asV1502(): {authorId: v1502.Public, accountId: v1502.AccountId20, keys: v1502.Public} {
+  get asV1502(): {authorId: Uint8Array, accountId: Uint8Array, keys: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -975,7 +975,7 @@ export class AuthorMappingAuthorRegisteredEvent {
   /**
    * An AuthorId has been registered and mapped to an AccountId.
    */
-  get asV900(): [v900.Public, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -990,7 +990,7 @@ export class AuthorMappingAuthorRegisteredEvent {
   /**
    * A NimbusId has been registered and mapped to an AccountId.
    */
-  get asV1300(): {authorId: v1300.Public, accountId: v1300.AccountId20} {
+  get asV1300(): {authorId: Uint8Array, accountId: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -1005,7 +1005,7 @@ export class AuthorMappingAuthorRegisteredEvent {
   /**
    * A NimbusId has been registered and mapped to an AccountId.
    */
-  get asV1502(): {authorId: v1502.Public, accountId: v1502.AccountId20, keys: v1502.Public} {
+  get asV1502(): {authorId: Uint8Array, accountId: Uint8Array, keys: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -1034,7 +1034,7 @@ export class AuthorMappingAuthorRotatedEvent {
   /**
    * An AuthorId has been registered, replacing a previous registration and its mapping.
    */
-  get asV900(): [v900.Public, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1049,7 +1049,7 @@ export class AuthorMappingAuthorRotatedEvent {
   /**
    * An NimbusId has been registered, replacing a previous registration and its mapping.
    */
-  get asV1300(): {newAuthorId: v1300.Public, accountId: v1300.AccountId20} {
+  get asV1300(): {newAuthorId: Uint8Array, accountId: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -1064,7 +1064,7 @@ export class AuthorMappingAuthorRotatedEvent {
   /**
    * An NimbusId has been registered, replacing a previous registration and its mapping.
    */
-  get asV1502(): {newAuthorId: v1502.Public, accountId: v1502.AccountId20, newKeys: v1502.Public} {
+  get asV1502(): {newAuthorId: Uint8Array, accountId: Uint8Array, newKeys: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -1095,7 +1095,7 @@ export class AuthorMappingDefunctAuthorBustedEvent {
    * An AuthorId has been forcibly deregistered after not being rotated or cleaned up.
    * The reporteing account has been rewarded accordingly.
    */
-  get asV900(): [v900.Public, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1112,7 +1112,7 @@ export class AuthorMappingDefunctAuthorBustedEvent {
    * An NimbusId has been forcibly deregistered after not being rotated or cleaned up.
    * The reporteing account has been rewarded accordingly.
    */
-  get asV1300(): {authorId: v1300.Public, accountId: v1300.AccountId20} {
+  get asV1300(): {authorId: Uint8Array, accountId: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -1141,7 +1141,7 @@ export class AuthorMappingKeysRegisteredEvent {
   /**
    * A NimbusId has been registered and mapped to an AccountId.
    */
-  get asV1606(): {nimbusId: v1606.Public, accountId: v1606.AccountId20, keys: v1606.Public} {
+  get asV1606(): {nimbusId: Uint8Array, accountId: Uint8Array, keys: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -1170,7 +1170,7 @@ export class AuthorMappingKeysRemovedEvent {
   /**
    * An NimbusId has been de-registered, and its AccountId mapping removed.
    */
-  get asV1606(): {nimbusId: v1606.Public, accountId: v1606.AccountId20, keys: v1606.Public} {
+  get asV1606(): {nimbusId: Uint8Array, accountId: Uint8Array, keys: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -1199,7 +1199,7 @@ export class AuthorMappingKeysRotatedEvent {
   /**
    * An NimbusId has been registered, replacing a previous registration and its mapping.
    */
-  get asV1606(): {newNimbusId: v1606.Public, accountId: v1606.AccountId20, newKeys: v1606.Public} {
+  get asV1606(): {newNimbusId: Uint8Array, accountId: Uint8Array, newKeys: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -1228,7 +1228,7 @@ export class BalancesBalanceSetEvent {
   /**
    * A balance was set by root. \[who, free, reserved\]
    */
-  get asV900(): [v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1243,7 +1243,7 @@ export class BalancesBalanceSetEvent {
   /**
    * A balance was set by root.
    */
-  get asV1201(): {who: v1201.AccountId20, free: bigint, reserved: bigint} {
+  get asV1201(): {who: Uint8Array, free: bigint, reserved: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1272,7 +1272,7 @@ export class BalancesDepositEvent {
   /**
    * Some amount was deposited (e.g. for transaction fees). \[who, deposit\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1287,7 +1287,7 @@ export class BalancesDepositEvent {
   /**
    * Some amount was deposited (e.g. for transaction fees).
    */
-  get asV1201(): {who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1318,7 +1318,7 @@ export class BalancesDustLostEvent {
    * An account was removed whose balance was non-zero but below ExistentialDeposit,
    * resulting in an outright loss. \[account, balance\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1335,7 +1335,7 @@ export class BalancesDustLostEvent {
    * An account was removed whose balance was non-zero but below ExistentialDeposit,
    * resulting in an outright loss.
    */
-  get asV1201(): {account: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {account: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1364,7 +1364,7 @@ export class BalancesEndowedEvent {
   /**
    * An account was created with some free balance. \[account, free_balance\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1379,7 +1379,7 @@ export class BalancesEndowedEvent {
   /**
    * An account was created with some free balance.
    */
-  get asV1201(): {account: v1201.AccountId20, freeBalance: bigint} {
+  get asV1201(): {account: Uint8Array, freeBalance: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1412,7 +1412,7 @@ export class BalancesReserveRepatriatedEvent {
    * Final argument indicates the destination balance type.
    * \[from, to, balance, destination_status\]
    */
-  get asV900(): [v900.H160, v900.H160, bigint, v900.BalanceStatus] {
+  get asV900(): [Uint8Array, Uint8Array, bigint, v900.BalanceStatus] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1429,7 +1429,7 @@ export class BalancesReserveRepatriatedEvent {
    * Some balance was moved from the reserve of the first account to the second account.
    * Final argument indicates the destination balance type.
    */
-  get asV1201(): {from: v1201.AccountId20, to: v1201.AccountId20, amount: bigint, destinationStatus: v1201.BalanceStatus} {
+  get asV1201(): {from: Uint8Array, to: Uint8Array, amount: bigint, destinationStatus: v1201.BalanceStatus} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1458,7 +1458,7 @@ export class BalancesReservedEvent {
   /**
    * Some balance was reserved (moved from free to reserved). \[who, value\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1473,7 +1473,7 @@ export class BalancesReservedEvent {
   /**
    * Some balance was reserved (moved from free to reserved).
    */
-  get asV1201(): {who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1504,7 +1504,7 @@ export class BalancesSlashedEvent {
    * Some amount was removed from the account (e.g. for misbehavior). \[who,
    * amount_slashed\]
    */
-  get asV1001(): [v1001.AccountId20, bigint] {
+  get asV1001(): [Uint8Array, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -1519,7 +1519,7 @@ export class BalancesSlashedEvent {
   /**
    * Some amount was removed from the account (e.g. for misbehavior).
    */
-  get asV1201(): {who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1548,7 +1548,7 @@ export class BalancesTransferEvent {
   /**
    * Transfer succeeded. \[from, to, value\]
    */
-  get asV900(): [v900.H160, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1563,7 +1563,7 @@ export class BalancesTransferEvent {
   /**
    * Transfer succeeded.
    */
-  get asV1201(): {from: v1201.AccountId20, to: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {from: Uint8Array, to: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1592,7 +1592,7 @@ export class BalancesUnreservedEvent {
   /**
    * Some balance was unreserved (moved from reserved to free). \[who, value\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1607,7 +1607,7 @@ export class BalancesUnreservedEvent {
   /**
    * Some balance was unreserved (moved from reserved to free).
    */
-  get asV1201(): {who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1636,7 +1636,7 @@ export class BalancesWithdrawEvent {
   /**
    * Some amount was withdrawn from the account (e.g. for transaction fees). \[who, value\]
    */
-  get asV1001(): [v1001.AccountId20, bigint] {
+  get asV1001(): [Uint8Array, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -1651,7 +1651,7 @@ export class BalancesWithdrawEvent {
   /**
    * Some amount was withdrawn from the account (e.g. for transaction fees).
    */
-  get asV1201(): {who: v1201.AccountId20, amount: bigint} {
+  get asV1201(): {who: Uint8Array, amount: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1720,7 +1720,7 @@ export class BaseFeeNewBaseFeePerGasEvent {
     return this._chain.getEventHash('BaseFee.NewBaseFeePerGas') === 'a70e61c66fb8f25a6ad950b70e508f5c9272e4478f62c480403898c0a5cae6de'
   }
 
-  get asV1201(): v1201.U256 {
+  get asV1201(): bigint[] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1743,7 +1743,7 @@ export class BaseFeeNewElasticityEvent {
     return this._chain.getEventHash('BaseFee.NewElasticity') === '0a0f30b1ade5af5fade6413c605719d59be71340cf4884f65ee9858eb1c38f6c'
   }
 
-  get asV1201(): v1201.Permill {
+  get asV1201(): number {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1774,7 +1774,7 @@ export class CouncilCollectiveApprovedEvent {
    * A motion was approved by the required threshold.
    * \[proposal_hash\]
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1789,7 +1789,7 @@ export class CouncilCollectiveApprovedEvent {
   /**
    * A motion was approved by the required threshold.
    */
-  get asV1201(): {proposalHash: v1201.H256} {
+  get asV1201(): {proposalHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1820,7 +1820,7 @@ export class CouncilCollectiveClosedEvent {
    * A proposal was closed because its threshold was reached or after its duration was up.
    * \[proposal_hash, yes, no\]
    */
-  get asV900(): [v900.H256, number, number] {
+  get asV900(): [Uint8Array, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1835,7 +1835,7 @@ export class CouncilCollectiveClosedEvent {
   /**
    * A proposal was closed because its threshold was reached or after its duration was up.
    */
-  get asV1201(): {proposalHash: v1201.H256, yes: number, no: number} {
+  get asV1201(): {proposalHash: Uint8Array, yes: number, no: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1866,7 +1866,7 @@ export class CouncilCollectiveDisapprovedEvent {
    * A motion was not approved by the required threshold.
    * \[proposal_hash\]
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1881,7 +1881,7 @@ export class CouncilCollectiveDisapprovedEvent {
   /**
    * A motion was not approved by the required threshold.
    */
-  get asV1201(): {proposalHash: v1201.H256} {
+  get asV1201(): {proposalHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1912,7 +1912,7 @@ export class CouncilCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [v900.H256, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1927,7 +1927,7 @@ export class CouncilCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: v1201.H256, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1942,7 +1942,7 @@ export class CouncilCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: v1300.H256, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -1957,7 +1957,7 @@ export class CouncilCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: v1401.H256, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -1972,7 +1972,7 @@ export class CouncilCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: v1606.H256, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -2003,7 +2003,7 @@ export class CouncilCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [v900.H256, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2018,7 +2018,7 @@ export class CouncilCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: v1201.H256, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2033,7 +2033,7 @@ export class CouncilCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: v1300.H256, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -2048,7 +2048,7 @@ export class CouncilCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: v1401.H256, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -2063,7 +2063,7 @@ export class CouncilCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: v1606.H256, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -2096,7 +2096,7 @@ export class CouncilCollectiveProposedEvent {
    * `MemberCount`).
    * \[account, proposal_index, proposal_hash, threshold\]
    */
-  get asV900(): [v900.H160, number, v900.H256, number] {
+  get asV900(): [Uint8Array, number, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2113,7 +2113,7 @@ export class CouncilCollectiveProposedEvent {
    * A motion (given hash) has been proposed (by given account) with a threshold (given
    * `MemberCount`).
    */
-  get asV1201(): {account: v1201.AccountId20, proposalIndex: number, proposalHash: v1201.H256, threshold: number} {
+  get asV1201(): {account: Uint8Array, proposalIndex: number, proposalHash: Uint8Array, threshold: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2146,7 +2146,7 @@ export class CouncilCollectiveVotedEvent {
    * a tally (yes votes and no votes given respectively as `MemberCount`).
    * \[account, proposal_hash, voted, yes, no\]
    */
-  get asV900(): [v900.H160, v900.H256, boolean, number, number] {
+  get asV900(): [Uint8Array, Uint8Array, boolean, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2163,7 +2163,7 @@ export class CouncilCollectiveVotedEvent {
    * A motion (given hash) has been voted on by given account, leaving
    * a tally (yes votes and no votes given respectively as `MemberCount`).
    */
-  get asV1201(): {account: v1201.AccountId20, proposalHash: v1201.H256, voted: boolean, yes: number, no: number} {
+  get asV1201(): {account: Uint8Array, proposalHash: Uint8Array, voted: boolean, yes: number, no: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2192,7 +2192,7 @@ export class CrowdloanRewardsInitialPaymentMadeEvent {
   /**
    * The initial payment of InitializationPayment % was paid
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2221,7 +2221,7 @@ export class CrowdloanRewardsInitializedAccountWithNotEnoughContributionEvent {
   /**
    * When initializing the reward vec an already initialized account was found
    */
-  get asV900(): [v900.AccountId32, (v900.H160 | undefined), bigint] {
+  get asV900(): [Uint8Array, (Uint8Array | undefined), bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2250,7 +2250,7 @@ export class CrowdloanRewardsInitializedAlreadyInitializedAccountEvent {
   /**
    * When initializing the reward vec an already initialized account was found
    */
-  get asV900(): [v900.AccountId32, (v900.H160 | undefined), bigint] {
+  get asV900(): [Uint8Array, (Uint8Array | undefined), bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2281,7 +2281,7 @@ export class CrowdloanRewardsNativeIdentityAssociatedEvent {
    * Someone has proven they made a contribution and associated a native identity with it.
    * Data is the relay account,  native account and the total amount of _rewards_ that will be paid
    */
-  get asV900(): [v900.AccountId32, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2310,7 +2310,7 @@ export class CrowdloanRewardsRewardAddressUpdatedEvent {
   /**
    * A contributor has updated the reward address.
    */
-  get asV900(): [v900.H160, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2341,7 +2341,7 @@ export class CrowdloanRewardsRewardsPaidEvent {
    * A contributor has claimed some rewards.
    * Data is the account getting paid and the amount of rewards paid.
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2480,7 +2480,7 @@ export class DemocracyBlacklistedEvent {
   /**
    * A proposal \[hash\] has been blacklisted permanently.
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2495,7 +2495,7 @@ export class DemocracyBlacklistedEvent {
   /**
    * A proposal_hash has been blacklisted permanently.
    */
-  get asV1201(): {proposalHash: v1201.H256} {
+  get asV1201(): {proposalHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2568,7 +2568,7 @@ export class DemocracyDelegatedEvent {
   /**
    * An account has delegated their vote to another account. \[who, target\]
    */
-  get asV900(): [v900.H160, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2583,7 +2583,7 @@ export class DemocracyDelegatedEvent {
   /**
    * An account has delegated their vote to another account.
    */
-  get asV1201(): {who: v1201.AccountId20, target: v1201.AccountId20} {
+  get asV1201(): {who: Uint8Array, target: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2820,7 +2820,7 @@ export class DemocracyPreimageInvalidEvent {
    * A proposal could not be executed because its preimage was invalid.
    * \[proposal_hash, ref_index\]
    */
-  get asV900(): [v900.H256, number] {
+  get asV900(): [Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2835,7 +2835,7 @@ export class DemocracyPreimageInvalidEvent {
   /**
    * A proposal could not be executed because its preimage was invalid.
    */
-  get asV1201(): {proposalHash: v1201.H256, refIndex: number} {
+  get asV1201(): {proposalHash: Uint8Array, refIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2866,7 +2866,7 @@ export class DemocracyPreimageMissingEvent {
    * A proposal could not be executed because its preimage was missing.
    * \[proposal_hash, ref_index\]
    */
-  get asV900(): [v900.H256, number] {
+  get asV900(): [Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2881,7 +2881,7 @@ export class DemocracyPreimageMissingEvent {
   /**
    * A proposal could not be executed because its preimage was missing.
    */
-  get asV1201(): {proposalHash: v1201.H256, refIndex: number} {
+  get asV1201(): {proposalHash: Uint8Array, refIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2910,7 +2910,7 @@ export class DemocracyPreimageNotedEvent {
   /**
    * A proposal's preimage was noted, and the deposit taken. \[proposal_hash, who, deposit\]
    */
-  get asV900(): [v900.H256, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2925,7 +2925,7 @@ export class DemocracyPreimageNotedEvent {
   /**
    * A proposal's preimage was noted, and the deposit taken.
    */
-  get asV1201(): {proposalHash: v1201.H256, who: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {proposalHash: Uint8Array, who: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2956,7 +2956,7 @@ export class DemocracyPreimageReapedEvent {
    * A registered preimage was removed and the deposit collected by the reaper.
    * \[proposal_hash, provider, deposit, reaper\]
    */
-  get asV900(): [v900.H256, v900.H160, bigint, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array, bigint, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2971,7 +2971,7 @@ export class DemocracyPreimageReapedEvent {
   /**
    * A registered preimage was removed and the deposit collected by the reaper.
    */
-  get asV1201(): {proposalHash: v1201.H256, provider: v1201.AccountId20, deposit: bigint, reaper: v1201.AccountId20} {
+  get asV1201(): {proposalHash: Uint8Array, provider: Uint8Array, deposit: bigint, reaper: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3002,7 +3002,7 @@ export class DemocracyPreimageUsedEvent {
    * A proposal preimage was removed and used (the deposit was returned).
    * \[proposal_hash, provider, deposit\]
    */
-  get asV900(): [v900.H256, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3017,7 +3017,7 @@ export class DemocracyPreimageUsedEvent {
   /**
    * A proposal preimage was removed and used (the deposit was returned).
    */
-  get asV1201(): {proposalHash: v1201.H256, provider: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {proposalHash: Uint8Array, provider: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3090,7 +3090,7 @@ export class DemocracySecondedEvent {
   /**
    * An account has secconded a proposal
    */
-  get asV1001(): [v1001.AccountId20, number] {
+  get asV1001(): [Uint8Array, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -3105,7 +3105,7 @@ export class DemocracySecondedEvent {
   /**
    * An account has secconded a proposal
    */
-  get asV1201(): {who: v1201.AccountId20, proposalIndex: number} {
+  get asV1201(): {who: Uint8Array, proposalIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3120,7 +3120,7 @@ export class DemocracySecondedEvent {
   /**
    * An account has secconded a proposal
    */
-  get asV1300(): {seconder: v1300.AccountId20, propIndex: number} {
+  get asV1300(): {seconder: Uint8Array, propIndex: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -3195,7 +3195,7 @@ export class DemocracyTabledEvent {
    * A public proposal has been tabled for referendum vote. \[proposal_index, deposit,
    * depositors\]
    */
-  get asV900(): [number, bigint, v900.H160[]] {
+  get asV900(): [number, bigint, Uint8Array[]] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3210,7 +3210,7 @@ export class DemocracyTabledEvent {
   /**
    * A public proposal has been tabled for referendum vote.
    */
-  get asV1201(): {proposalIndex: number, deposit: bigint, depositors: v1201.AccountId20[]} {
+  get asV1201(): {proposalIndex: number, deposit: bigint, depositors: Uint8Array[]} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3239,7 +3239,7 @@ export class DemocracyUndelegatedEvent {
   /**
    * An \[account\] has cancelled a previous delegation operation.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3254,7 +3254,7 @@ export class DemocracyUndelegatedEvent {
   /**
    * An account has cancelled a previous delegation operation.
    */
-  get asV1201(): {account: v1201.AccountId20} {
+  get asV1201(): {account: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3283,7 +3283,7 @@ export class DemocracyVetoedEvent {
   /**
    * An external proposal has been vetoed. \[who, proposal_hash, until\]
    */
-  get asV900(): [v900.H160, v900.H256, number] {
+  get asV900(): [Uint8Array, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3298,7 +3298,7 @@ export class DemocracyVetoedEvent {
   /**
    * An external proposal has been vetoed.
    */
-  get asV1201(): {who: v1201.AccountId20, proposalHash: v1201.H256, until: number} {
+  get asV1201(): {who: Uint8Array, proposalHash: Uint8Array, until: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3327,7 +3327,7 @@ export class DemocracyVotedEvent {
   /**
    * An account has voted in a referendum
    */
-  get asV1001(): [v1001.AccountId20, number, v1001.AccountVote] {
+  get asV1001(): [Uint8Array, number, v1001.AccountVote] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -3342,7 +3342,7 @@ export class DemocracyVotedEvent {
   /**
    * An account has voted in a referendum
    */
-  get asV1201(): {who: v1201.AccountId20, refIndex: number, vote: v1201.AccountVote} {
+  get asV1201(): {who: Uint8Array, refIndex: number, vote: v1201.AccountVote} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3357,7 +3357,7 @@ export class DemocracyVotedEvent {
   /**
    * An account has voted in a referendum
    */
-  get asV1300(): {voter: v1300.AccountId20, refIndex: number, vote: v1300.AccountVote} {
+  get asV1300(): {voter: Uint8Array, refIndex: number, vote: v1300.AccountVote} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -3589,7 +3589,7 @@ export class EvmBalanceDepositEvent {
   /**
    * A deposit has been made at a given address. \[sender, address, value\]
    */
-  get asV900(): [v900.H160, v900.H160, v900.U256] {
+  get asV900(): [Uint8Array, Uint8Array, bigint[]] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3618,7 +3618,7 @@ export class EvmBalanceWithdrawEvent {
   /**
    * A withdrawal has been made from a given address. \[sender, address, value\]
    */
-  get asV900(): [v900.H160, v900.H160, v900.U256] {
+  get asV900(): [Uint8Array, Uint8Array, bigint[]] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3647,7 +3647,7 @@ export class EvmCreatedEvent {
   /**
    * A contract has been created at given \[address\].
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3676,7 +3676,7 @@ export class EvmCreatedFailedEvent {
   /**
    * A \[contract\] was attempted to be created, but the execution failed.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3705,7 +3705,7 @@ export class EvmExecutedEvent {
   /**
    * A \[contract\] has been executed successfully with states applied.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3734,7 +3734,7 @@ export class EvmExecutedFailedEvent {
   /**
    * A \[contract\] has been executed with errors. States are reverted with only gas fees applied.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3792,7 +3792,7 @@ export class EthereumExecutedEvent {
   /**
    * An ethereum transaction was successfully executed. [from, to/contract_address, transaction_hash, exit_reason]
    */
-  get asV900(): [v900.H160, v900.H160, v900.H256, v900.ExitReason] {
+  get asV900(): [Uint8Array, Uint8Array, Uint8Array, v900.ExitReason] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3807,7 +3807,7 @@ export class EthereumExecutedEvent {
   /**
    * An ethereum transaction was successfully executed. [from, to/contract_address, transaction_hash, exit_reason]
    */
-  get asV1201(): [v1201.H160, v1201.H160, v1201.H256, v1201.ExitReason] {
+  get asV1201(): [Uint8Array, Uint8Array, Uint8Array, v1201.ExitReason] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3822,7 +3822,7 @@ export class EthereumExecutedEvent {
   /**
    * An ethereum transaction was successfully executed. [from, to/contract_address, transaction_hash, exit_reason]
    */
-  get asV1401(): [v1401.H160, v1401.H160, v1401.H256, v1401.ExitReason] {
+  get asV1401(): [Uint8Array, Uint8Array, Uint8Array, v1401.ExitReason] {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -3851,7 +3851,7 @@ export class IdentityIdentityClearedEvent {
   /**
    * A name was cleared, and the given balance returned. \[who, deposit\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3866,7 +3866,7 @@ export class IdentityIdentityClearedEvent {
   /**
    * A name was cleared, and the given balance returned.
    */
-  get asV1201(): {who: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {who: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3895,7 +3895,7 @@ export class IdentityIdentityKilledEvent {
   /**
    * A name was removed and the given balance slashed. \[who, deposit\]
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3910,7 +3910,7 @@ export class IdentityIdentityKilledEvent {
   /**
    * A name was removed and the given balance slashed.
    */
-  get asV1201(): {who: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {who: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3939,7 +3939,7 @@ export class IdentityIdentitySetEvent {
   /**
    * A name was set or reset (which will remove all judgements). \[who\]
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3954,7 +3954,7 @@ export class IdentityIdentitySetEvent {
   /**
    * A name was set or reset (which will remove all judgements).
    */
-  get asV1201(): {who: v1201.AccountId20} {
+  get asV1201(): {who: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -3983,7 +3983,7 @@ export class IdentityJudgementGivenEvent {
   /**
    * A judgement was given by a registrar. \[target, registrar_index\]
    */
-  get asV900(): [v900.H160, number] {
+  get asV900(): [Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3998,7 +3998,7 @@ export class IdentityJudgementGivenEvent {
   /**
    * A judgement was given by a registrar.
    */
-  get asV1201(): {target: v1201.AccountId20, registrarIndex: number} {
+  get asV1201(): {target: Uint8Array, registrarIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4027,7 +4027,7 @@ export class IdentityJudgementRequestedEvent {
   /**
    * A judgement was asked from a registrar. \[who, registrar_index\]
    */
-  get asV900(): [v900.H160, number] {
+  get asV900(): [Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -4042,7 +4042,7 @@ export class IdentityJudgementRequestedEvent {
   /**
    * A judgement was asked from a registrar.
    */
-  get asV1201(): {who: v1201.AccountId20, registrarIndex: number} {
+  get asV1201(): {who: Uint8Array, registrarIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4071,7 +4071,7 @@ export class IdentityJudgementUnrequestedEvent {
   /**
    * A judgement request was retracted. \[who, registrar_index\]
    */
-  get asV900(): [v900.H160, number] {
+  get asV900(): [Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -4086,7 +4086,7 @@ export class IdentityJudgementUnrequestedEvent {
   /**
    * A judgement request was retracted.
    */
-  get asV1201(): {who: v1201.AccountId20, registrarIndex: number} {
+  get asV1201(): {who: Uint8Array, registrarIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4159,7 +4159,7 @@ export class IdentitySubIdentityAddedEvent {
   /**
    * A sub-identity was added to an identity and the deposit paid. \[sub, main, deposit\]
    */
-  get asV900(): [v900.H160, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -4174,7 +4174,7 @@ export class IdentitySubIdentityAddedEvent {
   /**
    * A sub-identity was added to an identity and the deposit paid.
    */
-  get asV1201(): {sub: v1201.AccountId20, main: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {sub: Uint8Array, main: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4205,7 +4205,7 @@ export class IdentitySubIdentityRemovedEvent {
    * A sub-identity was removed from an identity and the deposit freed.
    * \[sub, main, deposit\]
    */
-  get asV900(): [v900.H160, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -4220,7 +4220,7 @@ export class IdentitySubIdentityRemovedEvent {
   /**
    * A sub-identity was removed from an identity and the deposit freed.
    */
-  get asV1201(): {sub: v1201.AccountId20, main: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {sub: Uint8Array, main: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4251,7 +4251,7 @@ export class IdentitySubIdentityRevokedEvent {
    * A sub-identity was cleared, and the given deposit repatriated from the
    * main identity account to the sub-identity account. \[sub, main, deposit\]
    */
-  get asV900(): [v900.H160, v900.H160, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -4268,7 +4268,7 @@ export class IdentitySubIdentityRevokedEvent {
    * A sub-identity was cleared, and the given deposit repatriated from the
    * main identity account to the sub-identity account.
    */
-  get asV1201(): {sub: v1201.AccountId20, main: v1201.AccountId20, deposit: bigint} {
+  get asV1201(): {sub: Uint8Array, main: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -4297,7 +4297,7 @@ export class LocalAssetsApprovalCancelledEvent {
   /**
    * An approval for account `delegate` was cancelled by `owner`.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20, delegate: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array, delegate: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4326,7 +4326,7 @@ export class LocalAssetsApprovedTransferEvent {
   /**
    * (Additional) funds have been approved for transfer to a destination account.
    */
-  get asV1401(): {assetId: bigint, source: v1401.AccountId20, delegate: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {assetId: bigint, source: Uint8Array, delegate: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4442,7 +4442,7 @@ export class LocalAssetsBurnedEvent {
   /**
    * Some assets were destroyed.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20, balance: bigint} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array, balance: bigint} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4471,7 +4471,7 @@ export class LocalAssetsCreatedEvent {
   /**
    * Some asset class was created.
    */
-  get asV1401(): {assetId: bigint, creator: v1401.AccountId20, owner: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, creator: Uint8Array, owner: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4529,7 +4529,7 @@ export class LocalAssetsForceCreatedEvent {
   /**
    * Some asset class was force-created.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4558,7 +4558,7 @@ export class LocalAssetsFrozenEvent {
   /**
    * Some account `who` was frozen.
    */
-  get asV1401(): {assetId: bigint, who: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, who: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4587,7 +4587,7 @@ export class LocalAssetsIssuedEvent {
   /**
    * Some assets were issued.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20, totalSupply: bigint} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array, totalSupply: bigint} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4674,7 +4674,7 @@ export class LocalAssetsOwnerChangedEvent {
   /**
    * The owner changed.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4703,7 +4703,7 @@ export class LocalAssetsTeamChangedEvent {
   /**
    * The management team changed.
    */
-  get asV1401(): {assetId: bigint, issuer: v1401.AccountId20, admin: v1401.AccountId20, freezer: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, issuer: Uint8Array, admin: Uint8Array, freezer: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4732,7 +4732,7 @@ export class LocalAssetsThawedEvent {
   /**
    * Some account `who` was thawed.
    */
-  get asV1401(): {assetId: bigint, who: v1401.AccountId20} {
+  get asV1401(): {assetId: bigint, who: Uint8Array} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4761,7 +4761,7 @@ export class LocalAssetsTransferredEvent {
   /**
    * Some assets were transferred.
    */
-  get asV1401(): {assetId: bigint, from: v1401.AccountId20, to: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {assetId: bigint, from: Uint8Array, to: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -4792,7 +4792,7 @@ export class LocalAssetsTransferredApprovedEvent {
    * An `amount` was transferred in its entirety from `owner` to `destination` by
    * the approved `delegate`.
    */
-  get asV1401(): {assetId: bigint, owner: v1401.AccountId20, delegate: v1401.AccountId20, destination: v1401.AccountId20, amount: bigint} {
+  get asV1401(): {assetId: bigint, owner: Uint8Array, delegate: Uint8Array, destination: Uint8Array, amount: bigint} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -5104,7 +5104,7 @@ export class MoonbeamOrbitersOrbiterJoinCollatorPoolEvent {
   /**
    * An orbiter join a collator pool
    */
-  get asV1502(): {collator: v1502.AccountId20, orbiter: v1502.AccountId20} {
+  get asV1502(): {collator: Uint8Array, orbiter: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -5133,7 +5133,7 @@ export class MoonbeamOrbitersOrbiterLeaveCollatorPoolEvent {
   /**
    * An orbiter leave a collator pool
    */
-  get asV1502(): {collator: v1502.AccountId20, orbiter: v1502.AccountId20} {
+  get asV1502(): {collator: Uint8Array, orbiter: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -5162,7 +5162,7 @@ export class MoonbeamOrbitersOrbiterRegisteredEvent {
   /**
    * An orbiter has registered
    */
-  get asV1606(): {account: v1606.AccountId20, deposit: bigint} {
+  get asV1606(): {account: Uint8Array, deposit: bigint} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -5191,7 +5191,7 @@ export class MoonbeamOrbitersOrbiterRewardedEvent {
   /**
    * Paid the orbiter account the balance as liquid rewards.
    */
-  get asV1502(): {account: v1502.AccountId20, rewards: bigint} {
+  get asV1502(): {account: Uint8Array, rewards: bigint} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -5214,7 +5214,7 @@ export class MoonbeamOrbitersOrbiterRotationEvent {
     return this._chain.getEventHash('MoonbeamOrbiters.OrbiterRotation') === '119fe327a2ad1d2d83cb84504b77e7669cfa7d4299e61e5d9254bfba953e5287'
   }
 
-  get asV1502(): {collator: v1502.AccountId20, oldOrbiter: (v1502.AccountId20 | undefined), newOrbiter: (v1502.AccountId20 | undefined)} {
+  get asV1502(): {collator: Uint8Array, oldOrbiter: (Uint8Array | undefined), newOrbiter: (Uint8Array | undefined)} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -5243,7 +5243,7 @@ export class MoonbeamOrbitersOrbiterUnregisteredEvent {
   /**
    * An orbiter has unregistered
    */
-  get asV1606(): {account: v1606.AccountId20} {
+  get asV1606(): {account: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -5272,7 +5272,7 @@ export class ParachainStakingBlocksPerRoundSetEvent {
   /**
    * Set blocks per round [current_round, first_block, old, new, new_per_round_inflation]
    */
-  get asV900(): [number, number, number, number, v900.Perbill, v900.Perbill, v900.Perbill] {
+  get asV900(): [number, number, number, number, number, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5287,7 +5287,7 @@ export class ParachainStakingBlocksPerRoundSetEvent {
   /**
    * Set blocks per round
    */
-  get asV1300(): {currentRound: number, firstBlock: number, old: number, new: number, newPerRoundInflationMin: v1300.Perbill, newPerRoundInflationIdeal: v1300.Perbill, newPerRoundInflationMax: v1300.Perbill} {
+  get asV1300(): {currentRound: number, firstBlock: number, old: number, new: number, newPerRoundInflationMin: number, newPerRoundInflationIdeal: number, newPerRoundInflationMax: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5316,7 +5316,7 @@ export class ParachainStakingCancelledCandidateBondLessEvent {
   /**
    * Candidate, Amount, Round at which could be executed
    */
-  get asV1001(): [v1001.AccountId20, bigint, number] {
+  get asV1001(): [Uint8Array, bigint, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5331,7 +5331,7 @@ export class ParachainStakingCancelledCandidateBondLessEvent {
   /**
    * Cancelled request to decrease candidate's bond.
    */
-  get asV1300(): {candidate: v1300.AccountId20, amount: bigint, executeRound: number} {
+  get asV1300(): {candidate: Uint8Array, amount: bigint, executeRound: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5360,7 +5360,7 @@ export class ParachainStakingCancelledCandidateExitEvent {
   /**
    * Candidate
    */
-  get asV1001(): v1001.AccountId20 {
+  get asV1001(): Uint8Array {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5375,7 +5375,7 @@ export class ParachainStakingCancelledCandidateExitEvent {
   /**
    * Cancelled request to leave the set of candidates.
    */
-  get asV1300(): {candidate: v1300.AccountId20} {
+  get asV1300(): {candidate: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5404,7 +5404,7 @@ export class ParachainStakingCancelledDelegationRequestEvent {
   /**
    * Delegator, Cancelled Request
    */
-  get asV1001(): [v1001.AccountId20, v1001.DelegationRequest] {
+  get asV1001(): [Uint8Array, v1001.DelegationRequest] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5419,7 +5419,7 @@ export class ParachainStakingCancelledDelegationRequestEvent {
   /**
    * Cancelled request to change an existing delegation.
    */
-  get asV1300(): {delegator: v1300.AccountId20, cancelledRequest: v1300.DelegationRequest} {
+  get asV1300(): {delegator: Uint8Array, cancelledRequest: v1300.DelegationRequest} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5434,7 +5434,7 @@ export class ParachainStakingCancelledDelegationRequestEvent {
   /**
    * Cancelled request to change an existing delegation.
    */
-  get asV1502(): {delegator: v1502.AccountId20, cancelledRequest: v1502.CancelledScheduledRequest, collator: v1502.AccountId20} {
+  get asV1502(): {delegator: Uint8Array, cancelledRequest: v1502.CancelledScheduledRequest, collator: Uint8Array} {
     assert(this.isV1502)
     return this._chain.decodeEvent(this.event)
   }
@@ -5463,7 +5463,7 @@ export class ParachainStakingCandidateBackOnlineEvent {
   /**
    * Round Online, Candidate
    */
-  get asV1001(): [number, v1001.AccountId20] {
+  get asV1001(): [number, Uint8Array] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5478,7 +5478,7 @@ export class ParachainStakingCandidateBackOnlineEvent {
   /**
    * Candidate
    */
-  get asV1201(): v1201.AccountId20 {
+  get asV1201(): Uint8Array {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -5493,7 +5493,7 @@ export class ParachainStakingCandidateBackOnlineEvent {
   /**
    * Candidate rejoins the set of collator candidates.
    */
-  get asV1300(): {candidate: v1300.AccountId20} {
+  get asV1300(): {candidate: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5522,7 +5522,7 @@ export class ParachainStakingCandidateBondLessRequestedEvent {
   /**
    * Candidate, Amount To Decrease, Round at which request can be executed by caller
    */
-  get asV1001(): [v1001.AccountId20, bigint, number] {
+  get asV1001(): [Uint8Array, bigint, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5537,7 +5537,7 @@ export class ParachainStakingCandidateBondLessRequestedEvent {
   /**
    * Сandidate requested to decrease a self bond.
    */
-  get asV1300(): {candidate: v1300.AccountId20, amountToDecrease: bigint, executeRound: number} {
+  get asV1300(): {candidate: Uint8Array, amountToDecrease: bigint, executeRound: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5566,7 +5566,7 @@ export class ParachainStakingCandidateBondedLessEvent {
   /**
    * Candidate, Amount, New Bond
    */
-  get asV1001(): [v1001.AccountId20, bigint, bigint] {
+  get asV1001(): [Uint8Array, bigint, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5581,7 +5581,7 @@ export class ParachainStakingCandidateBondedLessEvent {
   /**
    * Сandidate has decreased a self bond.
    */
-  get asV1300(): {candidate: v1300.AccountId20, amount: bigint, newBond: bigint} {
+  get asV1300(): {candidate: Uint8Array, amount: bigint, newBond: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5610,7 +5610,7 @@ export class ParachainStakingCandidateBondedMoreEvent {
   /**
    * Candidate, Amount, New Bond Total
    */
-  get asV1001(): [v1001.AccountId20, bigint, bigint] {
+  get asV1001(): [Uint8Array, bigint, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5625,7 +5625,7 @@ export class ParachainStakingCandidateBondedMoreEvent {
   /**
    * Сandidate has increased a self bond.
    */
-  get asV1300(): {candidate: v1300.AccountId20, amount: bigint, newTotalBond: bigint} {
+  get asV1300(): {candidate: Uint8Array, amount: bigint, newTotalBond: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5654,7 +5654,7 @@ export class ParachainStakingCandidateLeftEvent {
   /**
    * Ex-Candidate, Amount Unlocked, New Total Amt Locked
    */
-  get asV1001(): [v1001.AccountId20, bigint, bigint] {
+  get asV1001(): [Uint8Array, bigint, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5669,7 +5669,7 @@ export class ParachainStakingCandidateLeftEvent {
   /**
    * Candidate has left the set of candidates.
    */
-  get asV1300(): {exCandidate: v1300.AccountId20, unlockedAmount: bigint, newTotalAmtLocked: bigint} {
+  get asV1300(): {exCandidate: Uint8Array, unlockedAmount: bigint, newTotalAmtLocked: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5698,7 +5698,7 @@ export class ParachainStakingCandidateScheduledExitEvent {
   /**
    * Round At Which Exit Is Allowed, Candidate, Scheduled Exit
    */
-  get asV1001(): [number, v1001.AccountId20, number] {
+  get asV1001(): [number, Uint8Array, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5713,7 +5713,7 @@ export class ParachainStakingCandidateScheduledExitEvent {
   /**
    * Сandidate has requested to leave the set of candidates.
    */
-  get asV1300(): {exitAllowedRound: number, candidate: v1300.AccountId20, scheduledExit: number} {
+  get asV1300(): {exitAllowedRound: number, candidate: Uint8Array, scheduledExit: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5742,7 +5742,7 @@ export class ParachainStakingCandidateWentOfflineEvent {
   /**
    * Round Offline, Candidate
    */
-  get asV1001(): [number, v1001.AccountId20] {
+  get asV1001(): [number, Uint8Array] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -5757,7 +5757,7 @@ export class ParachainStakingCandidateWentOfflineEvent {
   /**
    * Candidate
    */
-  get asV1201(): v1201.AccountId20 {
+  get asV1201(): Uint8Array {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -5772,7 +5772,7 @@ export class ParachainStakingCandidateWentOfflineEvent {
   /**
    * Candidate temporarily leave the set of collator candidates without unbonding.
    */
-  get asV1300(): {candidate: v1300.AccountId20} {
+  get asV1300(): {candidate: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5795,7 +5795,7 @@ export class ParachainStakingCollatorBackOnlineEvent {
     return this._chain.getEventHash('ParachainStaking.CollatorBackOnline') === '2c4b427c85c14124b733c4b45f6cbb10b5c350a45cd3602a0c8d079a17a2aa0c'
   }
 
-  get asV900(): [number, v900.H160] {
+  get asV900(): [number, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5824,7 +5824,7 @@ export class ParachainStakingCollatorBondedLessEvent {
   /**
    * Collator Account, Old Bond, New Bond
    */
-  get asV900(): [v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5853,7 +5853,7 @@ export class ParachainStakingCollatorBondedMoreEvent {
   /**
    * Collator Account, Old Bond, New Bond
    */
-  get asV900(): [v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5882,7 +5882,7 @@ export class ParachainStakingCollatorChosenEvent {
   /**
    * Round, Collator Account, Total Exposed Amount (includes all nominations)
    */
-  get asV900(): [number, v900.H160, bigint] {
+  get asV900(): [number, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5897,7 +5897,7 @@ export class ParachainStakingCollatorChosenEvent {
   /**
    * Candidate selected for collators. Total Exposed Amount includes all delegations.
    */
-  get asV1300(): {round: number, collatorAccount: v1300.AccountId20, totalExposedAmount: bigint} {
+  get asV1300(): {round: number, collatorAccount: Uint8Array, totalExposedAmount: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5926,7 +5926,7 @@ export class ParachainStakingCollatorCommissionSetEvent {
   /**
    * Set collator commission to this value [old, new]
    */
-  get asV900(): [v900.Perbill, v900.Perbill] {
+  get asV900(): [number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5941,7 +5941,7 @@ export class ParachainStakingCollatorCommissionSetEvent {
   /**
    * Set collator commission to this value.
    */
-  get asV1300(): {old: v1300.Perbill, new: v1300.Perbill} {
+  get asV1300(): {old: number, new: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -5970,7 +5970,7 @@ export class ParachainStakingCollatorLeftEvent {
   /**
    * Account, Amount Unlocked, New Total Amt Locked
    */
-  get asV900(): [v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -5999,7 +5999,7 @@ export class ParachainStakingCollatorScheduledExitEvent {
   /**
    * Round, Collator Account, Scheduled Exit
    */
-  get asV900(): [number, v900.H160, number] {
+  get asV900(): [number, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6022,7 +6022,7 @@ export class ParachainStakingCollatorWentOfflineEvent {
     return this._chain.getEventHash('ParachainStaking.CollatorWentOffline') === '2c4b427c85c14124b733c4b45f6cbb10b5c350a45cd3602a0c8d079a17a2aa0c'
   }
 
-  get asV900(): [number, v900.H160] {
+  get asV900(): [number, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6051,7 +6051,7 @@ export class ParachainStakingDelegationEvent {
   /**
    * Delegator, Amount Locked, Candidate, Delegator Position with New Total Counted if in Top
    */
-  get asV1001(): [v1001.AccountId20, bigint, v1001.AccountId20, v1001.DelegatorAdded] {
+  get asV1001(): [Uint8Array, bigint, Uint8Array, v1001.DelegatorAdded] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6066,7 +6066,7 @@ export class ParachainStakingDelegationEvent {
   /**
    * New delegation (increase of the existing one).
    */
-  get asV1300(): {delegator: v1300.AccountId20, lockedAmount: bigint, candidate: v1300.AccountId20, delegatorPosition: v1300.DelegatorAdded} {
+  get asV1300(): {delegator: Uint8Array, lockedAmount: bigint, candidate: Uint8Array, delegatorPosition: v1300.DelegatorAdded} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6095,7 +6095,7 @@ export class ParachainStakingDelegationDecreaseScheduledEvent {
   /**
    * Delegator, Candidate, Amount to be decreased, Round at which can be executed
    */
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint, number] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6110,7 +6110,7 @@ export class ParachainStakingDelegationDecreaseScheduledEvent {
   /**
    * Delegator requested to decrease a bond for the collator candidate.
    */
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, amountToDecrease: bigint, executeRound: number} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, amountToDecrease: bigint, executeRound: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6133,7 +6133,7 @@ export class ParachainStakingDelegationDecreasedEvent {
     return this._chain.getEventHash('ParachainStaking.DelegationDecreased') === 'cb87cf94019b8ebc544a6a9a05c01f439fe3dea8cbed08c97f1a1e60dd6ad4f3'
   }
 
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint, boolean] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint, boolean] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6142,7 +6142,7 @@ export class ParachainStakingDelegationDecreasedEvent {
     return this._chain.getEventHash('ParachainStaking.DelegationDecreased') === '8ae2ca952b0b00ca6619c82b53d155a37de0be62eb9e8c32f4dad72b695e010b'
   }
 
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, amount: bigint, inTop: boolean} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, amount: bigint, inTop: boolean} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6165,7 +6165,7 @@ export class ParachainStakingDelegationIncreasedEvent {
     return this._chain.getEventHash('ParachainStaking.DelegationIncreased') === 'cb87cf94019b8ebc544a6a9a05c01f439fe3dea8cbed08c97f1a1e60dd6ad4f3'
   }
 
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint, boolean] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint, boolean] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6174,7 +6174,7 @@ export class ParachainStakingDelegationIncreasedEvent {
     return this._chain.getEventHash('ParachainStaking.DelegationIncreased') === '8ae2ca952b0b00ca6619c82b53d155a37de0be62eb9e8c32f4dad72b695e010b'
   }
 
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, amount: bigint, inTop: boolean} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, amount: bigint, inTop: boolean} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6203,7 +6203,7 @@ export class ParachainStakingDelegationKickedEvent {
   /**
    * Delegator, Candidate, Amount Unstaked
    */
-  get asV1201(): [v1201.AccountId20, v1201.AccountId20, bigint] {
+  get asV1201(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -6218,7 +6218,7 @@ export class ParachainStakingDelegationKickedEvent {
   /**
    * Delegation kicked.
    */
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, unstakedAmount: bigint} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, unstakedAmount: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6247,7 +6247,7 @@ export class ParachainStakingDelegationRevocationScheduledEvent {
   /**
    * Round, Delegator, Candidate, Scheduled Exit
    */
-  get asV1001(): [number, v1001.AccountId20, v1001.AccountId20, number] {
+  get asV1001(): [number, Uint8Array, Uint8Array, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6262,7 +6262,7 @@ export class ParachainStakingDelegationRevocationScheduledEvent {
   /**
    * Delegator requested to revoke delegation.
    */
-  get asV1300(): {round: number, delegator: v1300.AccountId20, candidate: v1300.AccountId20, scheduledExit: number} {
+  get asV1300(): {round: number, delegator: Uint8Array, candidate: Uint8Array, scheduledExit: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6291,7 +6291,7 @@ export class ParachainStakingDelegationRevokedEvent {
   /**
    * Delegator, Candidate, Amount Unstaked
    */
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6306,7 +6306,7 @@ export class ParachainStakingDelegationRevokedEvent {
   /**
    * Delegation revoked.
    */
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, unstakedAmount: bigint} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, unstakedAmount: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6335,7 +6335,7 @@ export class ParachainStakingDelegatorDueRewardEvent {
   /**
    * Delegator, Collator, Due reward (as per counted delegation for collator)
    */
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6364,7 +6364,7 @@ export class ParachainStakingDelegatorExitCancelledEvent {
   /**
    * Delegator
    */
-  get asV1001(): v1001.AccountId20 {
+  get asV1001(): Uint8Array {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6379,7 +6379,7 @@ export class ParachainStakingDelegatorExitCancelledEvent {
   /**
    * Cancelled a pending request to exit the set of delegators.
    */
-  get asV1300(): {delegator: v1300.AccountId20} {
+  get asV1300(): {delegator: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6408,7 +6408,7 @@ export class ParachainStakingDelegatorExitScheduledEvent {
   /**
    * Round, Delegator, Scheduled Exit
    */
-  get asV1001(): [number, v1001.AccountId20, number] {
+  get asV1001(): [number, Uint8Array, number] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6423,7 +6423,7 @@ export class ParachainStakingDelegatorExitScheduledEvent {
   /**
    * Delegator requested to leave the set of delegators.
    */
-  get asV1300(): {round: number, delegator: v1300.AccountId20, scheduledExit: number} {
+  get asV1300(): {round: number, delegator: Uint8Array, scheduledExit: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6452,7 +6452,7 @@ export class ParachainStakingDelegatorLeftEvent {
   /**
    * Delegator, Amount Unstaked
    */
-  get asV1001(): [v1001.AccountId20, bigint] {
+  get asV1001(): [Uint8Array, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6467,7 +6467,7 @@ export class ParachainStakingDelegatorLeftEvent {
   /**
    * Delegator has left the set of delegators.
    */
-  get asV1300(): {delegator: v1300.AccountId20, unstakedAmount: bigint} {
+  get asV1300(): {delegator: Uint8Array, unstakedAmount: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6496,7 +6496,7 @@ export class ParachainStakingDelegatorLeftCandidateEvent {
   /**
    * Delegator, Candidate, Amount Unstaked, New Total Amt Staked for Candidate
    */
-  get asV1001(): [v1001.AccountId20, v1001.AccountId20, bigint, bigint] {
+  get asV1001(): [Uint8Array, Uint8Array, bigint, bigint] {
     assert(this.isV1001)
     return this._chain.decodeEvent(this.event)
   }
@@ -6511,7 +6511,7 @@ export class ParachainStakingDelegatorLeftCandidateEvent {
   /**
    * Delegation from candidate state has been remove.
    */
-  get asV1300(): {delegator: v1300.AccountId20, candidate: v1300.AccountId20, unstakedAmount: bigint, totalCandidateStaked: bigint} {
+  get asV1300(): {delegator: Uint8Array, candidate: Uint8Array, unstakedAmount: bigint, totalCandidateStaked: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6540,7 +6540,7 @@ export class ParachainStakingInflationSetEvent {
   /**
    * Annual inflation input (first 3) was used to derive new per-round inflation (last 3)
    */
-  get asV900(): [v900.Perbill, v900.Perbill, v900.Perbill, v900.Perbill, v900.Perbill, v900.Perbill] {
+  get asV900(): [number, number, number, number, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6555,7 +6555,7 @@ export class ParachainStakingInflationSetEvent {
   /**
    * Annual inflation input (first 3) was used to derive new per-round inflation (last 3)
    */
-  get asV1300(): {annualMin: v1300.Perbill, annualIdeal: v1300.Perbill, annualMax: v1300.Perbill, roundMin: v1300.Perbill, roundIdeal: v1300.Perbill, roundMax: v1300.Perbill} {
+  get asV1300(): {annualMin: number, annualIdeal: number, annualMax: number, roundMin: number, roundIdeal: number, roundMax: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6584,7 +6584,7 @@ export class ParachainStakingJoinedCollatorCandidatesEvent {
   /**
    * Account, Amount Locked, New Total Amt Locked
    */
-  get asV900(): [v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6599,7 +6599,7 @@ export class ParachainStakingJoinedCollatorCandidatesEvent {
   /**
    * Account joined the set of collator candidates.
    */
-  get asV1300(): {account: v1300.AccountId20, amountLocked: bigint, newTotalAmtLocked: bigint} {
+  get asV1300(): {account: Uint8Array, amountLocked: bigint, newTotalAmtLocked: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6672,7 +6672,7 @@ export class ParachainStakingNominationEvent {
   /**
    * Nominator, Amount Locked, Collator, Nominator Position with New Total Counted if in Top
    */
-  get asV900(): [v900.H160, bigint, v900.H160, v900.NominatorAdded] {
+  get asV900(): [Uint8Array, bigint, Uint8Array, v900.NominatorAdded] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6695,7 +6695,7 @@ export class ParachainStakingNominationDecreasedEvent {
     return this._chain.getEventHash('ParachainStaking.NominationDecreased') === 'cb87cf94019b8ebc544a6a9a05c01f439fe3dea8cbed08c97f1a1e60dd6ad4f3'
   }
 
-  get asV900(): [v900.H160, v900.H160, bigint, boolean] {
+  get asV900(): [Uint8Array, Uint8Array, bigint, boolean] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6718,7 +6718,7 @@ export class ParachainStakingNominationIncreasedEvent {
     return this._chain.getEventHash('ParachainStaking.NominationIncreased') === 'cb87cf94019b8ebc544a6a9a05c01f439fe3dea8cbed08c97f1a1e60dd6ad4f3'
   }
 
-  get asV900(): [v900.H160, v900.H160, bigint, boolean] {
+  get asV900(): [Uint8Array, Uint8Array, bigint, boolean] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6747,7 +6747,7 @@ export class ParachainStakingNominationRevocationScheduledEvent {
   /**
    * Round, Nominator, Collator, Scheduled Exit
    */
-  get asV900(): [number, v900.H160, v900.H160, number] {
+  get asV900(): [number, Uint8Array, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6776,7 +6776,7 @@ export class ParachainStakingNominatorExitScheduledEvent {
   /**
    * Round, Nominator, Scheduled Exit
    */
-  get asV900(): [number, v900.H160, number] {
+  get asV900(): [number, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6805,7 +6805,7 @@ export class ParachainStakingNominatorLeftEvent {
   /**
    * Nominator, Amount Unstaked
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6834,7 +6834,7 @@ export class ParachainStakingNominatorLeftCollatorEvent {
   /**
    * Nominator, Collator, Amount Unstaked, New Total Amt Staked for Collator
    */
-  get asV900(): [v900.H160, v900.H160, bigint, bigint] {
+  get asV900(): [Uint8Array, Uint8Array, bigint, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6863,7 +6863,7 @@ export class ParachainStakingParachainBondAccountSetEvent {
   /**
    * Account (re)set for parachain bond treasury [old, new]
    */
-  get asV900(): [v900.H160, v900.H160] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6878,7 +6878,7 @@ export class ParachainStakingParachainBondAccountSetEvent {
   /**
    * Account (re)set for parachain bond treasury.
    */
-  get asV1300(): {old: v1300.AccountId20, new: v1300.AccountId20} {
+  get asV1300(): {old: Uint8Array, new: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6907,7 +6907,7 @@ export class ParachainStakingParachainBondReservePercentSetEvent {
   /**
    * Percent of inflation reserved for parachain bond (re)set [old, new]
    */
-  get asV900(): [v900.Percent, v900.Percent] {
+  get asV900(): [number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6922,7 +6922,7 @@ export class ParachainStakingParachainBondReservePercentSetEvent {
   /**
    * Percent of inflation reserved for parachain bond (re)set.
    */
-  get asV1300(): {old: v1300.Percent, new: v1300.Percent} {
+  get asV1300(): {old: number, new: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6951,7 +6951,7 @@ export class ParachainStakingReservedForParachainBondEvent {
   /**
    * Transferred to account which holds funds reserved for parachain bond
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -6966,7 +6966,7 @@ export class ParachainStakingReservedForParachainBondEvent {
   /**
    * Transferred to account which holds funds reserved for parachain bond.
    */
-  get asV1300(): {account: v1300.AccountId20, value: bigint} {
+  get asV1300(): {account: Uint8Array, value: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -6995,7 +6995,7 @@ export class ParachainStakingRewardedEvent {
   /**
    * Paid the account (nominator or collator) the balance as liquid rewards
    */
-  get asV900(): [v900.H160, bigint] {
+  get asV900(): [Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -7010,7 +7010,7 @@ export class ParachainStakingRewardedEvent {
   /**
    * Paid the account (delegator or collator) the balance as liquid rewards.
    */
-  get asV1300(): {account: v1300.AccountId20, rewards: bigint} {
+  get asV1300(): {account: Uint8Array, rewards: bigint} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -7129,7 +7129,7 @@ export class ParachainSystemDownwardMessagesProcessedEvent {
    * Downward messages were processed using the given weight.
    * \[ weight_used, result_mqc_head \]
    */
-  get asV900(): [bigint, v900.H256] {
+  get asV900(): [bigint, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -7189,7 +7189,7 @@ export class ParachainSystemUpgradeAuthorizedEvent {
   /**
    * An upgrade has been authorized.
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -7326,7 +7326,7 @@ export class PolkadotXcmAssetsTrappedEvent {
    * 
    * \[ hash, origin, assets \]
    */
-  get asV1201(): [v1201.H256, v1201.V1MultiLocation, v1201.VersionedMultiAssets] {
+  get asV1201(): [Uint8Array, v1201.V1MultiLocation, v1201.VersionedMultiAssets] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -7817,7 +7817,7 @@ export class PolkadotXcmSentEvent {
    * 
    * \[ origin, destination, message \]
    */
-  get asV1201(): [v1201.V1MultiLocation, v1201.V1MultiLocation, v1201.V2Instruction_97[]] {
+  get asV1201(): [v1201.V1MultiLocation, v1201.V1MultiLocation, v1201.V2Instruction[]] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -7836,7 +7836,7 @@ export class PolkadotXcmSentEvent {
    * 
    * \[ origin, destination, message \]
    */
-  get asV1300(): [v1300.V1MultiLocation, v1300.V1MultiLocation, v1300.V2Instruction_99[]] {
+  get asV1300(): [v1300.V1MultiLocation, v1300.V1MultiLocation, v1300.V2Instruction[]] {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -7970,7 +7970,7 @@ export class ProxyAnnouncedEvent {
   /**
    * An announcement was placed to make a call in the future. \[real, proxy, call_hash\]
    */
-  get asV900(): [v900.H160, v900.H160, v900.H256] {
+  get asV900(): [Uint8Array, Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -7985,7 +7985,7 @@ export class ProxyAnnouncedEvent {
   /**
    * An announcement was placed to make a call in the future.
    */
-  get asV1201(): {real: v1201.AccountId20, proxy: v1201.AccountId20, callHash: v1201.H256} {
+  get asV1201(): {real: Uint8Array, proxy: Uint8Array, callHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8018,7 +8018,7 @@ export class ProxyAnonymousCreatedEvent {
    * disambiguation index and proxy type. \[anonymous, who, proxy_type,
    * disambiguation_index\]
    */
-  get asV900(): [v900.H160, v900.H160, v900.ProxyType, number] {
+  get asV900(): [Uint8Array, Uint8Array, v900.ProxyType, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8035,7 +8035,7 @@ export class ProxyAnonymousCreatedEvent {
    * Anonymous account has been created by new proxy with given
    * disambiguation index and proxy type.
    */
-  get asV1201(): {anonymous: v1201.AccountId20, who: v1201.AccountId20, proxyType: v1201.ProxyType, disambiguationIndex: number} {
+  get asV1201(): {anonymous: Uint8Array, who: Uint8Array, proxyType: v1201.ProxyType, disambiguationIndex: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8064,7 +8064,7 @@ export class ProxyProxyAddedEvent {
   /**
    * A proxy was added. \[delegator, delegatee, proxy_type, delay\]
    */
-  get asV900(): [v900.H160, v900.H160, v900.ProxyType, number] {
+  get asV900(): [Uint8Array, Uint8Array, v900.ProxyType, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8079,7 +8079,7 @@ export class ProxyProxyAddedEvent {
   /**
    * A proxy was added.
    */
-  get asV1201(): {delegator: v1201.AccountId20, delegatee: v1201.AccountId20, proxyType: v1201.ProxyType, delay: number} {
+  get asV1201(): {delegator: Uint8Array, delegatee: Uint8Array, proxyType: v1201.ProxyType, delay: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8197,7 +8197,7 @@ export class ProxyProxyRemovedEvent {
   /**
    * A proxy was removed.
    */
-  get asV1606(): {delegator: v1606.AccountId20, delegatee: v1606.AccountId20, proxyType: v1606.ProxyType, delay: number} {
+  get asV1606(): {delegator: Uint8Array, delegatee: Uint8Array, proxyType: v1606.ProxyType, delay: number} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -8417,7 +8417,7 @@ export class SudoKeyChangedEvent {
   /**
    * The \[sudoer\] just switched identity; the old key is supplied.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8651,7 +8651,7 @@ export class SystemKilledAccountEvent {
   /**
    * An \[account\] was reaped.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8666,7 +8666,7 @@ export class SystemKilledAccountEvent {
   /**
    * An account was reaped.
    */
-  get asV1300(): {account: v1300.AccountId20} {
+  get asV1300(): {account: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8695,7 +8695,7 @@ export class SystemNewAccountEvent {
   /**
    * A new \[account\] was created.
    */
-  get asV900(): v900.H160 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8710,7 +8710,7 @@ export class SystemNewAccountEvent {
   /**
    * A new account was created.
    */
-  get asV1300(): {account: v1300.AccountId20} {
+  get asV1300(): {account: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8739,7 +8739,7 @@ export class SystemRemarkedEvent {
   /**
    * On on-chain remark happened. \[origin, remark_hash\]
    */
-  get asV900(): [v900.H160, v900.H256] {
+  get asV900(): [Uint8Array, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8754,7 +8754,7 @@ export class SystemRemarkedEvent {
   /**
    * On on-chain remark happened.
    */
-  get asV1300(): {sender: v1300.AccountId20, hash: v1300.H256} {
+  get asV1300(): {sender: Uint8Array, hash: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8785,7 +8785,7 @@ export class TechCommitteeCollectiveApprovedEvent {
    * A motion was approved by the required threshold.
    * \[proposal_hash\]
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8800,7 +8800,7 @@ export class TechCommitteeCollectiveApprovedEvent {
   /**
    * A motion was approved by the required threshold.
    */
-  get asV1201(): {proposalHash: v1201.H256} {
+  get asV1201(): {proposalHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8831,7 +8831,7 @@ export class TechCommitteeCollectiveClosedEvent {
    * A proposal was closed because its threshold was reached or after its duration was up.
    * \[proposal_hash, yes, no\]
    */
-  get asV900(): [v900.H256, number, number] {
+  get asV900(): [Uint8Array, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8846,7 +8846,7 @@ export class TechCommitteeCollectiveClosedEvent {
   /**
    * A proposal was closed because its threshold was reached or after its duration was up.
    */
-  get asV1201(): {proposalHash: v1201.H256, yes: number, no: number} {
+  get asV1201(): {proposalHash: Uint8Array, yes: number, no: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8877,7 +8877,7 @@ export class TechCommitteeCollectiveDisapprovedEvent {
    * A motion was not approved by the required threshold.
    * \[proposal_hash\]
    */
-  get asV900(): v900.H256 {
+  get asV900(): Uint8Array {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8892,7 +8892,7 @@ export class TechCommitteeCollectiveDisapprovedEvent {
   /**
    * A motion was not approved by the required threshold.
    */
-  get asV1201(): {proposalHash: v1201.H256} {
+  get asV1201(): {proposalHash: Uint8Array} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8923,7 +8923,7 @@ export class TechCommitteeCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [v900.H256, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8938,7 +8938,7 @@ export class TechCommitteeCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: v1201.H256, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8953,7 +8953,7 @@ export class TechCommitteeCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: v1300.H256, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8968,7 +8968,7 @@ export class TechCommitteeCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: v1401.H256, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -8983,7 +8983,7 @@ export class TechCommitteeCollectiveExecutedEvent {
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: v1606.H256, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -9014,7 +9014,7 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [v900.H256, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9029,7 +9029,7 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: v1201.H256, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9044,7 +9044,7 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: v1300.H256, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9059,7 +9059,7 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: v1401.H256, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -9074,7 +9074,7 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: v1606.H256, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -9107,7 +9107,7 @@ export class TechCommitteeCollectiveProposedEvent {
    * `MemberCount`).
    * \[account, proposal_index, proposal_hash, threshold\]
    */
-  get asV900(): [v900.H160, number, v900.H256, number] {
+  get asV900(): [Uint8Array, number, Uint8Array, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9124,7 +9124,7 @@ export class TechCommitteeCollectiveProposedEvent {
    * A motion (given hash) has been proposed (by given account) with a threshold (given
    * `MemberCount`).
    */
-  get asV1201(): {account: v1201.AccountId20, proposalIndex: number, proposalHash: v1201.H256, threshold: number} {
+  get asV1201(): {account: Uint8Array, proposalIndex: number, proposalHash: Uint8Array, threshold: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9157,7 +9157,7 @@ export class TechCommitteeCollectiveVotedEvent {
    * a tally (yes votes and no votes given respectively as `MemberCount`).
    * \[account, proposal_hash, voted, yes, no\]
    */
-  get asV900(): [v900.H160, v900.H256, boolean, number, number] {
+  get asV900(): [Uint8Array, Uint8Array, boolean, number, number] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9174,7 +9174,7 @@ export class TechCommitteeCollectiveVotedEvent {
    * A motion (given hash) has been voted on by given account, leaving
    * a tally (yes votes and no votes given respectively as `MemberCount`).
    */
-  get asV1201(): {account: v1201.AccountId20, proposalHash: v1201.H256, voted: boolean, yes: number, no: number} {
+  get asV1201(): {account: Uint8Array, proposalHash: Uint8Array, voted: boolean, yes: number, no: number} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9203,7 +9203,7 @@ export class TreasuryAwardedEvent {
   /**
    * Some funds have been allocated. \[proposal_index, award, beneficiary\]
    */
-  get asV900(): [number, bigint, v900.H160] {
+  get asV900(): [number, bigint, Uint8Array] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9218,7 +9218,7 @@ export class TreasuryAwardedEvent {
   /**
    * Some funds have been allocated.
    */
-  get asV1300(): {proposalIndex: number, award: bigint, account: v1300.AccountId20} {
+  get asV1300(): {proposalIndex: number, award: bigint, account: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9744,7 +9744,7 @@ export class XTokensTransferredEvent {
   /**
    * Transferred. \[sender, currency_id, amount, dest\]
    */
-  get asV1201(): [v1201.AccountId20, v1201.CurrencyId, bigint, v1201.V1MultiLocation] {
+  get asV1201(): [Uint8Array, v1201.CurrencyId, bigint, v1201.V1MultiLocation] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9759,7 +9759,7 @@ export class XTokensTransferredEvent {
   /**
    * Transferred.
    */
-  get asV1300(): {sender: v1300.AccountId20, currencyId: v1300.CurrencyId, amount: bigint, dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, currencyId: v1300.CurrencyId, amount: bigint, dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9788,7 +9788,7 @@ export class XTokensTransferredMultiAssetEvent {
   /**
    * Transferred `MultiAsset`. \[sender, asset, dest\]
    */
-  get asV1201(): [v1201.AccountId20, v1201.V1MultiAsset, v1201.V1MultiLocation] {
+  get asV1201(): [Uint8Array, v1201.V1MultiAsset, v1201.V1MultiLocation] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9803,7 +9803,7 @@ export class XTokensTransferredMultiAssetEvent {
   /**
    * Transferred `MultiAsset`.
    */
-  get asV1300(): {sender: v1300.AccountId20, asset: v1300.V1MultiAsset, dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, asset: v1300.V1MultiAsset, dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9832,7 +9832,7 @@ export class XTokensTransferredMultiAssetWithFeeEvent {
   /**
    * Transferred `MultiAsset` with fee. \[sender, asset, fee, dest\]
    */
-  get asV1201(): [v1201.AccountId20, v1201.V1MultiAsset, v1201.V1MultiAsset, v1201.V1MultiLocation] {
+  get asV1201(): [Uint8Array, v1201.V1MultiAsset, v1201.V1MultiAsset, v1201.V1MultiLocation] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9847,7 +9847,7 @@ export class XTokensTransferredMultiAssetWithFeeEvent {
   /**
    * Transferred `MultiAsset` with fee.
    */
-  get asV1300(): {sender: v1300.AccountId20, asset: v1300.V1MultiAsset, fee: v1300.V1MultiAsset, dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, asset: v1300.V1MultiAsset, fee: v1300.V1MultiAsset, dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9876,7 +9876,7 @@ export class XTokensTransferredMultiAssetsEvent {
   /**
    * Transferred `MultiAsset` with fee.
    */
-  get asV1300(): {sender: v1300.AccountId20, assets: v1300.V1MultiAssets, dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, assets: v1300.V1MultiAsset[], dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9891,7 +9891,7 @@ export class XTokensTransferredMultiAssetsEvent {
   /**
    * Transferred `MultiAsset` with fee.
    */
-  get asV1401(): {sender: v1401.AccountId20, assets: v1401.V1MultiAssets, fee: v1401.V1MultiAsset, dest: v1401.V1MultiLocation} {
+  get asV1401(): {sender: Uint8Array, assets: v1401.V1MultiAsset[], fee: v1401.V1MultiAsset, dest: v1401.V1MultiLocation} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -9920,7 +9920,7 @@ export class XTokensTransferredMultiCurrenciesEvent {
   /**
    * Transferred `MultiAsset` with fee.
    */
-  get asV1300(): {sender: v1300.AccountId20, currencies: [v1300.CurrencyId, bigint][], dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, currencies: [v1300.CurrencyId, bigint][], dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9949,7 +9949,7 @@ export class XTokensTransferredWithFeeEvent {
   /**
    * Transferred with fee. \[sender, currency_id, amount, fee, dest\]
    */
-  get asV1201(): [v1201.AccountId20, v1201.CurrencyId, bigint, bigint, v1201.V1MultiLocation] {
+  get asV1201(): [Uint8Array, v1201.CurrencyId, bigint, bigint, v1201.V1MultiLocation] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9964,7 +9964,7 @@ export class XTokensTransferredWithFeeEvent {
   /**
    * Transferred with fee.
    */
-  get asV1300(): {sender: v1300.AccountId20, currencyId: v1300.CurrencyId, amount: bigint, fee: bigint, dest: v1300.V1MultiLocation} {
+  get asV1300(): {sender: Uint8Array, currencyId: v1300.CurrencyId, amount: bigint, fee: bigint, dest: v1300.V1MultiLocation} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10068,7 +10068,7 @@ export class XcmTransactorRegisterdDerivativeEvent {
     return this._chain.getEventHash('XcmTransactor.RegisterdDerivative') === '541a75cc9fdc5d2fddc4420ef4485ca01a19c26bc7009e44a569447549bf349d'
   }
 
-  get asV1201(): [v1201.AccountId20, number] {
+  get asV1201(): [Uint8Array, number] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10083,7 +10083,7 @@ export class XcmTransactorRegisterdDerivativeEvent {
   /**
    * Registered a derivative index for an account id.
    */
-  get asV1300(): {accountId: v1300.AccountId20, index: number} {
+  get asV1300(): {accountId: Uint8Array, index: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10112,7 +10112,7 @@ export class XcmTransactorRegisteredDerivativeEvent {
   /**
    * Registered a derivative index for an account id.
    */
-  get asV1401(): {accountId: v1401.AccountId20, index: number} {
+  get asV1401(): {accountId: Uint8Array, index: number} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -10255,7 +10255,7 @@ export class XcmTransactorTransactedDerivativeEvent {
     return this._chain.getEventHash('XcmTransactor.TransactedDerivative') === 'e6980f2c19c3830a2bf3e4ceb131649249e894fb0a74994970099aeb4403877b'
   }
 
-  get asV1201(): [v1201.AccountId20, v1201.V1MultiLocation, Uint8Array, number] {
+  get asV1201(): [Uint8Array, v1201.V1MultiLocation, Uint8Array, number] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10270,7 +10270,7 @@ export class XcmTransactorTransactedDerivativeEvent {
   /**
    * Transacted the inner call through a derivative account in a destination chain.
    */
-  get asV1300(): {accountId: v1300.AccountId20, dest: v1300.V1MultiLocation, call: Uint8Array, index: number} {
+  get asV1300(): {accountId: Uint8Array, dest: v1300.V1MultiLocation, call: Uint8Array, index: number} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10299,7 +10299,7 @@ export class XcmTransactorTransactedSignedEvent {
   /**
    * Transacted the call through a signed account in a destination chain.
    */
-  get asV1606(): {feePayer: v1606.AccountId20, dest: v1606.V1MultiLocation, call: Uint8Array} {
+  get asV1606(): {feePayer: Uint8Array, dest: v1606.V1MultiLocation, call: Uint8Array} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -10322,7 +10322,7 @@ export class XcmTransactorTransactedSovereignEvent {
     return this._chain.getEventHash('XcmTransactor.TransactedSovereign') === 'c65f6c9647831c6243b29bf733793a37ed19265c734353ea336ea344804ae2d0'
   }
 
-  get asV1201(): [v1201.AccountId20, v1201.V1MultiLocation, Uint8Array] {
+  get asV1201(): [Uint8Array, v1201.V1MultiLocation, Uint8Array] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10337,7 +10337,7 @@ export class XcmTransactorTransactedSovereignEvent {
   /**
    * Transacted the call through the sovereign account in a destination chain.
    */
-  get asV1300(): {feePayer: v1300.AccountId20, dest: v1300.V1MultiLocation, call: Uint8Array} {
+  get asV1300(): {feePayer: Uint8Array, dest: v1300.V1MultiLocation, call: Uint8Array} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10366,7 +10366,7 @@ export class XcmpQueueBadFormatEvent {
   /**
    * Bad XCM format used.
    */
-  get asV1201(): (v1201.H256 | undefined) {
+  get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10395,7 +10395,7 @@ export class XcmpQueueBadVersionEvent {
   /**
    * Bad XCM version used.
    */
-  get asV1201(): (v1201.H256 | undefined) {
+  get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10424,7 +10424,7 @@ export class XcmpQueueFailEvent {
   /**
    * Some XCM failed.
    */
-  get asV1201(): [(v1201.H256 | undefined), v1201.V2Error] {
+  get asV1201(): [(Uint8Array | undefined), v1201.V2Error] {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10439,7 +10439,7 @@ export class XcmpQueueFailEvent {
   /**
    * Some XCM failed.
    */
-  get asV1300(): [(v1300.H256 | undefined), v1300.V2Error] {
+  get asV1300(): [(Uint8Array | undefined), v1300.V2Error] {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10468,7 +10468,7 @@ export class XcmpQueueOverweightEnqueuedEvent {
   /**
    * An XCM exceeded the individual message weight budget.
    */
-  get asV1300(): [v1300.Id, number, bigint, bigint] {
+  get asV1300(): [number, number, bigint, bigint] {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -10526,7 +10526,7 @@ export class XcmpQueueSuccessEvent {
   /**
    * Some XCM was executed ok.
    */
-  get asV1201(): (v1201.H256 | undefined) {
+  get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10555,7 +10555,7 @@ export class XcmpQueueUpwardMessageSentEvent {
   /**
    * An upward message was sent to the relay chain.
    */
-  get asV1201(): (v1201.H256 | undefined) {
+  get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -10584,7 +10584,7 @@ export class XcmpQueueXcmpMessageSentEvent {
   /**
    * An HRMP message was sent to a sibling parachain.
    */
-  get asV1201(): (v1201.H256 | undefined) {
+  get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
