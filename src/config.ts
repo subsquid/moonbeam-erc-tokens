@@ -2,7 +2,7 @@ require('dotenv').config();
 
 export const batchSize = process.env.BATCH_SIZE
   ? parseInt(process.env.BATCH_SIZE)
-  : 50;
+  : 100;
 
 export const chainNode =
   process.env.CHAIN_NODE || 'wss://wss.api.moonbeam.network';
