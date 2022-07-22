@@ -25,7 +25,7 @@ function getDecoratedCallResult(rawValue: string | null): string | null {
    */
   if (regex.test(rawValue)) return null;
 
-  return decoratedValue;
+  return decoratedValue ? decoratedValue.replace(/\0/g, '') : decoratedValue;
 }
 
 export async function createToken({
