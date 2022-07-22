@@ -1,11 +1,8 @@
-import {
-  EvmLogEvent,
-  SubstrateBlock
-} from '@subsquid/substrate-processor';
+import { EvmLogEvent, SubstrateBlock } from '@subsquid/substrate-processor';
 import * as erc721 from '../abi/erc721';
 import { handleTransfer } from './transfer';
 import { ContractStandard } from '../model';
-import { Context } from '../processor'
+import { Context } from '../processor';
 
 export async function handleErc721Transfer(
   ctx: Context,

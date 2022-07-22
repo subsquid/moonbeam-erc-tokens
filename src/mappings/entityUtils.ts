@@ -33,20 +33,28 @@ class EntitiesManager {
     entityName,
     id,
     contractAddress,
-    contractStandard
+    contractStandard,
+    blockHeight
   }: {
     entityName: EntityManagerItem;
     id?: string;
     contractAddress?: string;
     contractStandard?: ContractStandard;
+    blockHeight?: number;
   }): Promise<Transfer | Account | Token> {
     switch (entityName) {
       case EntityManagerItem.account:
         if (!id) throw new Error();
         return this.getAccount(id);
       case EntityManagerItem.token:
-        if (!contractAddress || !contractStandard) throw new Error();
-        return this.getToken({ id, contractAddress, contractStandard });
+        if (!contractAddress || !contractStandard || blockHeight === undefined)
+          throw new Error();
+        return this.getToken({
+          id,
+          contractAddress,
+          contractStandard,
+          blockHeight
+        });
       default:
         throw new Error();
     }
@@ -70,11 +78,13 @@ class EntitiesManager {
   private async getToken({
     id,
     contractAddress,
-    contractStandard
+    contractStandard,
+    blockHeight
   }: {
     id?: string;
     contractAddress: string;
     contractStandard: ContractStandard;
+    blockHeight: number;
   }) {
     if (!this.context) throw new Error();
     const currentTokenId = getTokenEntityId(contractAddress, id);
@@ -82,12 +92,14 @@ class EntitiesManager {
 
     if (!token) {
       token = await this.context.store.get(Token, currentTokenId);
-      if (!token) {
-        token = await helpers.createToken(
-          currentTokenId,
+      if (!token || (token && (!token.name || !token.symbol))) {
+        token = await helpers.createToken({
+          tokenId: currentTokenId,
+          ctx: this.context,
           contractAddress,
-          contractStandard
-        );
+          contractStandard,
+          blockHeight
+        });
       }
       this.add(EntityManagerItem.token, token);
     }

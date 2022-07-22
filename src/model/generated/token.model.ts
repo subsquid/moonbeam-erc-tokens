@@ -10,11 +10,11 @@ export class Token {
   @PrimaryColumn_()
   id!: string
 
-  @Column_("text", {nullable: false})
-  name!: string
+  @Column_("text", {nullable: true})
+  name!: string | undefined | null
 
-  @Column_("text", {nullable: false})
-  symbol!: string
+  @Column_("text", {nullable: true})
+  symbol!: string | undefined | null
 
   @Column_("int4", {nullable: true})
   decimals!: number | undefined | null

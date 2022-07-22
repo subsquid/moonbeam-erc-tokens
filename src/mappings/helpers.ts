@@ -1,9 +1,7 @@
 import { Account, ContractStandard, Token } from '../model';
-import { ethers } from 'ethers';
 import { addTimeout } from '@subsquid/util-timeout';
-import * as erc20 from '../abi/erc20';
-import * as erc721 from '../abi/erc721';
-import { getContract } from './contract';
+import { getContractInstance } from './contract';
+import { Context } from '../processor';
 
 export function createAccount(id: string): Account {
   return new Account({
@@ -14,34 +12,71 @@ export function createAccount(id: string): Account {
   });
 }
 
-export async function createToken(
-  tokenId: string,
-  contractAddress: string,
-  contractStandard: ContractStandard
-): Promise<Token> {
-  let abi: ethers.utils.Interface;
-  switch (contractStandard) {
-    case ContractStandard.ERC20:
-      abi = erc20.abi;
-      break;
-    case ContractStandard.ERC721:
-      abi = erc721.abi;
-      break;
-  }
+function getDecoratedCallResult(rawValue: string | null): string | null {
+  const decoratedValue: string | null = rawValue;
 
-  if (!abi) throw new Error();
+  if (!rawValue || typeof rawValue !== 'string') return null;
 
-  const contractInst = getContract(contractAddress, abi);
+  const regex = new RegExp(/^\d{10}\.[\d|\w]{4}$/);
+
+  /**
+   * This test is required for contract call results
+   * like this - "0006648936.1ec7" which must be saved as null
+   */
+  if (regex.test(rawValue)) return null;
+
+  return decoratedValue ? decoratedValue.replace(/\0/g, '') : decoratedValue;
+}
+
+export async function createToken({
+  tokenId,
+  contractAddress,
+  contractStandard,
+  blockHeight,
+  ctx
+}: {
+  tokenId: string;
+  contractAddress: string;
+  contractStandard: ContractStandard;
+  blockHeight: number;
+  ctx: Context;
+}): Promise<Token> {
+  const contractInst = getContractInstance({
+    ctx,
+    blockHeight,
+    contractStandard,
+    contractAddress
+  });
   if (!contractInst) throw new Error();
+
+  let name = null;
+  let symbol = null;
+  let decimals = null;
+
+  try {
+    name = await addTimeout(contractInst.name(), 2);
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+    symbol = await addTimeout(contractInst.symbol(), 2);
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+    decimals =
+      contractStandard === ContractStandard.ERC20 && 'decimals' in contractInst
+        ? await addTimeout(contractInst.decimals(), 2)
+        : null;
+  } catch (e) {
+    console.log(e);
+  }
 
   return new Token({
     id: tokenId,
-    name: await addTimeout(contractInst.name(), 3),
-    symbol: await addTimeout(contractInst.symbol(), 3),
-    decimals:
-      contractStandard === ContractStandard.ERC20 && 'decimals' in contractInst
-        ? await addTimeout(contractInst.decimals(), 3)
-        : null,
+    name: getDecoratedCallResult(name),
+    symbol: getDecoratedCallResult(symbol),
+    decimals,
     contractStandard,
     contractAddress
   });

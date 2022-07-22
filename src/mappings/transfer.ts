@@ -42,7 +42,8 @@ export async function handleTransfer(
       entityName: EntityManagerItem.token,
       contractAddress: event.args.address,
       contractStandard,
-      id: tokenId
+      id: tokenId,
+      blockHeight: block.height
     })) as Token,
     amount: value ? BigInt(value.toString()) : null
   });
