@@ -32,7 +32,7 @@ export async function handleTransfer(
   })) as Account;
 
   const transfer = new Transfer({
-    id: event.evmTxHash,
+    id: event.id,
     blockNumber: BigInt(block.height),
     timestamp: new Date(block.timestamp),
     eventIndex: event.indexInBlock,
