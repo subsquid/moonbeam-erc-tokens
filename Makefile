@@ -24,7 +24,7 @@ codegen:
 evmtypegen:
 	@npx squid-evm-typegen --abi src/abi/erc20.json --output src/abi/erc20.ts
 
-typegen: moonbeamVersions.json
+typegen:
 	@npx squid-substrate-typegen ./typegen/typegen.json
 
 

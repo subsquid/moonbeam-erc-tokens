@@ -1,33 +1,129 @@
 enum ContractStandard {
   ERC20
   ERC721
+  ERC1155
+}
+
+enum TransferType {
+  TRANSFER
+  MINT
+  BURN
+}
+
+enum TransferDirection {
+  From
+  To
 }
 
 type Account @entity {
   id: ID!
-  transfersTotalCount: Int!
-  transfersSent: [Transfer!] @derivedFrom(field: "from")
-  transfersSentCount: Int!
-  transfersReceived: [Transfer!] @derivedFrom(field: "to")
-  transfersReceivedCount: Int!
+
+  ftTransfers: [AccountFtTransfer] @derivedFrom(field: "account")
+  nftTransfers: [AccountNftTransfer] @derivedFrom(field: "account")
+
+  ownedTokens: [NfToken] @derivedFrom(field: "currentOwner")
 }
 
-type Token @entity {
+type Collection @entity {
+  id: ID! # Contract address
+  collectionType: ContractStandard! @index
+  nfts: [NfToken] @derivedFrom(field: "collection")
+  createdAtBlock: BigInt!
+  createdAt: DateTime!
+}
+
+interface Token {
   id: ID!
   name: String
   symbol: String
-  decimals: Int
-  contractStandard: ContractStandard
-  contractAddress: String!
 }
 
-type Transfer @entity {
+# ERC721 / ERC1155 tokens (Non-Fungible Token)
+type NfToken implements Token @entity {
+  id: ID! # <token_contract_address>-<token_id>
+  nativeId: String!
+  name: String @index
+  symbol: String @index
+  collection: Collection!
+  uri: String
+  uriUpdateActions: [UriUpdateAction]! @derivedFrom(field: "token")
+  currentOwner: Account! # "to" account in transfer
+  amount: BigInt! @index
+  isBurned: Boolean! @index
+}
+
+type UriUpdateAction @entity {
+  id: ID!
+  token: NfToken!
+  newValue: String
+  oldValue: String
+  blockNumber: BigInt!
+  timestamp: DateTime!
+  txnHash: String!
+}
+
+# ERC20 tokens (Fungible Token)
+type FToken implements Token @entity {
+  id: ID! # Token contract address
+  name: String @index
+  symbol: String @index
+  decimals: Int
+}
+
+interface Transfer {
   id: ID!
   blockNumber: BigInt!
   timestamp: DateTime!
   eventIndex: Int!
+  txnHash: String!
   from: Account!
   to: Account!
   amount: BigInt
-  token: Token
+  transferType: TransferType
+}
+
+# Fungible token transfers
+type FtTransfer implements Transfer @entity {
+  id: ID!
+  blockNumber: BigInt! @index
+  timestamp: DateTime!
+  eventIndex: Int!
+  txnHash: String!
+  from: Account!
+  to: Account!
+  amount: BigInt @index
+  transferType: TransferType @index
+  token: FToken!
+}
+
+# Non-Fungible token transfers
+type NftTransfer implements Transfer @entity {
+  id: ID!
+  blockNumber: BigInt! @index
+  timestamp: DateTime!
+  eventIndex: Int!
+  txnHash: String!
+  from: Account!
+  to: Account!
+  operator: Account
+  amount: BigInt! @index
+  transferType: TransferType @index
+  token: NfToken!
+  isBatch: Boolean!
+}
+
+# entity for linking account and NFT transfer
+type AccountNftTransfer @entity {
+  id: ID!
+  transfer: NftTransfer
+  account: Account!
+  direction: TransferDirection
+}
+
+# entity for linking account and FT transfer
+type AccountFtTransfer @entity {
+  id: ID!
+  transfer: FtTransfer
+  account: Account!
+  direction: TransferDirection
 }

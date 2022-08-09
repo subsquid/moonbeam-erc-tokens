@@ -8,6 +8,7 @@ import * as v1300 from './v1300'
 import * as v1401 from './v1401'
 import * as v1502 from './v1502'
 import * as v1606 from './v1606'
+import * as v1701 from './v1701'
 
 export class AssetManagerChangeExistingAssetTypeCall {
   private readonly _chain: Chain
@@ -2946,6 +2947,41 @@ export class CouncilCollectiveExecuteCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Dispatch a proposal from a member using the `Member` origin.
+   * 
+   * Origin must be a member of the collective.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+   *   `proposal`
+   * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
+   * - 1 event
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('CouncilCollective.execute') === '7561d091d6ef6ec632e49f68aaf182468f67191f98e0a6bff8752434665ddc4f'
+  }
+
+  /**
+   * Dispatch a proposal from a member using the `Member` origin.
+   * 
+   * Origin must be a member of the collective.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+   *   `proposal`
+   * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
+   * - 1 event
+   * # </weight>
+   */
+  get asV1701(): {proposal: v1701.Call, lengthBound: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class CouncilCollectiveProposeCall {
@@ -3494,6 +3530,73 @@ export class CouncilCollectiveProposeCall {
    */
   get asV1606(): {threshold: number, proposal: v1606.Call, lengthBound: number} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Add a new proposal to either be voted on or executed directly.
+   * 
+   * Requires the sender to be member.
+   * 
+   * `threshold` determines whether `proposal` is executed directly (`threshold < 2`)
+   * or put up for voting.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(B + M + P1)` or `O(B + M + P2)` where:
+   *   - `B` is `proposal` size in bytes (length-fee-bounded)
+   *   - `M` is members-count (code- and governance-bounded)
+   *   - branching is influenced by `threshold` where:
+   *     - `P1` is proposal execution complexity (`threshold < 2`)
+   *     - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
+   * - DB:
+   *   - 1 storage read `is_member` (codec `O(M)`)
+   *   - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
+   *   - DB accesses influenced by `threshold`:
+   *     - EITHER storage accesses done by `proposal` (`threshold < 2`)
+   *     - OR proposal insertion (`threshold <= 2`)
+   *       - 1 storage mutation `Proposals` (codec `O(P2)`)
+   *       - 1 storage mutation `ProposalCount` (codec `O(1)`)
+   *       - 1 storage write `ProposalOf` (codec `O(B)`)
+   *       - 1 storage write `Voting` (codec `O(M)`)
+   *   - 1 event
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('CouncilCollective.propose') === '103abd51e579dbc5639bd5f8cd7adfb5f225b713c43d432ce80a2b08f36c8968'
+  }
+
+  /**
+   * Add a new proposal to either be voted on or executed directly.
+   * 
+   * Requires the sender to be member.
+   * 
+   * `threshold` determines whether `proposal` is executed directly (`threshold < 2`)
+   * or put up for voting.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(B + M + P1)` or `O(B + M + P2)` where:
+   *   - `B` is `proposal` size in bytes (length-fee-bounded)
+   *   - `M` is members-count (code- and governance-bounded)
+   *   - branching is influenced by `threshold` where:
+   *     - `P1` is proposal execution complexity (`threshold < 2`)
+   *     - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
+   * - DB:
+   *   - 1 storage read `is_member` (codec `O(M)`)
+   *   - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
+   *   - DB accesses influenced by `threshold`:
+   *     - EITHER storage accesses done by `proposal` (`threshold < 2`)
+   *     - OR proposal insertion (`threshold <= 2`)
+   *       - 1 storage mutation `Proposals` (codec `O(P2)`)
+   *       - 1 storage mutation `ProposalCount` (codec `O(1)`)
+   *       - 1 storage write `ProposalOf` (codec `O(B)`)
+   *       - 1 storage write `Voting` (codec `O(M)`)
+   *   - 1 event
+   * # </weight>
+   */
+  get asV1701(): {threshold: number, proposal: v1701.Call, lengthBound: number} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -8247,6 +8350,124 @@ export class ParachainStakingGoOnlineCall {
   }
 }
 
+export class ParachainStakingHotfixMigrateCollatorsFromReserveToLocksCall {
+  private readonly _chain: Chain
+  private readonly call: Call
+
+  constructor(ctx: CallContext)
+  constructor(ctx: ChainContext, call: Call)
+  constructor(ctx: CallContext, call?: Call) {
+    call = call || ctx.call
+    assert(call.name === 'ParachainStaking.hotfix_migrate_collators_from_reserve_to_locks')
+    this._chain = ctx._chain
+    this.call = call
+  }
+
+  /**
+   * Hotfix to migrate a collator's reserve to a lock. For any given collator in the
+   * provided list:
+   * * this fn is idempotent
+   * * is safe to call if the collator doesn't exist
+   * * is safe to call if the collator has been migrated
+   * * is safe to call if the collator is a collator (this is a no-op)
+   * 
+   * weight calculation:
+   *   reads:
+   *    * CollatorReserveToLockMigrations
+   *    * CandidateInfo
+   *   writes:
+   *    * unreserve()
+   *    * set_lock()
+   *    * CollatorReserveToLockMigrations
+   *   other: 50M flat weight + 100M weight per item
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('ParachainStaking.hotfix_migrate_collators_from_reserve_to_locks') === 'eb7fbe52718c8e0c11a64cc8ffeec21be403e4c96c68a1ae4bbbf70579b619b8'
+  }
+
+  /**
+   * Hotfix to migrate a collator's reserve to a lock. For any given collator in the
+   * provided list:
+   * * this fn is idempotent
+   * * is safe to call if the collator doesn't exist
+   * * is safe to call if the collator has been migrated
+   * * is safe to call if the collator is a collator (this is a no-op)
+   * 
+   * weight calculation:
+   *   reads:
+   *    * CollatorReserveToLockMigrations
+   *    * CandidateInfo
+   *   writes:
+   *    * unreserve()
+   *    * set_lock()
+   *    * CollatorReserveToLockMigrations
+   *   other: 50M flat weight + 100M weight per item
+   */
+  get asV1701(): {collators: Uint8Array[]} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
+}
+
+export class ParachainStakingHotfixMigrateDelegatorsFromReserveToLocksCall {
+  private readonly _chain: Chain
+  private readonly call: Call
+
+  constructor(ctx: CallContext)
+  constructor(ctx: ChainContext, call: Call)
+  constructor(ctx: CallContext, call?: Call) {
+    call = call || ctx.call
+    assert(call.name === 'ParachainStaking.hotfix_migrate_delegators_from_reserve_to_locks')
+    this._chain = ctx._chain
+    this.call = call
+  }
+
+  /**
+   * Hotfix to migrate a delegator's reserve to a lock. For any given delegator in the
+   * provided list:
+   * * this fn is idempotent
+   * * is safe to call if the delegator doesn't exist
+   * * is safe to call if the delegator has been migrated
+   * * is safe to call if the delegator is a collator (this is a no-op)
+   * 
+   * weight calculation:
+   *   reads:
+   *    * DelegatorReserveToLockMigrations
+   *    * DelegatorState
+   *   writes:
+   *    * unreserve()
+   *    * set_lock()
+   *    * DelegatorReserveToLockMigrations
+   *   other: 50M flat weight + 100M weight per item
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('ParachainStaking.hotfix_migrate_delegators_from_reserve_to_locks') === '87707687198aa58f4ff02f9abdca704b2de292b801302ed171770e914d607758'
+  }
+
+  /**
+   * Hotfix to migrate a delegator's reserve to a lock. For any given delegator in the
+   * provided list:
+   * * this fn is idempotent
+   * * is safe to call if the delegator doesn't exist
+   * * is safe to call if the delegator has been migrated
+   * * is safe to call if the delegator is a collator (this is a no-op)
+   * 
+   * weight calculation:
+   *   reads:
+   *    * DelegatorReserveToLockMigrations
+   *    * DelegatorState
+   *   writes:
+   *    * unreserve()
+   *    * set_lock()
+   *    * DelegatorReserveToLockMigrations
+   *   other: 50M flat weight + 100M weight per item
+   */
+  get asV1701(): {delegators: Uint8Array[]} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
+}
+
 export class ParachainStakingHotfixRemoveDelegationRequestsCall {
   private readonly _chain: Chain
   private readonly call: Call
@@ -8272,6 +8493,35 @@ export class ParachainStakingHotfixRemoveDelegationRequestsCall {
    */
   get asV1201(): {delegators: Uint8Array[]} {
     assert(this.isV1201)
+    return this._chain.decodeCall(this.call)
+  }
+}
+
+export class ParachainStakingHotfixRemoveDelegationRequestsExitedCandidatesCall {
+  private readonly _chain: Chain
+  private readonly call: Call
+
+  constructor(ctx: CallContext)
+  constructor(ctx: ChainContext, call: Call)
+  constructor(ctx: CallContext, call?: Call) {
+    call = call || ctx.call
+    assert(call.name === 'ParachainStaking.hotfix_remove_delegation_requests_exited_candidates')
+    this._chain = ctx._chain
+    this.call = call
+  }
+
+  /**
+   * Hotfix to remove existing empty entries for candidates that have left.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('ParachainStaking.hotfix_remove_delegation_requests_exited_candidates') === '0b4e7f50efc45b451aabded6e9536ff6ebfc313152c32ab631520b5b0cf03884'
+  }
+
+  /**
+   * Hotfix to remove existing empty entries for candidates that have left.
+   */
+  get asV1701(): {candidates: Uint8Array[]} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -9584,6 +9834,45 @@ export class ProxyAddProxyCall {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Register a proxy account for the sender that is able to make calls on its behalf.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `proxy`: The account that the `caller` would like to make a proxy.
+   * - `proxy_type`: The permissions allowed for this proxy account.
+   * - `delay`: The announcement period required of the initial proxy. Will generally be
+   * zero.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.add_proxy') === '2256c63862fe48b5e554f76d26ac91f45467f22d378e5891835d20893d418863'
+  }
+
+  /**
+   * Register a proxy account for the sender that is able to make calls on its behalf.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `proxy`: The account that the `caller` would like to make a proxy.
+   * - `proxy_type`: The permissions allowed for this proxy account.
+   * - `delay`: The announcement period required of the initial proxy. Will generally be
+   * zero.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get asV1701(): {delegate: Uint8Array, proxyType: v1701.ProxyType, delay: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class ProxyAnnounceCall {
@@ -9726,6 +10015,65 @@ export class ProxyAnonymousCall {
     assert(this.isV900)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Spawn a fresh new account that is guaranteed to be otherwise inaccessible, and
+   * initialize it with a proxy of `proxy_type` for `origin` sender.
+   * 
+   * Requires a `Signed` origin.
+   * 
+   * - `proxy_type`: The type of the proxy that the sender will be registered as over the
+   * new account. This will almost always be the most permissive `ProxyType` possible to
+   * allow for maximum flexibility.
+   * - `index`: A disambiguation index, in case this is called multiple times in the same
+   * transaction (e.g. with `utility::batch`). Unless you're using `batch` you probably just
+   * want to use `0`.
+   * - `delay`: The announcement period required of the initial proxy. Will generally be
+   * zero.
+   * 
+   * Fails with `Duplicate` if this has already been called in this transaction, from the
+   * same sender, with the same parameters.
+   * 
+   * Fails if there are insufficient funds to pay for deposit.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   * TODO: Might be over counting 1 read
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.anonymous') === 'c67ac48190633311a52d05aee13eee7d1197d69f6410924d9e2409dc0a7d2058'
+  }
+
+  /**
+   * Spawn a fresh new account that is guaranteed to be otherwise inaccessible, and
+   * initialize it with a proxy of `proxy_type` for `origin` sender.
+   * 
+   * Requires a `Signed` origin.
+   * 
+   * - `proxy_type`: The type of the proxy that the sender will be registered as over the
+   * new account. This will almost always be the most permissive `ProxyType` possible to
+   * allow for maximum flexibility.
+   * - `index`: A disambiguation index, in case this is called multiple times in the same
+   * transaction (e.g. with `utility::batch`). Unless you're using `batch` you probably just
+   * want to use `0`.
+   * - `delay`: The announcement period required of the initial proxy. Will generally be
+   * zero.
+   * 
+   * Fails with `Duplicate` if this has already been called in this transaction, from the
+   * same sender, with the same parameters.
+   * 
+   * Fails if there are insufficient funds to pay for deposit.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   * TODO: Might be over counting 1 read
+   */
+  get asV1701(): {proxyType: v1701.ProxyType, delay: number, index: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class ProxyKillAnonymousCall {
@@ -9791,6 +10139,59 @@ export class ProxyKillAnonymousCall {
    */
   get asV900(): {spawner: Uint8Array, proxyType: v900.ProxyType, index: number, height: number, extIndex: number} {
     assert(this.isV900)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Removes a previously spawned anonymous proxy.
+   * 
+   * WARNING: **All access to this account will be lost.** Any funds held in it will be
+   * inaccessible.
+   * 
+   * Requires a `Signed` origin, and the sender account must have been created by a call to
+   * `anonymous` with corresponding parameters.
+   * 
+   * - `spawner`: The account that originally called `anonymous` to create this account.
+   * - `index`: The disambiguation index originally passed to `anonymous`. Probably `0`.
+   * - `proxy_type`: The proxy type originally passed to `anonymous`.
+   * - `height`: The height of the chain when the call to `anonymous` was processed.
+   * - `ext_index`: The extrinsic index in which the call to `anonymous` was processed.
+   * 
+   * Fails with `NoPermission` in case the caller is not a previously created anonymous
+   * account whose `anonymous` call has corresponding parameters.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.kill_anonymous') === '11eef112946e6ebddc4f19355267c2bafea9ab38088863568d0de65f462ff3b6'
+  }
+
+  /**
+   * Removes a previously spawned anonymous proxy.
+   * 
+   * WARNING: **All access to this account will be lost.** Any funds held in it will be
+   * inaccessible.
+   * 
+   * Requires a `Signed` origin, and the sender account must have been created by a call to
+   * `anonymous` with corresponding parameters.
+   * 
+   * - `spawner`: The account that originally called `anonymous` to create this account.
+   * - `index`: The disambiguation index originally passed to `anonymous`. Probably `0`.
+   * - `proxy_type`: The proxy type originally passed to `anonymous`.
+   * - `height`: The height of the chain when the call to `anonymous` was processed.
+   * - `ext_index`: The extrinsic index in which the call to `anonymous` was processed.
+   * 
+   * Fails with `NoPermission` in case the caller is not a previously created anonymous
+   * account whose `anonymous` call has corresponding parameters.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get asV1701(): {spawner: Uint8Array, proxyType: v1701.ProxyType, index: number, height: number, extIndex: number} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -10149,6 +10550,49 @@ export class ProxyProxyCall {
    */
   get asV1606(): {real: Uint8Array, forceProxyType: (v1606.ProxyType | undefined), call: v1606.Call} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Dispatch the given `call` from an account that the sender is authorised for through
+   * `add_proxy`.
+   * 
+   * Removes any corresponding announcement(s).
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `real`: The account that the proxy will make a call on behalf of.
+   * - `force_proxy_type`: Specify the exact proxy type to be used and checked for this call.
+   * - `call`: The call to be made by the `real` account.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.proxy') === 'b72a6cd2733ebb7f1464ba4705d0dc81d2171574d7860f1275e4477b2ef35437'
+  }
+
+  /**
+   * Dispatch the given `call` from an account that the sender is authorised for through
+   * `add_proxy`.
+   * 
+   * Removes any corresponding announcement(s).
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `real`: The account that the proxy will make a call on behalf of.
+   * - `force_proxy_type`: Specify the exact proxy type to be used and checked for this call.
+   * - `call`: The call to be made by the `real` account.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get asV1701(): {real: Uint8Array, forceProxyType: (v1701.ProxyType | undefined), call: v1701.Call} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -10541,6 +10985,53 @@ export class ProxyProxyAnnouncedCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Dispatch the given `call` from an account that the sender is authorized for through
+   * `add_proxy`.
+   * 
+   * Removes any corresponding announcement(s).
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `real`: The account that the proxy will make a call on behalf of.
+   * - `force_proxy_type`: Specify the exact proxy type to be used and checked for this call.
+   * - `call`: The call to be made by the `real` account.
+   * 
+   * # <weight>
+   * Weight is a function of:
+   * - A: the number of announcements made.
+   * - P: the number of proxies the user has.
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.proxy_announced') === '1f45a521c527fbde5e340036f60dbd3dd1417aa38dc407d4a92c6186d4a0c119'
+  }
+
+  /**
+   * Dispatch the given `call` from an account that the sender is authorized for through
+   * `add_proxy`.
+   * 
+   * Removes any corresponding announcement(s).
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `real`: The account that the proxy will make a call on behalf of.
+   * - `force_proxy_type`: Specify the exact proxy type to be used and checked for this call.
+   * - `call`: The call to be made by the `real` account.
+   * 
+   * # <weight>
+   * Weight is a function of:
+   * - A: the number of announcements made.
+   * - P: the number of proxies the user has.
+   * # </weight>
+   */
+  get asV1701(): {delegate: Uint8Array, real: Uint8Array, forceProxyType: (v1701.ProxyType | undefined), call: v1701.Call} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class ProxyRejectAnnouncementCall {
@@ -10753,6 +11244,41 @@ export class ProxyRemoveProxyCall {
    */
   get asV900(): {delegate: Uint8Array, proxyType: v900.ProxyType, delay: number} {
     assert(this.isV900)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Unregister a proxy account for the sender.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `proxy`: The account that the `caller` would like to remove as a proxy.
+   * - `proxy_type`: The permissions currently enabled for the removed proxy account.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Proxy.remove_proxy') === '2256c63862fe48b5e554f76d26ac91f45467f22d378e5891835d20893d418863'
+  }
+
+  /**
+   * Unregister a proxy account for the sender.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   * 
+   * Parameters:
+   * - `proxy`: The account that the `caller` would like to remove as a proxy.
+   * - `proxy_type`: The permissions currently enabled for the removed proxy account.
+   * 
+   * # <weight>
+   * Weight is a function of the number of proxies the user has (P).
+   * # </weight>
+   */
+  get asV1701(): {delegate: Uint8Array, proxyType: v1701.ProxyType, delay: number} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -11037,6 +11563,21 @@ export class SchedulerScheduleCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Anonymously schedule a task.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Scheduler.schedule') === '7573227a7e75b929a91d5a55225f789acdc852c564408d8cce00074f1aee1e1c'
+  }
+
+  /**
+   * Anonymously schedule a task.
+   */
+  get asV1701(): {when: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1701.MaybeHashed} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class SchedulerScheduleAfterCall {
@@ -11235,6 +11776,29 @@ export class SchedulerScheduleAfterCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Anonymously schedule a task after a delay.
+   * 
+   * # <weight>
+   * Same as [`schedule`].
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Scheduler.schedule_after') === '7535743cbbbc502fd813cd20cc04356a5f626f37589d66162b1f1b53d025ed54'
+  }
+
+  /**
+   * Anonymously schedule a task after a delay.
+   * 
+   * # <weight>
+   * Same as [`schedule`].
+   * # </weight>
+   */
+  get asV1701(): {after: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1701.MaybeHashed} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class SchedulerScheduleNamedCall {
@@ -11421,6 +11985,21 @@ export class SchedulerScheduleNamedCall {
    */
   get asV1606(): {id: Uint8Array, when: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1606.MaybeHashed} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Schedule a named task.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Scheduler.schedule_named') === 'c4871e31da354c567eaec66482c0a9e7e56f0ed75127121dd2a5cdb633a9e8e5'
+  }
+
+  /**
+   * Schedule a named task.
+   */
+  get asV1701(): {id: Uint8Array, when: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1701.MaybeHashed} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -11619,6 +12198,29 @@ export class SchedulerScheduleNamedAfterCall {
    */
   get asV1606(): {id: Uint8Array, after: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1606.MaybeHashed} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Schedule a named task after a delay.
+   * 
+   * # <weight>
+   * Same as [`schedule_named`](Self::schedule_named).
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Scheduler.schedule_named_after') === '29de07a0d03fb3d2838dd0c2cc70f65d1cf389bd3297cc67c601ad2b401c72d2'
+  }
+
+  /**
+   * Schedule a named task after a delay.
+   * 
+   * # <weight>
+   * Same as [`schedule_named`](Self::schedule_named).
+   * # </weight>
+   */
+  get asV1701(): {id: Uint8Array, after: number, maybePeriodic: ([number, number] | undefined), priority: number, call: v1701.MaybeHashed} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -12780,6 +13382,41 @@ export class TechCommitteeCollectiveExecuteCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Dispatch a proposal from a member using the `Member` origin.
+   * 
+   * Origin must be a member of the collective.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+   *   `proposal`
+   * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
+   * - 1 event
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('TechCommitteeCollective.execute') === '7561d091d6ef6ec632e49f68aaf182468f67191f98e0a6bff8752434665ddc4f'
+  }
+
+  /**
+   * Dispatch a proposal from a member using the `Member` origin.
+   * 
+   * Origin must be a member of the collective.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(M + P)` where `M` members-count (code-bounded) and `P` complexity of dispatching
+   *   `proposal`
+   * - DB: 1 read (codec `O(M)`) + DB access of `proposal`
+   * - 1 event
+   * # </weight>
+   */
+  get asV1701(): {proposal: v1701.Call, lengthBound: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class TechCommitteeCollectiveProposeCall {
@@ -13330,6 +13967,73 @@ export class TechCommitteeCollectiveProposeCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Add a new proposal to either be voted on or executed directly.
+   * 
+   * Requires the sender to be member.
+   * 
+   * `threshold` determines whether `proposal` is executed directly (`threshold < 2`)
+   * or put up for voting.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(B + M + P1)` or `O(B + M + P2)` where:
+   *   - `B` is `proposal` size in bytes (length-fee-bounded)
+   *   - `M` is members-count (code- and governance-bounded)
+   *   - branching is influenced by `threshold` where:
+   *     - `P1` is proposal execution complexity (`threshold < 2`)
+   *     - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
+   * - DB:
+   *   - 1 storage read `is_member` (codec `O(M)`)
+   *   - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
+   *   - DB accesses influenced by `threshold`:
+   *     - EITHER storage accesses done by `proposal` (`threshold < 2`)
+   *     - OR proposal insertion (`threshold <= 2`)
+   *       - 1 storage mutation `Proposals` (codec `O(P2)`)
+   *       - 1 storage mutation `ProposalCount` (codec `O(1)`)
+   *       - 1 storage write `ProposalOf` (codec `O(B)`)
+   *       - 1 storage write `Voting` (codec `O(M)`)
+   *   - 1 event
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('TechCommitteeCollective.propose') === '103abd51e579dbc5639bd5f8cd7adfb5f225b713c43d432ce80a2b08f36c8968'
+  }
+
+  /**
+   * Add a new proposal to either be voted on or executed directly.
+   * 
+   * Requires the sender to be member.
+   * 
+   * `threshold` determines whether `proposal` is executed directly (`threshold < 2`)
+   * or put up for voting.
+   * 
+   * # <weight>
+   * ## Weight
+   * - `O(B + M + P1)` or `O(B + M + P2)` where:
+   *   - `B` is `proposal` size in bytes (length-fee-bounded)
+   *   - `M` is members-count (code- and governance-bounded)
+   *   - branching is influenced by `threshold` where:
+   *     - `P1` is proposal execution complexity (`threshold < 2`)
+   *     - `P2` is proposals-count (code-bounded) (`threshold >= 2`)
+   * - DB:
+   *   - 1 storage read `is_member` (codec `O(M)`)
+   *   - 1 storage read `ProposalOf::contains_key` (codec `O(1)`)
+   *   - DB accesses influenced by `threshold`:
+   *     - EITHER storage accesses done by `proposal` (`threshold < 2`)
+   *     - OR proposal insertion (`threshold <= 2`)
+   *       - 1 storage mutation `Proposals` (codec `O(P2)`)
+   *       - 1 storage mutation `ProposalCount` (codec `O(1)`)
+   *       - 1 storage write `ProposalOf` (codec `O(B)`)
+   *       - 1 storage write `Voting` (codec `O(M)`)
+   *   - 1 event
+   * # </weight>
+   */
+  get asV1701(): {threshold: number, proposal: v1701.Call, lengthBound: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class TechCommitteeCollectiveSetMembersCall {
@@ -13662,6 +14366,63 @@ export class TreasuryRejectProposalCall {
   }
 }
 
+export class TreasuryRemoveApprovalCall {
+  private readonly _chain: Chain
+  private readonly call: Call
+
+  constructor(ctx: CallContext)
+  constructor(ctx: ChainContext, call: Call)
+  constructor(ctx: CallContext, call?: Call) {
+    call = call || ctx.call
+    assert(call.name === 'Treasury.remove_approval')
+    this._chain = ctx._chain
+    this.call = call
+  }
+
+  /**
+   * Force a previously approved proposal to be removed from the approval queue.
+   * The original deposit will no longer be returned.
+   * 
+   * May only be called from `T::RejectOrigin`.
+   * - `proposal_id`: The index of a proposal
+   * 
+   * # <weight>
+   * - Complexity: O(A) where `A` is the number of approvals
+   * - Db reads and writes: `Approvals`
+   * # </weight>
+   * 
+   * Errors:
+   * - `ProposalNotApproved`: The `proposal_id` supplied was not found in the approval queue,
+   * i.e., the proposal has not been approved. This could also mean the proposal does not
+   * exist altogether, thus there is no way it would have been approved in the first place.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Treasury.remove_approval') === 'd31c3c178e65331a6ccd6f8dca07268f945f39b38e51421afd1c9e1f5bc0f6c8'
+  }
+
+  /**
+   * Force a previously approved proposal to be removed from the approval queue.
+   * The original deposit will no longer be returned.
+   * 
+   * May only be called from `T::RejectOrigin`.
+   * - `proposal_id`: The index of a proposal
+   * 
+   * # <weight>
+   * - Complexity: O(A) where `A` is the number of approvals
+   * - Db reads and writes: `Approvals`
+   * # </weight>
+   * 
+   * Errors:
+   * - `ProposalNotApproved`: The `proposal_id` supplied was not found in the approval queue,
+   * i.e., the proposal has not been approved. This could also mean the proposal does not
+   * exist altogether, thus there is no way it would have been approved in the first place.
+   */
+  get asV1701(): {proposalId: number} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
+}
+
 export class UtilityAsDerivativeCall {
   private readonly _chain: Chain
   private readonly call: Call
@@ -13984,6 +14745,45 @@ export class UtilityAsDerivativeCall {
    */
   get asV1606(): {index: number, call: v1606.Call} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Send a call through an indexed pseudonym of the sender.
+   * 
+   * Filter from origin are passed along. The call will be dispatched with an origin which
+   * use the same filter as the origin of this call.
+   * 
+   * NOTE: If you need to ensure that any account-based filtering is not honored (i.e.
+   * because you expect `proxy` to have been used prior in the call stack and you do not want
+   * the call restrictions to apply to any sub-accounts), then use `as_multi_threshold_1`
+   * in the Multisig pallet instead.
+   * 
+   * NOTE: Prior to version *12, this was called `as_limited_sub`.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Utility.as_derivative') === '65de8ebe2a6bebd8e30a3b272efe6060fc5e02fca34b1eab7b2fba98b760d3e3'
+  }
+
+  /**
+   * Send a call through an indexed pseudonym of the sender.
+   * 
+   * Filter from origin are passed along. The call will be dispatched with an origin which
+   * use the same filter as the origin of this call.
+   * 
+   * NOTE: If you need to ensure that any account-based filtering is not honored (i.e.
+   * because you expect `proxy` to have been used prior in the call stack and you do not want
+   * the call restrictions to apply to any sub-accounts), then use `as_multi_threshold_1`
+   * in the Multisig pallet instead.
+   * 
+   * NOTE: Prior to version *12, this was called `as_limited_sub`.
+   * 
+   * The dispatch origin for this call must be _Signed_.
+   */
+  get asV1701(): {index: number, call: v1701.Call} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }
@@ -14408,6 +15208,57 @@ export class UtilityBatchCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Send a batch of dispatch calls.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   * 
+   * This will return `Ok` in all circumstances. To determine the success of the batch, an
+   * event is deposited. If a call failed and the batch was interrupted, then the
+   * `BatchInterrupted` event is deposited, along with the number of successful calls made
+   * and the error of the failed call. If all were successful, then the `BatchCompleted`
+   * event is deposited.
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Utility.batch') === 'dd05b53ec63d0a06d434f6f1ac9dcb746a3c1ccb3cc3cc8656f3d623f48b1855'
+  }
+
+  /**
+   * Send a batch of dispatch calls.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   * 
+   * This will return `Ok` in all circumstances. To determine the success of the batch, an
+   * event is deposited. If a call failed and the batch was interrupted, then the
+   * `BatchInterrupted` event is deposited, along with the number of successful calls made
+   * and the error of the failed call. If all were successful, then the `BatchCompleted`
+   * event is deposited.
+   */
+  get asV1701(): {calls: v1701.Call[]} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class UtilityBatchAllCall {
@@ -14750,6 +15601,47 @@ export class UtilityBatchAllCall {
     assert(this.isV1606)
     return this._chain.decodeCall(this.call)
   }
+
+  /**
+   * Send a batch of dispatch calls and atomically execute them.
+   * The whole transaction will rollback and fail if any of the calls failed.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Utility.batch_all') === 'dd05b53ec63d0a06d434f6f1ac9dcb746a3c1ccb3cc3cc8656f3d623f48b1855'
+  }
+
+  /**
+   * Send a batch of dispatch calls and atomically execute them.
+   * The whole transaction will rollback and fail if any of the calls failed.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   */
+  get asV1701(): {calls: v1701.Call[]} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
 }
 
 export class UtilityDispatchAsCall {
@@ -14927,6 +15819,94 @@ export class UtilityDispatchAsCall {
    */
   get asV1606(): {asOrigin: v1606.OriginCaller, call: v1606.Call} {
     assert(this.isV1606)
+    return this._chain.decodeCall(this.call)
+  }
+
+  /**
+   * Dispatches a function call with a provided origin.
+   * 
+   * The dispatch origin for this call must be _Root_.
+   * 
+   * # <weight>
+   * - O(1).
+   * - Limited storage reads.
+   * - One DB write (event).
+   * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Utility.dispatch_as') === 'b2bd57a640c3f802455f632814ce883af4e0cfcba6732d0545f8f62376119921'
+  }
+
+  /**
+   * Dispatches a function call with a provided origin.
+   * 
+   * The dispatch origin for this call must be _Root_.
+   * 
+   * # <weight>
+   * - O(1).
+   * - Limited storage reads.
+   * - One DB write (event).
+   * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
+   * # </weight>
+   */
+  get asV1701(): {asOrigin: v1701.OriginCaller, call: v1701.Call} {
+    assert(this.isV1701)
+    return this._chain.decodeCall(this.call)
+  }
+}
+
+export class UtilityForceBatchCall {
+  private readonly _chain: Chain
+  private readonly call: Call
+
+  constructor(ctx: CallContext)
+  constructor(ctx: ChainContext, call: Call)
+  constructor(ctx: CallContext, call?: Call) {
+    call = call || ctx.call
+    assert(call.name === 'Utility.force_batch')
+    this._chain = ctx._chain
+    this.call = call
+  }
+
+  /**
+   * Send a batch of dispatch calls.
+   * Unlike `batch`, it allows errors and won't interrupt.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   */
+  get isV1701(): boolean {
+    return this._chain.getCallHash('Utility.force_batch') === 'dd05b53ec63d0a06d434f6f1ac9dcb746a3c1ccb3cc3cc8656f3d623f48b1855'
+  }
+
+  /**
+   * Send a batch of dispatch calls.
+   * Unlike `batch`, it allows errors and won't interrupt.
+   * 
+   * May be called from any origin.
+   * 
+   * - `calls`: The calls to be dispatched from the same origin. The number of call must not
+   *   exceed the constant: `batched_calls_limit` (available in constant metadata).
+   * 
+   * If origin is root then call are dispatch without checking origin filter. (This includes
+   * bypassing `frame_system::Config::BaseCallFilter`).
+   * 
+   * # <weight>
+   * - Complexity: O(C) where C is the number of calls to be batched.
+   * # </weight>
+   */
+  get asV1701(): {calls: v1701.Call[]} {
+    assert(this.isV1701)
     return this._chain.decodeCall(this.call)
   }
 }

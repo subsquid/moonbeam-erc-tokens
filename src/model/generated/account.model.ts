@@ -1,5 +1,7 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, OneToMany as OneToMany_} from "typeorm"
-import {Transfer} from "./transfer.model"
+import {AccountFtTransfer} from "./accountFtTransfer.model"
+import {AccountNftTransfer} from "./accountNftTransfer.model"
+import {NfToken} from "./nfToken.model"
 
 @Entity_()
 export class Account {
@@ -10,18 +12,12 @@ export class Account {
   @PrimaryColumn_()
   id!: string
 
-  @Column_("int4", {nullable: false})
-  transfersTotalCount!: number
+  @OneToMany_(() => AccountFtTransfer, e => e.account)
+  ftTransfers!: AccountFtTransfer[]
 
-  @OneToMany_(() => Transfer, e => e.from)
-  transfersSent!: Transfer[]
+  @OneToMany_(() => AccountNftTransfer, e => e.account)
+  nftTransfers!: AccountNftTransfer[]
 
-  @Column_("int4", {nullable: false})
-  transfersSentCount!: number
-
-  @OneToMany_(() => Transfer, e => e.to)
-  transfersReceived!: Transfer[]
-
-  @Column_("int4", {nullable: false})
-  transfersReceivedCount!: number
+  @OneToMany_(() => NfToken, e => e.currentOwner)
+  ownedTokens!: NfToken[]
 }

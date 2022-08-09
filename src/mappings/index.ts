@@ -1,2 +1,7 @@
-export { handleErc20Transfer } from './erc20';
-export { handleErc721Transfer } from './erc721';
+export {
+  handleErc20Transfer,
+  handleErc721Transfer,
+  handleErc1155TransferBatch,
+  handleErc1155TransferSingle
+} from './transfers';
+export { handleErc1155UriChanged } from './uriUpdateActions';

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    container_name: moonbeam_erc20_erc721
+    container_name: moonbeam_erc_tokens
     image: postgres:12
     ports:
       - "${DB_PORT}:5432"

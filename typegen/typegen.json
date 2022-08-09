@@ -1,6 +1,6 @@
 {
   "outDir": "../src/types/generated",
-  "specVersions": "moonbeamVersions.jsonl",
+  "specVersions": "https://moonbeam.archive.subsquid.io/graphql",
   "typesBundle": "moonbeam",
   "events": true,
   "calls": true
