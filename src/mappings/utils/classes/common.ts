@@ -1,6 +1,7 @@
 import type { FindOptionsRelations } from 'typeorm';
 import { FindOneOptions, EntityClass } from '@subsquid/typeorm-store';
 import { Context } from '../../../processor';
+import { FindOptionsWhere } from 'typeorm';
 
 interface EntityWithId {
   id: string;
@@ -9,7 +10,15 @@ interface EntityWithId {
 export class EntitiesManager<Entity extends EntityWithId> {
   context: Context | null = null;
 
+  entity: EntityClass<Entity>;
+
+  preprocessingItemIdsList: string[] = [];
+
   entitiesMap: Map<string, Entity> = new Map();
+
+  constructor({ entity }: { entity: EntityClass<Entity> }) {
+    this.entity = entity;
+  }
 
   init(ctx: Context) {
     this.context = ctx;
@@ -20,15 +29,48 @@ export class EntitiesManager<Entity extends EntityWithId> {
     this.entitiesMap.set(entity.id, entity);
   }
 
+  addPrefetchItemId(itemIdOrList: string | string[]): void {
+    if (Array.isArray(itemIdOrList)) {
+      this.preprocessingItemIdsList.push(...itemIdOrList);
+    } else {
+      this.preprocessingItemIdsList.push(itemIdOrList);
+    }
+  }
+
+  resetPrefetchItemIdsList(): void {
+    this.preprocessingItemIdsList = [];
+  }
+
+  async prefetchEntities(
+    relations?: FindOptionsRelations<Entity>
+  ): Promise<void> {
+    if (!this.context) throw new Error('context is not defined');
+    if (
+      !this.preprocessingItemIdsList ||
+      this.preprocessingItemIdsList.length === 0
+    )
+      return;
+    const fetchRes = await this.context.store.find(this.entity, {
+      where: this.preprocessingItemIdsList.map(
+        (id): FindOptionsWhere<Entity> => {
+          // @ts-ignore
+          return { id };
+        }
+      ),
+      ...(!!relations && { relations })
+    });
+
+    fetchRes.forEach((item) => this.add(item));
+    this.resetPrefetchItemIdsList();
+  }
+
   /**
    * Method returns entity item ONLY by its "ID"
    *
-   * @param entity
    * @param id
    * @param relations
    */
   async get(
-    entity: EntityClass<Entity>,
     id: string,
     relations?: FindOptionsRelations<Entity>
   ): Promise<Entity | null> {
@@ -42,7 +84,7 @@ export class EntitiesManager<Entity extends EntityWithId> {
 
       if (relations) requestParams.relations = relations;
 
-      item = (await this.context.store.get(entity, requestParams)) || null;
+      item = (await this.context.store.get(this.entity, requestParams)) || null;
     }
 
     return item;

@@ -1,4 +1,10 @@
-import { Account, ContractStandard, FToken, NfToken } from '../../../model';
+import {
+  Account,
+  Collection,
+  ContractStandard,
+  FToken,
+  NfToken
+} from '../../../model';
 import { SubstrateBlock } from '@subsquid/substrate-processor';
 import { createFToken, createNfToken } from '../../tokens';
 import { BigNumber } from 'ethers';
@@ -10,6 +16,10 @@ import { getTokenDetails } from '../../tokens/utils';
  * ::::::::::::: ERC20 TOKEN :::::::::::::
  */
 export class FTokenManager extends EntitiesManager<FToken> {
+  constructor(entity: typeof FToken) {
+    super({ entity });
+  }
+
   async getOrCreate({
     contractAddress,
     contractStandard
@@ -18,7 +28,7 @@ export class FTokenManager extends EntitiesManager<FToken> {
     contractStandard: ContractStandard;
   }): Promise<FToken> {
     if (!this.context) throw new Error('context is not defined');
-    let token = await this.get(FToken, contractAddress);
+    let token = await this.get(contractAddress);
 
     if (!token || (token && (!token.name || !token.symbol))) {
       token = await createFToken({
@@ -45,6 +55,10 @@ export class FTokenManager extends EntitiesManager<FToken> {
  * ::::::::::::: ERC721/ERC1155 TOKEN :::::::::::::
  */
 export class NfTokenManager extends EntitiesManager<NfToken> {
+  constructor(entity: typeof NfToken) {
+    super({ entity });
+  }
+
   async getOrCreate({
     id,
     contractAddress,
@@ -59,7 +73,7 @@ export class NfTokenManager extends EntitiesManager<NfToken> {
     if (!this.context) throw new Error('context is not defined');
 
     const tokenEntityId = getTokenEntityId(contractAddress, id.toString());
-    let token = await this.get(NfToken, tokenEntityId, {
+    let token = await this.get(tokenEntityId, {
       currentOwner: true,
       collection: true
     });

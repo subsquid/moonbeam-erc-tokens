@@ -13,6 +13,10 @@ import {
 } from '../../accountTransfer';
 
 export class AccountsFtTransferManager extends EntitiesManager<AccountFtTransfer> {
+  constructor(entity: typeof AccountFtTransfer) {
+    super({ entity });
+  }
+
   async getOrCreate({
     id = null,
     account,
@@ -25,7 +29,7 @@ export class AccountsFtTransferManager extends EntitiesManager<AccountFtTransfer
     direction: TransferDirection;
   }): Promise<AccountFtTransfer> {
     if (!this.context) throw new Error('context is not defined');
-    let accountTransfer = id ? await this.get(AccountFtTransfer, id) : null;
+    let accountTransfer = id ? await this.get(id) : null;
 
     if (!accountTransfer) {
       accountTransfer = createAccountFtTransfer(account, transfer, direction);
@@ -37,6 +41,11 @@ export class AccountsFtTransferManager extends EntitiesManager<AccountFtTransfer
 }
 
 export class AccountsNftTransferManager extends EntitiesManager<AccountNftTransfer> {
+
+  constructor(entity: typeof AccountNftTransfer) {
+    super({ entity });
+  }
+
   async getOrCreate({
     id = null,
     account,

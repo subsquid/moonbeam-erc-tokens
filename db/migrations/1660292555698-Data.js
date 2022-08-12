@@ -1,5 +1,5 @@
-module.exports = class Data1660061274767 {
-  name = 'Data1660061274767'
+module.exports = class Data1660292555698 {
+  name = 'Data1660292555698'
 
   async up(db) {
     await db.query(`CREATE TABLE "f_token" ("id" character varying NOT NULL, "name" text, "symbol" text, "decimals" integer, CONSTRAINT "PK_da896c08df3022e579355d781b9" PRIMARY KEY ("id"))`)
@@ -37,6 +37,9 @@ module.exports = class Data1660061274767 {
     await db.query(`CREATE TABLE "account_nft_transfer" ("id" character varying NOT NULL, "direction" character varying(4), "transfer_id" character varying, "account_id" character varying NOT NULL, CONSTRAINT "PK_63cecb44d101ea1a54908c34a24" PRIMARY KEY ("id"))`)
     await db.query(`CREATE INDEX "IDX_4574613e26a26d785fa5b8fe41" ON "account_nft_transfer" ("transfer_id") `)
     await db.query(`CREATE INDEX "IDX_4045ba623d506d713d74c4b74d" ON "account_nft_transfer" ("account_id") `)
+    await db.query(`CREATE TABLE "balances_erc20" ("id" character varying NOT NULL, "amount" numeric NOT NULL, "account_id" character varying NOT NULL, "token_id" character varying NOT NULL, CONSTRAINT "PK_64716ca728938bae043a9361a17" PRIMARY KEY ("id"))`)
+    await db.query(`CREATE INDEX "IDX_4308e4e8afe7e4274ec7404624" ON "balances_erc20" ("account_id") `)
+    await db.query(`CREATE INDEX "IDX_61dd4da5a0cbda755e4f50a4ee" ON "balances_erc20" ("token_id") `)
     await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
     await db.query(`ALTER TABLE "ft_transfer" ADD CONSTRAINT "FK_f4243fda4987918294ab60aec5e" FOREIGN KEY ("from_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
     await db.query(`ALTER TABLE "ft_transfer" ADD CONSTRAINT "FK_f81105df1373810287fb884063f" FOREIGN KEY ("to_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
@@ -52,6 +55,8 @@ module.exports = class Data1660061274767 {
     await db.query(`ALTER TABLE "nft_transfer" ADD CONSTRAINT "FK_c769e593930b0d0f4a2ba074367" FOREIGN KEY ("token_id") REFERENCES "nf_token"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
     await db.query(`ALTER TABLE "account_nft_transfer" ADD CONSTRAINT "FK_4574613e26a26d785fa5b8fe418" FOREIGN KEY ("transfer_id") REFERENCES "nft_transfer"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
     await db.query(`ALTER TABLE "account_nft_transfer" ADD CONSTRAINT "FK_4045ba623d506d713d74c4b74d3" FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
+    await db.query(`ALTER TABLE "balances_erc20" ADD CONSTRAINT "FK_4308e4e8afe7e4274ec7404624c" FOREIGN KEY ("account_id") REFERENCES "account"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
+    await db.query(`ALTER TABLE "balances_erc20" ADD CONSTRAINT "FK_61dd4da5a0cbda755e4f50a4ee8" FOREIGN KEY ("token_id") REFERENCES "f_token"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`)
   }
 
   async down(db) {
@@ -90,6 +95,9 @@ module.exports = class Data1660061274767 {
     await db.query(`DROP TABLE "account_nft_transfer"`)
     await db.query(`DROP INDEX "public"."IDX_4574613e26a26d785fa5b8fe41"`)
     await db.query(`DROP INDEX "public"."IDX_4045ba623d506d713d74c4b74d"`)
+    await db.query(`DROP TABLE "balances_erc20"`)
+    await db.query(`DROP INDEX "public"."IDX_4308e4e8afe7e4274ec7404624"`)
+    await db.query(`DROP INDEX "public"."IDX_61dd4da5a0cbda755e4f50a4ee"`)
     await db.query(`DROP TABLE "account"`)
     await db.query(`ALTER TABLE "ft_transfer" DROP CONSTRAINT "FK_f4243fda4987918294ab60aec5e"`)
     await db.query(`ALTER TABLE "ft_transfer" DROP CONSTRAINT "FK_f81105df1373810287fb884063f"`)
@@ -105,5 +113,7 @@ module.exports = class Data1660061274767 {
     await db.query(`ALTER TABLE "nft_transfer" DROP CONSTRAINT "FK_c769e593930b0d0f4a2ba074367"`)
     await db.query(`ALTER TABLE "account_nft_transfer" DROP CONSTRAINT "FK_4574613e26a26d785fa5b8fe418"`)
     await db.query(`ALTER TABLE "account_nft_transfer" DROP CONSTRAINT "FK_4045ba623d506d713d74c4b74d3"`)
+    await db.query(`ALTER TABLE "balances_erc20" DROP CONSTRAINT "FK_4308e4e8afe7e4274ec7404624c"`)
+    await db.query(`ALTER TABLE "balances_erc20" DROP CONSTRAINT "FK_61dd4da5a0cbda755e4f50a4ee8"`)
   }
 }

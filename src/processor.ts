@@ -41,6 +41,7 @@ export type Context = BatchContext<Store, Item>;
 
 processor.run(database, async (ctx: Context) => {
   utils.entity.initAllEntityManagers(ctx);
+  await utils.entity.prefetchEntities(ctx);
 
   for await (const block of ctx.blocks) {
     for await (const item of block.items) {

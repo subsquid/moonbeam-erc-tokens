@@ -1,5 +1,7 @@
-import { Account, Collection, ContractStandard } from '../../../model';
-import { SubstrateBlock } from '@subsquid/substrate-processor';
+import {
+  Collection,
+  ContractStandard
+} from '../../../model';
 import { createCollection } from '../../collections';
 import { EntitiesManager } from './common';
 
@@ -7,6 +9,10 @@ import { EntitiesManager } from './common';
  * ::::::::::::: ERC721/ERC1155 TOKEN COLLECTION :::::::::::::
  */
 export class CollectionManager extends EntitiesManager<Collection> {
+  constructor(entity: typeof Collection) {
+    super({ entity });
+  }
+
   async getOrCreate({
     id,
     contractStandard
@@ -16,7 +22,7 @@ export class CollectionManager extends EntitiesManager<Collection> {
   }): Promise<Collection> {
     if (!this.context) throw new Error('context is not defined');
 
-    let collection = await this.get(Collection, id);
+    let collection = await this.get(id);
 
     if (!collection) {
       collection = createCollection({

@@ -1,4 +1,5 @@
 export * from "./account.model"
+export * from "./balancesErc20.model"
 export * from "./collection.model"
 export * from "./_contractStandard"
 export * from "./nfToken.model"

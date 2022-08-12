@@ -1,8 +1,12 @@
-import { NfToken, UriUpdateAction } from '../../../model';
+import { NfToken, NftTransfer, UriUpdateAction } from '../../../model';
 import { createUriUpdateActions } from '../../uriUpdateActions';
 import { EntitiesManager } from './common';
 
 export class UriUpdateActionsManager extends EntitiesManager<UriUpdateAction> {
+  constructor(entity: typeof UriUpdateAction) {
+    super({ entity });
+  }
+
   async getOrCreate(
     id: string,
     token: NfToken,
@@ -10,7 +14,7 @@ export class UriUpdateActionsManager extends EntitiesManager<UriUpdateAction> {
     oldValue: string | null
   ): Promise<UriUpdateAction> {
     if (!this.context) throw new Error('context is not defined');
-    let uriUpdateAction = await this.get(UriUpdateAction, id);
+    let uriUpdateAction = await this.get(id);
 
     if (!uriUpdateAction) {
       uriUpdateAction = createUriUpdateActions({
