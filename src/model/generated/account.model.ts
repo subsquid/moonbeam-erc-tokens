@@ -2,7 +2,7 @@ import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, O
 import {AccountFtTransfer} from "./accountFtTransfer.model"
 import {AccountNftTransfer} from "./accountNftTransfer.model"
 import {NfToken} from "./nfToken.model"
-import {BalancesErc20} from "./balancesErc20.model"
+import {AccountFTokenBalance} from "./accountFTokenBalance.model"
 
 @Entity_()
 export class Account {
@@ -22,6 +22,6 @@ export class Account {
   @OneToMany_(() => NfToken, e => e.currentOwner)
   ownedTokens!: NfToken[]
 
-  @OneToMany_(() => BalancesErc20, e => e.account)
-  balances!: BalancesErc20[]
+  @OneToMany_(() => AccountFTokenBalance, e => e.account)
+  balancesFToken!: AccountFTokenBalance[]
 }

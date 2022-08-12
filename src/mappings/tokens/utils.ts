@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers';
+import assert from 'assert';
 import { ContractStandard, FToken } from '../../model';
 import { Context } from '../../processor';
 import { addTimeout } from '@subsquid/util-timeout';
@@ -116,4 +117,61 @@ export async function getTokenDetails({
     decimals,
     uri
   };
+}
+
+export async function getTokenBalanceOf({
+  tokenId,
+  accountAddress,
+  contractAddress,
+  contractStandard,
+  ctx
+}: {
+  tokenId?: BigNumber;
+  accountAddress: string;
+  contractAddress: string;
+  contractStandard: ContractStandard;
+  ctx: Context;
+}): Promise<bigint> {
+  let contractInst = null;
+  let balance = null;
+
+  switch (contractStandard) {
+    case ContractStandard.ERC20:
+      contractInst = contracts.getContractErc20({
+        contractAddress,
+        ctx
+      });
+      balance = await addTimeout(
+        contractInst.balanceOf(accountAddress),
+        contractCallTimeout
+      );
+      break;
+    case ContractStandard.ERC721:
+      contractInst = contracts.getContractErc721({
+        contractAddress,
+        ctx
+      });
+      balance = await addTimeout(
+        contractInst.balanceOf(accountAddress),
+        contractCallTimeout
+      );
+      break;
+    case ContractStandard.ERC1155:
+      contractInst = contracts.getContractErc1155({
+        contractAddress,
+        ctx
+      });
+      balance = tokenId
+        ? await addTimeout(
+            contractInst.balanceOf(accountAddress, tokenId),
+            contractCallTimeout
+          )
+        : null;
+      break;
+    default:
+  }
+
+  assert(balance, 'balance is not available');
+
+  return BigInt(balance.toString());
 }

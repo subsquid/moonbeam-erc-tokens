@@ -23,14 +23,16 @@ type Account @entity {
 
   ownedTokens: [NfToken] @derivedFrom(field: "currentOwner")
 
-  balances: [BalancesErc20]! @derivedFrom(field: "account")
+  balancesFToken: [AccountFTokenBalance]! @derivedFrom(field: "account")
 }
 
-type BalancesErc20 @entity {
+type AccountFTokenBalance @entity {
   id: ID! # <account_id>-<token_id>
   account: Account!
   token: FToken!
   amount: BigInt!
+  updatedAtBlock: BigInt!
+  updatedAt: DateTime!
 }
 
 type Collection @entity {

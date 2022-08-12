@@ -24,6 +24,13 @@ export function getAccountTransferEntityId(
   return `${accountId}-${transferId}`;
 }
 
+export function getAccountFTokenBalanceEntityId(
+  accountId: string,
+  tokenId: string
+): string {
+  return `${accountId}-${tokenId}`;
+}
+
 export const isMint = (from: string, to: string) => {
   return from === EMPTY_ADDRESS && to !== EMPTY_ADDRESS;
 };

@@ -4,8 +4,8 @@ import {Account} from "./account.model"
 import {FToken} from "./fToken.model"
 
 @Entity_()
-export class BalancesErc20 {
-  constructor(props?: Partial<BalancesErc20>) {
+export class AccountFTokenBalance {
+  constructor(props?: Partial<AccountFTokenBalance>) {
     Object.assign(this, props)
   }
 
@@ -22,4 +22,10 @@ export class BalancesErc20 {
 
   @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
   amount!: bigint
+
+  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+  updatedAtBlock!: bigint
+
+  @Column_("timestamp with time zone", {nullable: false})
+  updatedAt!: Date
 }

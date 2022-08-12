@@ -3,7 +3,7 @@ import { Context } from '../../processor';
 import * as erc20 from '../../abi/erc20';
 import * as erc721 from '../../abi/erc721';
 import * as erc1155 from '../../abi/erc1155';
-import { getTokenEntityId } from './common';
+import { getAccountFTokenBalanceEntityId, getTokenEntityId } from './common';
 import {
   Account,
   AccountFtTransfer,
@@ -13,7 +13,8 @@ import {
   FtTransfer,
   NfToken,
   NftTransfer,
-  UriUpdateAction
+  UriUpdateAction,
+  AccountFTokenBalance
 } from '../../model';
 
 export function initAllEntityManagers(ctx: Context): void {
@@ -26,6 +27,7 @@ export function initAllEntityManagers(ctx: Context): void {
   nftTransferManager.init(ctx);
   accountsFtTransferManager.init(ctx);
   accountsNftTransferManager.init(ctx);
+  accountFTokenBalancesManager.init(ctx);
 }
 
 export async function saveAllEntities(): Promise<void> {
@@ -38,7 +40,31 @@ export async function saveAllEntities(): Promise<void> {
   await nftTransferManager.saveAll();
   await accountsFtTransferManager.saveAll();
   await accountsNftTransferManager.saveAll();
+  await accountFTokenBalancesManager.saveAll();
 }
+
+export const accountsManager = new entityManagerClasses.AccountsManager(
+  Account
+);
+export const accountFTokenBalancesManager =
+  new entityManagerClasses.AccountFTokenBalancesManager(AccountFTokenBalance);
+export const fTokenManager = new entityManagerClasses.FTokenManager(FToken);
+export const nfTokenManager = new entityManagerClasses.NfTokenManager(NfToken);
+export const uriUpdateActionsManager =
+  new entityManagerClasses.UriUpdateActionsManager(UriUpdateAction);
+export const ftTransferManager = new entityManagerClasses.FtTransferManager(
+  FtTransfer
+);
+export const nftTransferManager = new entityManagerClasses.NftTransferManager(
+  NftTransfer
+);
+export const collectionManager = new entityManagerClasses.CollectionManager(
+  Collection
+);
+export const accountsFtTransferManager =
+  new entityManagerClasses.AccountsFtTransferManager(AccountFtTransfer);
+export const accountsNftTransferManager =
+  new entityManagerClasses.AccountsNftTransferManager(AccountNftTransfer);
 
 export async function prefetchEntities(ctx: Context): Promise<void> {
   for await (const block of ctx.blocks) {
@@ -62,6 +88,16 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
               fTokenManager.addPrefetchItemId(
                 item.event.args.address.toString()
               );
+              accountFTokenBalancesManager.addPrefetchItemId([
+                getAccountFTokenBalanceEntityId(
+                  decodedEvent.from.toString(),
+                  item.event.args.address.toString()
+                ),
+                getAccountFTokenBalanceEntityId(
+                  decodedEvent.to.toString(),
+                  item.event.args.address.toString()
+                )
+              ]);
             } catch (e) {
               try {
                 decodedEvent = erc721.events[
@@ -160,25 +196,8 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
     currentOwner: true,
     collection: true
   });
+  await accountFTokenBalancesManager.prefetchEntities({
+    token: true,
+    account: true
+  });
 }
-
-export const accountsManager = new entityManagerClasses.AccountsManager(
-  Account
-);
-export const fTokenManager = new entityManagerClasses.FTokenManager(FToken);
-export const nfTokenManager = new entityManagerClasses.NfTokenManager(NfToken);
-export const uriUpdateActionsManager =
-  new entityManagerClasses.UriUpdateActionsManager(UriUpdateAction);
-export const ftTransferManager = new entityManagerClasses.FtTransferManager(
-  FtTransfer
-);
-export const nftTransferManager = new entityManagerClasses.NftTransferManager(
-  NftTransfer
-);
-export const collectionManager = new entityManagerClasses.CollectionManager(
-  Collection
-);
-export const accountsFtTransferManager =
-  new entityManagerClasses.AccountsFtTransferManager(AccountFtTransfer);
-export const accountsNftTransferManager =
-  new entityManagerClasses.AccountsNftTransferManager(AccountNftTransfer);
