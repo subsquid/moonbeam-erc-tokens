@@ -50,17 +50,33 @@ export class EntitiesManager<Entity extends EntityWithId> {
       this.preprocessingItemIdsList.length === 0
     )
       return;
-    const fetchRes = await this.context.store.find(this.entity, {
-      where: this.preprocessingItemIdsList.map(
-        (id): FindOptionsWhere<Entity> => {
-          // @ts-ignore
-          return { id };
-        }
-      ),
-      ...(!!relations && { relations })
-    });
 
-    fetchRes.forEach((item) => this.add(item));
+    const chunkSize = 1000;
+    const chunks = [];
+    for (let i = 0; i < this.preprocessingItemIdsList.length; i += chunkSize) {
+      const chunk = this.preprocessingItemIdsList.slice(i, i + chunkSize);
+      chunks.push(chunk);
+    }
+
+    const chunksRes = await Promise.allSettled(
+      chunks.map((chunk) => {
+        if (!this.context) return Promise.resolve([]);
+
+        return this.context.store.find(this.entity, {
+          where: chunk.map((id): FindOptionsWhere<Entity> => {
+            // @ts-ignore
+            return { id };
+          }),
+          ...(!!relations && { relations })
+        });
+      })
+    );
+
+    for (const chunkResItem of chunksRes) {
+      if (chunkResItem.status === 'fulfilled' && chunkResItem.value.length > 0)
+        chunkResItem.value.forEach((item) => this.add(item));
+    }
+
     this.resetPrefetchItemIdsList();
   }
 
