@@ -2,6 +2,7 @@ import type { FindOptionsRelations } from 'typeorm';
 import { FindOneOptions, EntityClass } from '@subsquid/typeorm-store';
 import { Context } from '../../../processor';
 import { FindOptionsWhere } from 'typeorm';
+import { splitIntoBatches } from '../common';
 
 interface EntityWithId {
   id: string;
@@ -51,30 +52,17 @@ export class EntitiesManager<Entity extends EntityWithId> {
     )
       return;
 
-    const chunkSize = 1000;
-    const chunks = [];
-    for (let i = 0; i < this.preprocessingItemIdsList.length; i += chunkSize) {
-      const chunk = this.preprocessingItemIdsList.slice(i, i + chunkSize);
-      chunks.push(chunk);
-    }
+    for (const chunk of splitIntoBatches(this.preprocessingItemIdsList, 1000)) {
+      const chunkRes = await this.context.store.find(this.entity, {
+        where: chunk.map((id): FindOptionsWhere<Entity> => {
+          return { id } as FindOptionsWhere<Entity>;
+        }),
+        ...(!!relations && { relations })
+      });
 
-    const chunksRes = await Promise.allSettled(
-      chunks.map((chunk) => {
-        if (!this.context) return Promise.resolve([]);
-
-        return this.context.store.find(this.entity, {
-          where: chunk.map((id): FindOptionsWhere<Entity> => {
-            // @ts-ignore
-            return { id };
-          }),
-          ...(!!relations && { relations })
-        });
-      })
-    );
-
-    for (const chunkResItem of chunksRes) {
-      if (chunkResItem.status === 'fulfilled' && chunkResItem.value.length > 0)
-        chunkResItem.value.forEach((item) => this.add(item));
+      for (const chunkResItem of chunkRes) {
+        this.add(chunkResItem);
+      }
     }
 
     this.resetPrefetchItemIdsList();
