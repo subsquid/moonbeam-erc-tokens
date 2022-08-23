@@ -13,7 +13,7 @@ export class EntitiesManager<Entity extends EntityWithId> {
 
   entity: EntityClass<Entity>;
 
-  preprocessingItemIdsList: string[] = [];
+  prefetchItemIdsList: string[] = [];
 
   entitiesMap: Map<string, Entity> = new Map();
 
@@ -30,29 +30,41 @@ export class EntitiesManager<Entity extends EntityWithId> {
     this.entitiesMap.set(entity.id, entity);
   }
 
+  /**
+   * Add entity ID to the list for prefetch process.
+   */
   addPrefetchItemId(itemIdOrList: string | string[]): void {
     if (Array.isArray(itemIdOrList)) {
-      this.preprocessingItemIdsList.push(...itemIdOrList);
+      this.prefetchItemIdsList.push(...itemIdOrList);
     } else {
-      this.preprocessingItemIdsList.push(itemIdOrList);
+      this.prefetchItemIdsList.push(itemIdOrList);
     }
   }
 
+  /**
+   * Clear collected list of entity IDs for prefetch process.
+   */
   resetPrefetchItemIdsList(): void {
-    this.preprocessingItemIdsList = [];
+    this.prefetchItemIdsList = [];
   }
 
+  /**
+   * Prefetch entities which are collected in the beginning of the batch
+   * data processing flow.
+   *
+   * @param relations
+   */
   async prefetchEntities(
     relations?: FindOptionsRelations<Entity>
   ): Promise<void> {
     if (!this.context) throw new Error('context is not defined');
     if (
-      !this.preprocessingItemIdsList ||
-      this.preprocessingItemIdsList.length === 0
+      !this.prefetchItemIdsList ||
+      this.prefetchItemIdsList.length === 0
     )
       return;
 
-    for (const chunk of splitIntoBatches(this.preprocessingItemIdsList, 1000)) {
+    for (const chunk of splitIntoBatches(this.prefetchItemIdsList, 1000)) {
       const chunkRes = await this.context.store.find(this.entity, {
         where: chunk.map((id): FindOptionsWhere<Entity> => {
           return { id } as FindOptionsWhere<Entity>;
@@ -69,10 +81,11 @@ export class EntitiesManager<Entity extends EntityWithId> {
   }
 
   /**
-   * Method returns entity item ONLY by its "ID"
+   * Get entity by ID either from local cache or DB, if it's not existing in
+   * local cache ("entitiesMap").
    *
-   * @param id
-   * @param relations
+   * @param id: string
+   * @param relations?: FindOptionsRelations<Entity>
    */
   async get(
     id: string,
@@ -94,6 +107,10 @@ export class EntitiesManager<Entity extends EntityWithId> {
     return item;
   }
 
+  /**
+   * Save all entities from local cache at once.
+   * This action should be evoked in the end of batch data processing flow.
+   */
   async saveAll(): Promise<void> {
     if (!this.context) throw new Error('context is not defined');
     await this.context.store.save([...this.entitiesMap.values()]);
