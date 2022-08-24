@@ -67,8 +67,8 @@ export const accountsNftTransferManager =
   new entityManagerClasses.AccountsNftTransferManager(AccountNftTransfer);
 
 export async function prefetchEntities(ctx: Context): Promise<void> {
-  for await (const block of ctx.blocks) {
-    for await (const item of block.items) {
+  for (const block of ctx.blocks) {
+    for (const item of block.items) {
       if (item.name === 'EVM.Log') {
         let decodedEvent = null;
         switch (item.event.args.topics[0]) {
