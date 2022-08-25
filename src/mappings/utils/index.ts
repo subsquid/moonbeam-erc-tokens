@@ -9,8 +9,10 @@ import {
   collectionManager,
   accountsFtTransferManager,
   accountsNftTransferManager,
+  accountFTokenBalancesManager,
   initAllEntityManagers,
-  saveAllEntities
+  saveAllEntities,
+  prefetchEntities,
 } from './entityUtils';
 
 import { blockContextManager } from './blockContextUtils';
@@ -25,7 +27,9 @@ export const entity = {
   collectionManager,
   accountsFtTransferManager,
   accountsNftTransferManager,
+  accountFTokenBalancesManager,
   initAllEntityManagers,
-  saveAllEntities
+  saveAllEntities,
+  prefetchEntities
 };
 export const common = { getTokenEntityId, blockContextManager };

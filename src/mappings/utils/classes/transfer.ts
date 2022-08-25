@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 import {
   ContractStandard,
+  FToken,
   FtTransfer,
   NftTransfer,
   TransferType
@@ -19,6 +20,10 @@ import * as utils from '../index';
  * ::::::::::::: TRANSFERS ERC20 TOKEN :::::::::::::
  */
 export class FtTransferManager extends EntitiesManager<FtTransfer> {
+  constructor(entity: typeof FtTransfer) {
+    super({ entity });
+  }
+
   async getOrCreate({
     from,
     to,
@@ -59,6 +64,10 @@ export class FtTransferManager extends EntitiesManager<FtTransfer> {
  * ::::::::::::: TRANSFERS ERC721/ERC1155 TOKEN :::::::::::::
  */
 export class NftTransferManager extends EntitiesManager<NftTransfer> {
+  constructor(entity: typeof NftTransfer) {
+    super({ entity });
+  }
+
   async getOrCreate({
     from,
     to,

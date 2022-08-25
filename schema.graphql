@@ -22,6 +22,17 @@ type Account @entity {
   nftTransfers: [AccountNftTransfer] @derivedFrom(field: "account")
 
   ownedTokens: [NfToken] @derivedFrom(field: "currentOwner")
+
+  balancesFToken: [AccountFTokenBalance]! @derivedFrom(field: "account")
+}
+
+type AccountFTokenBalance @entity {
+  id: ID! # <account_id>-<token_id>
+  account: Account!
+  token: FToken!
+  amount: BigInt!
+  updatedAtBlock: BigInt!
+  updatedAt: DateTime!
 }
 
 type Collection @entity {

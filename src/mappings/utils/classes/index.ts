@@ -7,3 +7,4 @@ export {
   AccountsFtTransferManager,
   AccountsNftTransferManager
 } from './accountTransfer';
+export { AccountFTokenBalancesManager } from './accountFTokenBalance';

@@ -4,8 +4,6 @@ import { Context } from '../../processor';
 import * as utils from '../utils';
 
 import { getTokenDetails } from './utils';
-import * as erc1155 from '../../abi/erc1155';
-import { getTokenEntityId } from '../utils/common';
 
 export async function createNfToken({
   id,

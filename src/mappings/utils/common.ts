@@ -24,15 +24,22 @@ export function getAccountTransferEntityId(
   return `${accountId}-${transferId}`;
 }
 
-export const isMint = (from: string, to: string) => {
+export function getAccountFTokenBalanceEntityId(
+  accountId: string,
+  tokenId: string
+): string {
+  return `${accountId}-${tokenId}`;
+}
+
+export function isMint(from: string, to: string): boolean {
   return from === EMPTY_ADDRESS && to !== EMPTY_ADDRESS;
-};
+}
 
-export const isBurn = (from: string, to: string) => {
+export function isBurn(from: string, to: string): boolean {
   return to === EMPTY_ADDRESS && from !== EMPTY_ADDRESS;
-};
+}
 
-export const getTransferType = (from: string, to: string): TransferType => {
+export function getTransferType(from: string, to: string): TransferType {
   if (isMint(from, to)) {
     return TransferType.MINT;
   }
@@ -41,13 +48,13 @@ export const getTransferType = (from: string, to: string): TransferType => {
   }
 
   return TransferType.TRANSFER;
-};
+}
 
-export const getTokenTotalSupply = (
+export function getTokenTotalSupply(
   currentAmount: bigint,
   newAmount: bigint,
   txType: TransferType
-): bigint => {
+): bigint {
   let newValue = currentAmount;
 
   switch (txType) {
@@ -74,8 +81,24 @@ export const getTokenTotalSupply = (
   }
 
   return newValue >= BigInt(0) ? newValue : BigInt(0);
-};
+}
 
-export const getTokenBurnedStatus = (currentAmount: BigInt): boolean => {
+export function getTokenBurnedStatus(currentAmount: BigInt): boolean {
   return currentAmount <= BigInt(0);
-};
+}
+
+export function* splitIntoBatches<T>(
+  list: T[],
+  maxBatchSize: number
+): Generator<T[]> {
+  if (list.length <= maxBatchSize) {
+    yield list;
+  } else {
+    let offset = 0;
+    while (list.length - offset > maxBatchSize) {
+      yield list.slice(offset, offset + maxBatchSize);
+      offset += maxBatchSize;
+    }
+    yield list.slice(offset);
+  }
+}
