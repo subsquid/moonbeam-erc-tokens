@@ -14,7 +14,13 @@ export class BlockContextManager {
 
   getCurrentEvent(): EvmLogEvent {
     assert(this.event, 'Current event is not available');
-    return this.event;
+    const eventDecorated = this.event;
+    if ('log' in eventDecorated.args && !('topics' in eventDecorated.args))
+      eventDecorated.args = {
+        ...this.event.args,
+        ...this.event.args.log
+      };
+    return eventDecorated;
   }
 
   getCurrentBlock(): SubstrateBlock {

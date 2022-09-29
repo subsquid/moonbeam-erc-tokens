@@ -47,7 +47,7 @@ processor.run(database, async (ctx: Context) => {
     for (const item of block.items) {
       if (item.name === 'EVM.Log') {
         utils.common.blockContextManager.init(block.header, item.event);
-        switch (item.event.args.topics[0]) {
+        switch ((item.event.args.log || item.event.args).topics[0]) {
           case erc20.events['Transfer(address,address,uint256)'].topic:
           case erc721.events['Transfer(address,address,uint256)'].topic:
             try {

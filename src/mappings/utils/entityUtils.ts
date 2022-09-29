@@ -71,7 +71,8 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
     for (const item of block.items) {
       if (item.name === 'EVM.Log') {
         let decodedEvent = null;
-        switch (item.event.args.topics[0]) {
+        const evmLogArgs = item.event.args.log || item.event.args;
+        switch (evmLogArgs.topics[0]) {
           /**
            * ===================================================================
            */
@@ -80,41 +81,41 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
             try {
               decodedEvent = erc20.events[
                 'Transfer(address,address,uint256)'
-              ].decode(item.event.args);
+              ].decode(evmLogArgs);
               accountsManager.addPrefetchItemId([
                 decodedEvent.from,
                 decodedEvent.to
               ]);
               fTokenManager.addPrefetchItemId(
-                item.event.args.address.toString()
+                evmLogArgs.address.toString()
               );
               accountFTokenBalancesManager.addPrefetchItemId([
                 getAccountFTokenBalanceEntityId(
                   decodedEvent.from.toString(),
-                  item.event.args.address.toString()
+                  evmLogArgs.address.toString()
                 ),
                 getAccountFTokenBalanceEntityId(
                   decodedEvent.to.toString(),
-                  item.event.args.address.toString()
+                  evmLogArgs.address.toString()
                 )
               ]);
             } catch (e) {
               try {
                 decodedEvent = erc721.events[
                   'Transfer(address,address,uint256)'
-                ].decode(item.event.args);
+                ].decode(evmLogArgs);
                 accountsManager.addPrefetchItemId([
                   decodedEvent.from,
                   decodedEvent.to
                 ]);
                 nfTokenManager.addPrefetchItemId(
                   getTokenEntityId(
-                    item.event.args.address.toString(),
+                    evmLogArgs.address.toString(),
                     decodedEvent.tokenId.toString()
                   )
                 );
                 collectionManager.addPrefetchItemId(
-                  item.event.args.address.toString()
+                  evmLogArgs.address.toString()
                 );
               } catch (err) {}
             }
@@ -128,7 +129,7 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
           ].topic:
             decodedEvent = erc1155.events[
               'TransferBatch(address,address,address,uint256[],uint256[])'
-            ].decode(item.event.args);
+            ].decode(evmLogArgs);
             accountsManager.addPrefetchItemId([
               decodedEvent.operator,
               decodedEvent.from,
@@ -137,13 +138,13 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
             nfTokenManager.addPrefetchItemId(
               decodedEvent.ids.map((id) =>
                 getTokenEntityId(
-                  item.event.args.address.toString(),
+                  evmLogArgs.address.toString(),
                   id.toString()
                 )
               )
             );
             collectionManager.addPrefetchItemId(
-              item.event.args.address.toString()
+              evmLogArgs.address.toString()
             );
             break;
           /**
@@ -154,7 +155,7 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
           ].topic:
             decodedEvent = erc1155.events[
               'TransferSingle(address,address,address,uint256,uint256)'
-            ].decode(item.event.args);
+            ].decode(evmLogArgs);
             accountsManager.addPrefetchItemId([
               decodedEvent.operator,
               decodedEvent.from,
@@ -162,12 +163,12 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
             ]);
             nfTokenManager.addPrefetchItemId(
               getTokenEntityId(
-                item.event.args.address.toString(),
+                evmLogArgs.address.toString(),
                 decodedEvent.id.toString()
               )
             );
             collectionManager.addPrefetchItemId(
-              item.event.args.address.toString()
+              evmLogArgs.address.toString()
             );
             break;
           /**
@@ -175,11 +176,11 @@ export async function prefetchEntities(ctx: Context): Promise<void> {
            */
           case erc1155.events['URI(string,uint256)'].topic:
             decodedEvent = erc1155.events['URI(string,uint256)'].decode(
-              item.event.args
+              evmLogArgs
             );
             nfTokenManager.addPrefetchItemId(
               getTokenEntityId(
-                item.event.args.address.toString(),
+                evmLogArgs.address.toString(),
                 decodedEvent.id.toString()
               )
             );
