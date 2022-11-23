@@ -1,4 +1,4 @@
-import type {Result} from './support'
+import type {Result, Option} from './support'
 
 export type V2Outcome = V2Outcome_Complete | V2Outcome_Incomplete | V2Outcome_Error
 
@@ -2053,11 +2053,11 @@ export interface EVMCall_call {
   source: Uint8Array
   target: Uint8Array
   input: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -2069,11 +2069,11 @@ export interface EVMCall_create {
   __kind: 'create'
   source: Uint8Array
   init: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -2085,11 +2085,11 @@ export interface EVMCall_create2 {
   source: Uint8Array
   init: Uint8Array
   salt: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -2113,7 +2113,7 @@ export type BaseFeeCall = BaseFeeCall_set_base_fee_per_gas | BaseFeeCall_set_is_
 
 export interface BaseFeeCall_set_base_fee_per_gas {
   __kind: 'set_base_fee_per_gas'
-  fee: bigint[]
+  fee: bigint
 }
 
 export interface BaseFeeCall_set_is_active {
@@ -5516,22 +5516,22 @@ export interface InboundHrmpMessage {
 }
 
 export interface LegacyTransaction {
-  nonce: bigint[]
-  gasPrice: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  gasPrice: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   signature: TransactionSignature
 }
 
 export interface EIP2930Transaction {
   chainId: bigint
-  nonce: bigint[]
-  gasPrice: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  gasPrice: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   accessList: AccessListItem[]
   oddYParity: boolean
@@ -5541,12 +5541,12 @@ export interface EIP2930Transaction {
 
 export interface EIP1559Transaction {
   chainId: bigint
-  nonce: bigint[]
-  maxPriorityFeePerGas: bigint[]
-  maxFeePerGas: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  maxPriorityFeePerGas: bigint
+  maxFeePerGas: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   accessList: AccessListItem[]
   oddYParity: boolean

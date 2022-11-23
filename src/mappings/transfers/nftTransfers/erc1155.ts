@@ -41,9 +41,9 @@ export async function handleErc1155TransferSingle(): Promise<void> {
 export async function handleErc1155TransferBatch(): Promise<void> {
   const event = utils.common.blockContextManager.getCurrentEvent();
 
-  const { operator, from, to, ids, values } = erc1155.events[
+  const [operator, from, to, ids, values] = erc1155.events[
     'TransferBatch(address,address,address,uint256[],uint256[])'
-  ].decode(event.args);
+    ].decode(event.args);
 
   for (let i = 0; i < ids.length; i++) {
     const transfer = await utils.entity.nftTransferManager.getOrCreate({

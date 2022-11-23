@@ -27,11 +27,11 @@ export class FtTransfer {
   txnHash!: string
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: false})
+  @ManyToOne_(() => Account, {nullable: true})
   from!: Account
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: false})
+  @ManyToOne_(() => Account, {nullable: true})
   to!: Account
 
   @Index_()
@@ -43,6 +43,6 @@ export class FtTransfer {
   transferType!: TransferType | undefined | null
 
   @Index_()
-  @ManyToOne_(() => FToken, {nullable: false})
+  @ManyToOne_(() => FToken, {nullable: true})
   token!: FToken
 }

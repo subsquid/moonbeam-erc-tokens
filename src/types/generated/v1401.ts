@@ -1,4 +1,4 @@
-import type {Result} from './support'
+import type {Result, Option} from './support'
 
 export type AssetType = AssetType_Xcm
 
@@ -12,6 +12,39 @@ export interface AssetRegistrarMetadata {
   symbol: Uint8Array
   decimals: number
   isFrozen: boolean
+}
+
+export type Type_42 = Type_42_Ok | Type_42_Err
+
+export interface Type_42_Ok {
+  __kind: 'Ok'
+}
+
+export interface Type_42_Err {
+  __kind: 'Err'
+  value: DispatchError
+}
+
+export type ExitReason = ExitReason_Succeed | ExitReason_Error | ExitReason_Revert | ExitReason_Fatal
+
+export interface ExitReason_Succeed {
+  __kind: 'Succeed'
+  value: ExitSucceed
+}
+
+export interface ExitReason_Error {
+  __kind: 'Error'
+  value: ExitError
+}
+
+export interface ExitReason_Revert {
+  __kind: 'Revert'
+  value: ExitRevert
+}
+
+export interface ExitReason_Fatal {
+  __kind: 'Fatal'
+  value: ExitFatal
 }
 
 export type DispatchError = DispatchError_Other | DispatchError_CannotLookup | DispatchError_BadOrigin | DispatchError_Module | DispatchError_ConsumerRemaining | DispatchError_NoProviders | DispatchError_TooManyConsumers | DispatchError_Token | DispatchError_Arithmetic
@@ -53,28 +86,6 @@ export interface DispatchError_Token {
 export interface DispatchError_Arithmetic {
   __kind: 'Arithmetic'
   value: ArithmeticError
-}
-
-export type ExitReason = ExitReason_Succeed | ExitReason_Error | ExitReason_Revert | ExitReason_Fatal
-
-export interface ExitReason_Succeed {
-  __kind: 'Succeed'
-  value: ExitSucceed
-}
-
-export interface ExitReason_Error {
-  __kind: 'Error'
-  value: ExitError
-}
-
-export interface ExitReason_Revert {
-  __kind: 'Revert'
-  value: ExitRevert
-}
-
-export interface ExitReason_Fatal {
-  __kind: 'Fatal'
-  value: ExitFatal
 }
 
 export interface DispatchInfo {
@@ -372,55 +383,6 @@ export interface V0OriginKind_Xcm {
   __kind: 'Xcm'
 }
 
-export interface ModuleError {
-  index: number
-  error: number
-}
-
-export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
-
-export interface TokenError_NoFunds {
-  __kind: 'NoFunds'
-}
-
-export interface TokenError_WouldDie {
-  __kind: 'WouldDie'
-}
-
-export interface TokenError_BelowMinimum {
-  __kind: 'BelowMinimum'
-}
-
-export interface TokenError_CannotCreate {
-  __kind: 'CannotCreate'
-}
-
-export interface TokenError_UnknownAsset {
-  __kind: 'UnknownAsset'
-}
-
-export interface TokenError_Frozen {
-  __kind: 'Frozen'
-}
-
-export interface TokenError_Unsupported {
-  __kind: 'Unsupported'
-}
-
-export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
-
-export interface ArithmeticError_Underflow {
-  __kind: 'Underflow'
-}
-
-export interface ArithmeticError_Overflow {
-  __kind: 'Overflow'
-}
-
-export interface ArithmeticError_DivisionByZero {
-  __kind: 'DivisionByZero'
-}
-
 export type ExitSucceed = ExitSucceed_Stopped | ExitSucceed_Returned | ExitSucceed_Suicided
 
 export interface ExitSucceed_Stopped {
@@ -522,6 +484,55 @@ export interface ExitFatal_CallErrorAsFatal {
 export interface ExitFatal_Other {
   __kind: 'Other'
   value: string
+}
+
+export interface ModuleError {
+  index: number
+  error: number
+}
+
+export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
+
+export interface TokenError_NoFunds {
+  __kind: 'NoFunds'
+}
+
+export interface TokenError_WouldDie {
+  __kind: 'WouldDie'
+}
+
+export interface TokenError_BelowMinimum {
+  __kind: 'BelowMinimum'
+}
+
+export interface TokenError_CannotCreate {
+  __kind: 'CannotCreate'
+}
+
+export interface TokenError_UnknownAsset {
+  __kind: 'UnknownAsset'
+}
+
+export interface TokenError_Frozen {
+  __kind: 'Frozen'
+}
+
+export interface TokenError_Unsupported {
+  __kind: 'Unsupported'
+}
+
+export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
+
+export interface ArithmeticError_Underflow {
+  __kind: 'Underflow'
+}
+
+export interface ArithmeticError_Overflow {
+  __kind: 'Overflow'
+}
+
+export interface ArithmeticError_DivisionByZero {
+  __kind: 'DivisionByZero'
 }
 
 export type DispatchClass = DispatchClass_Normal | DispatchClass_Operational | DispatchClass_Mandatory
@@ -1944,11 +1955,11 @@ export interface EVMCall_call {
   source: Uint8Array
   target: Uint8Array
   input: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -1960,11 +1971,11 @@ export interface EVMCall_create {
   __kind: 'create'
   source: Uint8Array
   init: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -1976,11 +1987,11 @@ export interface EVMCall_create2 {
   source: Uint8Array
   init: Uint8Array
   salt: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  maxFeePerGas: bigint[]
-  maxPriorityFeePerGas: (bigint[] | undefined)
-  nonce: (bigint[] | undefined)
+  maxFeePerGas: bigint
+  maxPriorityFeePerGas: (bigint | undefined)
+  nonce: (bigint | undefined)
   accessList: [Uint8Array, Uint8Array[]][]
 }
 
@@ -2012,7 +2023,7 @@ export type BaseFeeCall = BaseFeeCall_set_base_fee_per_gas | BaseFeeCall_set_is_
 
 export interface BaseFeeCall_set_base_fee_per_gas {
   __kind: 'set_base_fee_per_gas'
-  fee: bigint[]
+  fee: bigint
 }
 
 export interface BaseFeeCall_set_is_active {
@@ -5529,22 +5540,22 @@ export interface InboundHrmpMessage {
 }
 
 export interface LegacyTransaction {
-  nonce: bigint[]
-  gasPrice: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  gasPrice: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   signature: TransactionSignature
 }
 
 export interface EIP2930Transaction {
   chainId: bigint
-  nonce: bigint[]
-  gasPrice: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  gasPrice: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   accessList: AccessListItem[]
   oddYParity: boolean
@@ -5554,12 +5565,12 @@ export interface EIP2930Transaction {
 
 export interface EIP1559Transaction {
   chainId: bigint
-  nonce: bigint[]
-  maxPriorityFeePerGas: bigint[]
-  maxFeePerGas: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  maxPriorityFeePerGas: bigint
+  maxFeePerGas: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   accessList: AccessListItem[]
   oddYParity: boolean

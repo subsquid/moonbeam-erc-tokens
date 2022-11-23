@@ -25,7 +25,7 @@ export class NfToken {
   symbol!: string | undefined | null
 
   @Index_()
-  @ManyToOne_(() => Collection, {nullable: false})
+  @ManyToOne_(() => Collection, {nullable: true})
   collection!: Collection
 
   @Column_("text", {nullable: true})
@@ -35,7 +35,7 @@ export class NfToken {
   uriUpdateActions!: UriUpdateAction[]
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: false})
+  @ManyToOne_(() => Account, {nullable: true})
   currentOwner!: Account
 
   @Index_()

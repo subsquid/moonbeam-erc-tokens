@@ -3,53 +3,70 @@ import assert from "assert";
 
 export const abi = new ethers.utils.Interface(getJsonAbi());
 
-export interface Approval0Event {
-  owner: string;
-  spender: string;
-  value: ethers.BigNumber;
-}
+export type Approval0Event = ([owner: string, spender: string, value: ethers.BigNumber] & {owner: string, spender: string, value: ethers.BigNumber})
 
-export interface Transfer0Event {
-  from: string;
-  to: string;
-  value: ethers.BigNumber;
-}
+export type Transfer0Event = ([from: string, to: string, value: ethers.BigNumber] & {from: string, to: string, value: ethers.BigNumber})
 
-export interface EvmEvent {
+export interface EvmLog {
   data: string;
   topics: string[];
 }
 
+function decodeEvent(signature: string, data: EvmLog): any {
+  return abi.decodeEventLog(
+    abi.getEvent(signature),
+    data.data || "",
+    data.topics
+  );
+}
+
 export const events = {
-  "Approval(address,address,uint256)":  {
+  "Approval(address,address,uint256)": {
     topic: abi.getEventTopic("Approval(address,address,uint256)"),
-    decode(data: EvmEvent): Approval0Event {
-      const result = abi.decodeEventLog(
-        abi.getEvent("Approval(address,address,uint256)"),
-        data.data || "",
-        data.topics
-      );
-      return  {
-        owner: result[0],
-        spender: result[1],
-        value: result[2],
-      }
+    decode(data: EvmLog): Approval0Event {
+      return decodeEvent("Approval(address,address,uint256)", data)
     }
   }
   ,
-  "Transfer(address,address,uint256)":  {
+  "Transfer(address,address,uint256)": {
     topic: abi.getEventTopic("Transfer(address,address,uint256)"),
-    decode(data: EvmEvent): Transfer0Event {
-      const result = abi.decodeEventLog(
-        abi.getEvent("Transfer(address,address,uint256)"),
-        data.data || "",
-        data.topics
-      );
-      return  {
-        from: result[0],
-        to: result[1],
-        value: result[2],
-      }
+    decode(data: EvmLog): Transfer0Event {
+      return decodeEvent("Transfer(address,address,uint256)", data)
+    }
+  }
+  ,
+}
+
+export type Approve0Function = ([_spender: string, _value: ethers.BigNumber] & {_spender: string, _value: ethers.BigNumber})
+
+export type TransferFrom0Function = ([_from: string, _to: string, _value: ethers.BigNumber] & {_from: string, _to: string, _value: ethers.BigNumber})
+
+export type Transfer0Function = ([_to: string, _value: ethers.BigNumber] & {_to: string, _value: ethers.BigNumber})
+
+
+function decodeFunction(data: string): any {
+  return abi.decodeFunctionData(data.slice(0, 10), data)
+}
+
+export const functions = {
+  "approve(address,uint256)": {
+    sighash: abi.getSighash("approve(address,uint256)"),
+    decode(input: string): Approve0Function {
+      return decodeFunction(input)
+    }
+  }
+  ,
+  "transferFrom(address,address,uint256)": {
+    sighash: abi.getSighash("transferFrom(address,address,uint256)"),
+    decode(input: string): TransferFrom0Function {
+      return decodeFunction(input)
+    }
+  }
+  ,
+  "transfer(address,uint256)": {
+    sighash: abi.getSighash("transfer(address,uint256)"),
+    decode(input: string): Transfer0Function {
+      return decodeFunction(input)
     }
   }
   ,
@@ -94,41 +111,36 @@ export class Contract  {
     }
   }
 
-  private async call(name: string, args: any[]) : Promise<ReadonlyArray<any>> {
-    const fragment = abi.getFunction(name)
-    const data = abi.encodeFunctionData(fragment, args)
-    const result = await this._chain.client.call('eth_call', [{to: this.address, data}, this.blockHeight])
-    return abi.decodeFunctionResult(fragment, result)
-  }
-
   async name(): Promise<string> {
-    const result = await this.call("name", [])
-    return result[0]
+    return this.call("name", [])
   }
 
   async totalSupply(): Promise<ethers.BigNumber> {
-    const result = await this.call("totalSupply", [])
-    return result[0]
+    return this.call("totalSupply", [])
   }
 
   async decimals(): Promise<number> {
-    const result = await this.call("decimals", [])
-    return result[0]
+    return this.call("decimals", [])
   }
 
   async balanceOf(_owner: string): Promise<ethers.BigNumber> {
-    const result = await this.call("balanceOf", [_owner])
-    return result[0]
+    return this.call("balanceOf", [_owner])
   }
 
   async symbol(): Promise<string> {
-    const result = await this.call("symbol", [])
-    return result[0]
+    return this.call("symbol", [])
   }
 
   async allowance(_owner: string, _spender: string): Promise<ethers.BigNumber> {
-    const result = await this.call("allowance", [_owner, _spender])
-    return result[0]
+    return this.call("allowance", [_owner, _spender])
+  }
+
+  private async call(name: string, args: any[]) : Promise<any> {
+    const fragment = abi.getFunction(name)
+    const data = abi.encodeFunctionData(fragment, args)
+    const result = await this._chain.client.call('eth_call', [{to: this.address, data}, this.blockHeight])
+    const decoded = abi.decodeFunctionResult(fragment, result)
+    return decoded.length > 1 ? decoded : decoded[0]
   }
 }
 

@@ -14,7 +14,6 @@ import * as utils from './mappings/utils';
 
 const database = new TypeormDatabase();
 const processor = new SubstrateBatchProcessor()
-  .setBatchSize(config.batchSize)
   .setDataSource({
     chain: config.chainNode,
     archive: lookupArchive(config.archiveName, { release: 'FireSquid' })

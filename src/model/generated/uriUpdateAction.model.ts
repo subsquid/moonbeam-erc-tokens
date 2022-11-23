@@ -12,7 +12,7 @@ export class UriUpdateAction {
   id!: string
 
   @Index_()
-  @ManyToOne_(() => NfToken, {nullable: false})
+  @ManyToOne_(() => NfToken, {nullable: true})
   token!: NfToken
 
   @Column_("text", {nullable: true})

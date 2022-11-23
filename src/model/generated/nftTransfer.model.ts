@@ -27,11 +27,11 @@ export class NftTransfer {
   txnHash!: string
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: false})
+  @ManyToOne_(() => Account, {nullable: true})
   from!: Account
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: false})
+  @ManyToOne_(() => Account, {nullable: true})
   to!: Account
 
   @Index_()
@@ -47,7 +47,7 @@ export class NftTransfer {
   transferType!: TransferType | undefined | null
 
   @Index_()
-  @ManyToOne_(() => NfToken, {nullable: false})
+  @ManyToOne_(() => NfToken, {nullable: true})
   token!: NfToken
 
   @Column_("bool", {nullable: false})

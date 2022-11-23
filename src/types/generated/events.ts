@@ -1,5 +1,5 @@
 import assert from 'assert'
-import {Chain, ChainContext, EventContext, Event, Result} from './support'
+import {Chain, ChainContext, EventContext, Event, Result, Option} from './support'
 import * as v900 from './v900'
 import * as v1001 from './v1001'
 import * as v1201 from './v1201'
@@ -8,6 +8,8 @@ import * as v1401 from './v1401'
 import * as v1502 from './v1502'
 import * as v1606 from './v1606'
 import * as v1701 from './v1701'
+import * as v1802 from './v1802'
+import * as v1901 from './v1901'
 
 export class AssetManagerAssetRegisteredEvent {
   private readonly _chain: Chain
@@ -1702,6 +1704,15 @@ export class BaseFeeIsActiveEvent {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('BaseFee.IsActive') === '3add098d9e97883d6727546805c06a15ec2e3d4dd29382f81a6061d644cf503d'
+  }
+
+  get asV1802(): {isActive: boolean} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class BaseFeeNewBaseFeePerGasEvent {
@@ -1718,11 +1729,20 @@ export class BaseFeeNewBaseFeePerGasEvent {
   }
 
   get isV1201(): boolean {
-    return this._chain.getEventHash('BaseFee.NewBaseFeePerGas') === 'a70e61c66fb8f25a6ad950b70e508f5c9272e4478f62c480403898c0a5cae6de'
+    return this._chain.getEventHash('BaseFee.NewBaseFeePerGas') === '6d9ead7bacbcc31865a36167f18b025b998f3de12411a9e26649a9a646df87fb'
   }
 
-  get asV1201(): bigint[] {
+  get asV1201(): bigint {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('BaseFee.NewBaseFeePerGas') === 'df74b0f066943b24c635a19ba2763478ab00f9c0373d74c9a771b1a1047ff6d6'
+  }
+
+  get asV1802(): {fee: bigint} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -1746,6 +1766,15 @@ export class BaseFeeNewElasticityEvent {
 
   get asV1201(): number {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('BaseFee.NewElasticity') === 'efcd4cd6d4fde4342db62d270df85a88b1c153af50159f9bc1ba1ce1133f2524'
+  }
+
+  get asV1802(): {elasticity: number} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -1906,14 +1935,14 @@ export class CouncilCollectiveExecutedEvent {
    * \[proposal_hash, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('CouncilCollective.Executed') === '019142f0bd31225b17a5d98473d6ee9928b1e71bb401e1e42248abdb9dca92c7'
+    return this._chain.getEventHash('CouncilCollective.Executed') === '4c0b4a162aadee51101107186bcd8702d456d82a3b858208b7ecbf7f53187fbb'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -1922,13 +1951,13 @@ export class CouncilCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('CouncilCollective.Executed') === '5b848c4d2e38fbfb6752ba650f8662bd0df106f400d22ae305ed497d7574ee03'
+    return this._chain.getEventHash('CouncilCollective.Executed') === '985881284cd2d985dd366d839f2f998c085d1947cd3d3888f28b2b95e28572f1'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -1937,13 +1966,13 @@ export class CouncilCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('CouncilCollective.Executed') === '3f97432326c1bc7a1d2b8f8e2b864f870aa8a7a926361a7af32c8e5c45ed9c5e'
+    return this._chain.getEventHash('CouncilCollective.Executed') === '66d95d205ed46ac5925431190b235d9609aa48d16739fe72413be37096aa7cd0'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -1952,13 +1981,13 @@ export class CouncilCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('CouncilCollective.Executed') === 'e7bba992b17737087cf79037068ecde07b0ef6afb29be3ddbe1d7afe57e365aa'
+    return this._chain.getEventHash('CouncilCollective.Executed') === '277b4c0e428c2d4a9558753a98f57fb1fce7e27c7e6311138f5416b2baf86e33'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -1967,13 +1996,13 @@ export class CouncilCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('CouncilCollective.Executed') === '891fd2ad27e5f8bc799d45bb765ef77383902fd4e1cc4c6981cba99123803ac7'
+    return this._chain.getEventHash('CouncilCollective.Executed') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -1997,14 +2026,14 @@ export class CouncilCollectiveMemberExecutedEvent {
    * \[proposal_hash, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '019142f0bd31225b17a5d98473d6ee9928b1e71bb401e1e42248abdb9dca92c7'
+    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '4c0b4a162aadee51101107186bcd8702d456d82a3b858208b7ecbf7f53187fbb'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2013,13 +2042,13 @@ export class CouncilCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '5b848c4d2e38fbfb6752ba650f8662bd0df106f400d22ae305ed497d7574ee03'
+    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '985881284cd2d985dd366d839f2f998c085d1947cd3d3888f28b2b95e28572f1'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2028,13 +2057,13 @@ export class CouncilCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '3f97432326c1bc7a1d2b8f8e2b864f870aa8a7a926361a7af32c8e5c45ed9c5e'
+    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '66d95d205ed46ac5925431190b235d9609aa48d16739fe72413be37096aa7cd0'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -2043,13 +2072,13 @@ export class CouncilCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === 'e7bba992b17737087cf79037068ecde07b0ef6afb29be3ddbe1d7afe57e365aa'
+    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '277b4c0e428c2d4a9558753a98f57fb1fce7e27c7e6311138f5416b2baf86e33'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -2058,13 +2087,13 @@ export class CouncilCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === '891fd2ad27e5f8bc799d45bb765ef77383902fd4e1cc4c6981cba99123803ac7'
+    return this._chain.getEventHash('CouncilCollective.MemberExecuted') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -2607,13 +2636,13 @@ export class DemocracyExecutedEvent {
    * A proposal has been enacted. \[ref_index, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('Democracy.Executed') === '4569400573983e7dffe031a303e5028518f139390f47223a097cb35de3005258'
+    return this._chain.getEventHash('Democracy.Executed') === 'c83a84e76e348dd28ec0b3d255b3b6614da57c66bcdca25e179abc516b1d0b15'
   }
 
   /**
    * A proposal has been enacted. \[ref_index, result\]
    */
-  get asV900(): [number, Result<null, v900.DispatchError>] {
+  get asV900(): [number, v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -2622,13 +2651,13 @@ export class DemocracyExecutedEvent {
    * A proposal has been enacted.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('Democracy.Executed') === '1f0fb32f2f0aaba231b69023c5858e85b8bfd660b5ce8c47d1b99b39602e4963'
+    return this._chain.getEventHash('Democracy.Executed') === '0077901b6de880646efe44eef6ddcdc431a84c0fe153cc9f8e6e66c9354cbb13'
   }
 
   /**
    * A proposal has been enacted.
    */
-  get asV1201(): {refIndex: number, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {refIndex: number, result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -2637,13 +2666,13 @@ export class DemocracyExecutedEvent {
    * A proposal has been enacted.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('Democracy.Executed') === 'fe9cbb2e8fcebf406053419831a31120f211751f75230bfefe38454cc691c00a'
+    return this._chain.getEventHash('Democracy.Executed') === '1f8afbb40842c0eb231c4c0456dea31d665cbfc12f23138aebe104164e4f18dc'
   }
 
   /**
    * A proposal has been enacted.
    */
-  get asV1300(): {refIndex: number, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {refIndex: number, result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -2652,13 +2681,13 @@ export class DemocracyExecutedEvent {
    * A proposal has been enacted.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('Democracy.Executed') === '98c3caaef1b84143deea16c761096200c5e0e631c6a3776ed012edc9788cf6e2'
+    return this._chain.getEventHash('Democracy.Executed') === '270512fa9651c9fa2eb584a439cab409bb758634bd42c08ad5fc0e9bbed943b0'
   }
 
   /**
    * A proposal has been enacted.
    */
-  get asV1401(): {refIndex: number, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {refIndex: number, result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -2667,13 +2696,13 @@ export class DemocracyExecutedEvent {
    * A proposal has been enacted.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('Democracy.Executed') === '2abe2e7ca2af8b119eb4f3a1f669843943049e3f4e2f613fc3b077115902ca2b'
+    return this._chain.getEventHash('Democracy.Executed') === '957b797337eaa1f370b65a94f7685042cc04730ba165349e248cfdde80b53c25'
   }
 
   /**
    * A proposal has been enacted.
    */
-  get asV1606(): {refIndex: number, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {refIndex: number, result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -3020,6 +3049,35 @@ export class DemocracyPreimageUsedEvent {
    */
   get asV1201(): {proposalHash: Uint8Array, provider: Uint8Array, deposit: bigint} {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class DemocracyProposalCanceledEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Democracy.ProposalCanceled')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A proposal got canceled.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Democracy.ProposalCanceled') === '4229a060ed682a59f5b96a0a1d18ae4a471b42fbbe5beff110f3dbb41e7d7224'
+  }
+
+  /**
+   * A proposal got canceled.
+   */
+  get asV1802(): {propIndex: number} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -3517,6 +3575,21 @@ export class DmpQueueOverweightEnqueuedEvent {
     assert(this.isV1701)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * Downward message is overweight and was placed in the overweight queue.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('DmpQueue.OverweightEnqueued') === 'ad9cb107597768cf938dffc06f4759d95e30b4d686ee33c209c5a44145df0c73'
+  }
+
+  /**
+   * Downward message is overweight and was placed in the overweight queue.
+   */
+  get asV1901(): {messageId: Uint8Array, overweightIndex: bigint, requiredWeight: v1901.Weight} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class DmpQueueOverweightServicedEvent {
@@ -3561,6 +3634,21 @@ export class DmpQueueOverweightServicedEvent {
    */
   get asV1701(): {overweightIndex: bigint, weightUsed: bigint} {
     assert(this.isV1701)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Downward message from the overweight queue was executed.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('DmpQueue.OverweightServiced') === 'f16ac3f6b10f93f6d4efd4dde1eba6cc73e06d27c2e2ec66eec4923e16cbfc6f'
+  }
+
+  /**
+   * Downward message from the overweight queue was executed.
+   */
+  get asV1901(): {overweightIndex: bigint, weightUsed: v1901.Weight} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -3655,6 +3743,21 @@ export class DmpQueueWeightExhaustedEvent {
     assert(this.isV1701)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * The weight limit for handling downward messages was reached.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('DmpQueue.WeightExhausted') === 'b9a55b745575cc47de66be392bf446a9558a5b3e9201c5b37598517251cff44f'
+  }
+
+  /**
+   * The weight limit for handling downward messages was reached.
+   */
+  get asV1901(): {messageId: Uint8Array, remainingWeight: v1901.Weight, requiredWeight: v1901.Weight} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class EvmBalanceDepositEvent {
@@ -3674,13 +3777,13 @@ export class EvmBalanceDepositEvent {
    * A deposit has been made at a given address. \[sender, address, value\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('EVM.BalanceDeposit') === '8c49d03e6960e6bbb8036b477326e2ced5165533f87a642816b1dd76b4f1cbea'
+    return this._chain.getEventHash('EVM.BalanceDeposit') === '2db6d782782fa5d2d4b27234086860d584d4aa644389252d23c0c08ca9567b0f'
   }
 
   /**
    * A deposit has been made at a given address. \[sender, address, value\]
    */
-  get asV900(): [Uint8Array, Uint8Array, bigint[]] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3703,13 +3806,13 @@ export class EvmBalanceWithdrawEvent {
    * A withdrawal has been made from a given address. \[sender, address, value\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('EVM.BalanceWithdraw') === '8c49d03e6960e6bbb8036b477326e2ced5165533f87a642816b1dd76b4f1cbea'
+    return this._chain.getEventHash('EVM.BalanceWithdraw') === '2db6d782782fa5d2d4b27234086860d584d4aa644389252d23c0c08ca9567b0f'
   }
 
   /**
    * A withdrawal has been made from a given address. \[sender, address, value\]
    */
-  get asV900(): [Uint8Array, Uint8Array, bigint[]] {
+  get asV900(): [Uint8Array, Uint8Array, bigint] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -3742,6 +3845,21 @@ export class EvmCreatedEvent {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * A contract has been created at given address.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('EVM.Created') === 'c5bed4ffae488fefd76eb807a683ba2d9cb6726ded1d162edcacf2126be4665f'
+  }
+
+  /**
+   * A contract has been created at given address.
+   */
+  get asV1802(): {address: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class EvmCreatedFailedEvent {
@@ -3769,6 +3887,21 @@ export class EvmCreatedFailedEvent {
    */
   get asV900(): Uint8Array {
     assert(this.isV900)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * A contract was attempted to be created, but the execution failed.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('EVM.CreatedFailed') === 'c5bed4ffae488fefd76eb807a683ba2d9cb6726ded1d162edcacf2126be4665f'
+  }
+
+  /**
+   * A contract was attempted to be created, but the execution failed.
+   */
+  get asV1802(): {address: Uint8Array} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -3800,6 +3933,21 @@ export class EvmExecutedEvent {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * A contract has been executed successfully with states applied.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('EVM.Executed') === 'c5bed4ffae488fefd76eb807a683ba2d9cb6726ded1d162edcacf2126be4665f'
+  }
+
+  /**
+   * A contract has been executed successfully with states applied.
+   */
+  get asV1802(): {address: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class EvmExecutedFailedEvent {
@@ -3829,6 +3977,21 @@ export class EvmExecutedFailedEvent {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * A contract has been executed with errors. States are reverted with only gas fees applied.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('EVM.ExecutedFailed') === 'c5bed4ffae488fefd76eb807a683ba2d9cb6726ded1d162edcacf2126be4665f'
+  }
+
+  /**
+   * A contract has been executed with errors. States are reverted with only gas fees applied.
+   */
+  get asV1802(): {address: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class EvmLogEvent {
@@ -3856,6 +4019,21 @@ export class EvmLogEvent {
    */
   get asV900(): v900.Log {
     assert(this.isV900)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Ethereum events from contracts.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('EVM.Log') === '4edddb5632dcffc943bfbdb42201f95b9c2ffa1df042e526a7c54a39f099056a'
+  }
+
+  /**
+   * Ethereum events from contracts.
+   */
+  get asV1802(): {log: v1802.Log} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -3930,6 +4108,21 @@ export class EthereumExecutedEvent {
    */
   get asV1701(): [Uint8Array, Uint8Array, Uint8Array, v1701.ExitReason] {
     assert(this.isV1701)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An ethereum transaction was successfully executed.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Ethereum.Executed') === '85a0045758a84a2cd09a563b9e9fc2194e6054385c70290178792fb71cd20021'
+  }
+
+  /**
+   * An ethereum transaction was successfully executed.
+   */
+  get asV1802(): {from: Uint8Array, to: Uint8Array, transactionHash: Uint8Array, exitReason: v1802.ExitReason} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -5086,6 +5279,21 @@ export class MigrationsMigrationCompletedEvent {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * Migration completed
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('Migrations.MigrationCompleted') === '5bddc782be704f5fd72710caa096c18ab8fe96344d8c572d19a80a02e80461a0'
+  }
+
+  /**
+   * Migration completed
+   */
+  get asV1901(): {migrationName: Uint8Array, consumedWeight: v1901.Weight} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class MigrationsMigrationStartedEvent {
@@ -5160,6 +5368,21 @@ export class MigrationsRuntimeUpgradeCompletedEvent {
    */
   get asV1300(): {weight: bigint} {
     assert(this.isV1300)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Runtime upgrade completed
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('Migrations.RuntimeUpgradeCompleted') === '6c4351adb52799db006db050a2010387b3376061e505cbc1f6c988f029926dab'
+  }
+
+  /**
+   * Runtime upgrade completed
+   */
+  get asV1901(): {weight: v1901.Weight} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -5351,6 +5574,35 @@ export class MoonbeamOrbitersOrbiterUnregisteredEvent {
    */
   get asV1606(): {account: Uint8Array} {
     assert(this.isV1606)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class ParachainStakingAutoCompoundSetEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'ParachainStaking.AutoCompoundSet')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * Auto-compounding reward percent was set for a delegation.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('ParachainStaking.AutoCompoundSet') === '242ca78b3edcf0d7f258a89ed70894e5e1a365c82ac5ec16967ed7fc7c207e04'
+  }
+
+  /**
+   * Auto-compounding reward percent was set for a delegation.
+   */
+  get asV1901(): {candidate: Uint8Array, delegator: Uint8Array, value: number} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -6134,6 +6386,35 @@ export class ParachainStakingCollatorWentOfflineEvent {
   }
 }
 
+export class ParachainStakingCompoundedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'ParachainStaking.Compounded')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * Compounded a portion of rewards towards the delegation.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('ParachainStaking.Compounded') === '8266cbb073e59a0e3396d5560489030a068acf3b9e5df48c17dfbe42dc02e748'
+  }
+
+  /**
+   * Compounded a portion of rewards towards the delegation.
+   */
+  get asV1901(): {candidate: Uint8Array, delegator: Uint8Array, amount: bigint} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
 export class ParachainStakingDelegationEvent {
   private readonly _chain: Chain
   private readonly event: Event
@@ -6174,6 +6455,21 @@ export class ParachainStakingDelegationEvent {
    */
   get asV1300(): {delegator: Uint8Array, lockedAmount: bigint, candidate: Uint8Array, delegatorPosition: v1300.DelegatorAdded} {
     assert(this.isV1300)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * New delegation (increase of the existing one).
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('ParachainStaking.Delegation') === 'b79250d65573f20264ea546d6964696800161f34e3e18c9e5f5cc68ab741883d'
+  }
+
+  /**
+   * New delegation (increase of the existing one).
+   */
+  get asV1901(): {delegator: Uint8Array, lockedAmount: bigint, candidate: Uint8Array, delegatorPosition: v1901.DelegatorAdded, autoCompound: number} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -7254,6 +7550,21 @@ export class ParachainSystemDownwardMessagesProcessedEvent {
     assert(this.isV1701)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * Downward messages were processed using the given weight.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('ParachainSystem.DownwardMessagesProcessed') === '5ae72cc32ab9a15192bb84c788530d1d739717b8f9f85bd654953f12515e41f1'
+  }
+
+  /**
+   * Downward messages were processed using the given weight.
+   */
+  get asV1901(): {weightUsed: v1901.Weight, dmqHead: Uint8Array} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class ParachainSystemDownwardMessagesReceivedEvent {
@@ -7772,6 +8083,29 @@ export class PolkadotXcmNotifyOverweightEvent {
    */
   get asV1201(): [bigint, number, number, bigint, bigint] {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Query response has been received and query is removed. The registered notification could
+   * not be dispatched because the dispatch weight is greater than the maximum weight
+   * originally budgeted by this runtime for the query result.
+   * 
+   * \[ id, pallet index, call index, actual weight, max budgeted weight \]
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('PolkadotXcm.NotifyOverweight') === '017f3a2e2d06e91d1be294456b9555e805a1e72a1ad2a469f493c21bf4da0feb'
+  }
+
+  /**
+   * Query response has been received and query is removed. The registered notification could
+   * not be dispatched because the dispatch weight is greater than the maximum weight
+   * originally budgeted by this runtime for the query result.
+   * 
+   * \[ id, pallet index, call index, actual weight, max budgeted weight \]
+   */
+  get asV1901(): [bigint, number, number, v1901.Weight, v1901.Weight] {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -8300,13 +8634,13 @@ export class ProxyProxyExecutedEvent {
    * A proxy was executed correctly, with the given \[result\].
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('Proxy.ProxyExecuted') === 'ab888611b1630e8ada6ae91aa73bbcaa3417be141a0a0db92f4f509e4cfba02a'
+    return this._chain.getEventHash('Proxy.ProxyExecuted') === '8fdfbdd4d08d5c98b7a7eada31ee13c01f31ab10c8752e768b9d4f32f2edfd25'
   }
 
   /**
    * A proxy was executed correctly, with the given \[result\].
    */
-  get asV900(): Result<null, v900.DispatchError> {
+  get asV900(): v900.Type_43 {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8315,13 +8649,13 @@ export class ProxyProxyExecutedEvent {
    * A proxy was executed correctly, with the given.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('Proxy.ProxyExecuted') === 'd96aa7f2eece8cc4576093229086d4b5035cea1c38d31c9f4c7fb8ed70fb6bcc'
+    return this._chain.getEventHash('Proxy.ProxyExecuted') === '13035ed52f885e1562eecb18e6036551aca97b17fe36e70f73b4132c90e5b776'
   }
 
   /**
    * A proxy was executed correctly, with the given.
    */
-  get asV1201(): {result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -8330,13 +8664,13 @@ export class ProxyProxyExecutedEvent {
    * A proxy was executed correctly, with the given.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('Proxy.ProxyExecuted') === 'a5f93f40c8dbc0e7785a5800c0344513f6a8b6a6a0394b0938320dec7e44be85'
+    return this._chain.getEventHash('Proxy.ProxyExecuted') === 'af161e703a60c2ed390f4fc5df450268eda69dfe8656e401e29072d2b13258f5'
   }
 
   /**
    * A proxy was executed correctly, with the given.
    */
-  get asV1300(): {result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8345,13 +8679,13 @@ export class ProxyProxyExecutedEvent {
    * A proxy was executed correctly, with the given.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('Proxy.ProxyExecuted') === '437b0d6b61f01d02ca149f7d3a9e00406fc26ecde780532ed80e532801995307'
+    return this._chain.getEventHash('Proxy.ProxyExecuted') === '123f6c35bbf8bd8d1cc0ada05ce8ad9758b8462076e62ae91382a7270c95ff10'
   }
 
   /**
    * A proxy was executed correctly, with the given.
    */
-  get asV1401(): {result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -8360,13 +8694,13 @@ export class ProxyProxyExecutedEvent {
    * A proxy was executed correctly, with the given.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('Proxy.ProxyExecuted') === 'cbb13e6f8f0e2a0b00b89705f05de04cf34bbb44653bcdccedddc8448bc95bfc'
+    return this._chain.getEventHash('Proxy.ProxyExecuted') === '7d690b5ed9f2caaea0254a371bcab7b5a7b6fa958ff0b07661390aaf23c39439'
   }
 
   /**
    * A proxy was executed correctly, with the given.
    */
-  get asV1606(): {result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -8412,6 +8746,121 @@ export class ProxyProxyRemovedEvent {
    */
   get asV1701(): {delegator: Uint8Array, delegatee: Uint8Array, proxyType: v1701.ProxyType, delay: number} {
     assert(this.isV1701)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class RandomnessRandomnessRequestedBabeEpochEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Randomness.RandomnessRequestedBabeEpoch')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Randomness.RandomnessRequestedBabeEpoch') === 'a2d188ce05f280b6edc6f84e44e168132bafdcfa6ece7fb17537d235ec04e4d3'
+  }
+
+  get asV1802(): {id: bigint, refundAddress: Uint8Array, contractAddress: Uint8Array, fee: bigint, gasLimit: bigint, numWords: number, salt: Uint8Array, earliestEpoch: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class RandomnessRandomnessRequestedLocalEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Randomness.RandomnessRequestedLocal')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Randomness.RandomnessRequestedLocal') === 'd23146f61ce6df37a1caf04d3034bc61f1a8ec34d9e707c3fb3aa2c84bb88c45'
+  }
+
+  get asV1802(): {id: bigint, refundAddress: Uint8Array, contractAddress: Uint8Array, fee: bigint, gasLimit: bigint, numWords: number, salt: Uint8Array, earliestBlock: number} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class RandomnessRequestExpirationExecutedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Randomness.RequestExpirationExecuted')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Randomness.RequestExpirationExecuted') === 'c66c1c760c6b44eb4cb57fc52e8d79ffff6e94182e3b5b441236f82bb7457c5f'
+  }
+
+  get asV1802(): {id: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class RandomnessRequestFeeIncreasedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Randomness.RequestFeeIncreased')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Randomness.RequestFeeIncreased') === '038cf1c15ff9fd55ef3516215287662f83d86ffb85853fbf495c221fb23f1431'
+  }
+
+  get asV1802(): {id: bigint, newFee: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class RandomnessRequestFulfilledEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Randomness.RequestFulfilled')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Randomness.RequestFulfilled') === 'c66c1c760c6b44eb4cb57fc52e8d79ffff6e94182e3b5b441236f82bb7457c5f'
+  }
+
+  get asV1802(): {id: bigint} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -8506,13 +8955,13 @@ export class SchedulerDispatchedEvent {
    * Dispatched some task. \[task, id, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('Scheduler.Dispatched') === '12c2631182bbd65384b8ff2afee779ec1941e149568c871b28bde1f87c6afab0'
+    return this._chain.getEventHash('Scheduler.Dispatched') === '0924b109bceeccc61da80b5dece80623d828a98c86b9a531565d13d396698ea8'
   }
 
   /**
    * Dispatched some task. \[task, id, result\]
    */
-  get asV900(): [[number, number], (Uint8Array | undefined), Result<null, v900.DispatchError>] {
+  get asV900(): [[number, number], (Uint8Array | undefined), v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8521,13 +8970,13 @@ export class SchedulerDispatchedEvent {
    * Dispatched some task.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('Scheduler.Dispatched') === '439ef87771a96fe3726e3ffb055c38438b502913c76a8fada434b22e13a72246'
+    return this._chain.getEventHash('Scheduler.Dispatched') === '4c3d15154e107129fea741c8e400a84699ee67095fc83c1c726f8b56c7826660'
   }
 
   /**
    * Dispatched some task.
    */
-  get asV1300(): {task: [number, number], id: (Uint8Array | undefined), result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {task: [number, number], id: (Uint8Array | undefined), result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -8536,13 +8985,13 @@ export class SchedulerDispatchedEvent {
    * Dispatched some task.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('Scheduler.Dispatched') === '39cf66f8b318db4669e183ffaa1290aec1f8ac972b379087a931cf63e5ddf8f9'
+    return this._chain.getEventHash('Scheduler.Dispatched') === '4439d3bf37ab8e1b7b14c411aa9c4d9622aa96b4dd169cb67da04ec196da4c09'
   }
 
   /**
    * Dispatched some task.
    */
-  get asV1401(): {task: [number, number], id: (Uint8Array | undefined), result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {task: [number, number], id: (Uint8Array | undefined), result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -8551,13 +9000,13 @@ export class SchedulerDispatchedEvent {
    * Dispatched some task.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('Scheduler.Dispatched') === '3fd36e1da4dd6a57fbaf34f23c31e64a8c167849f0135f4fce7567f3db728290'
+    return this._chain.getEventHash('Scheduler.Dispatched') === 'ba59527b3bb4801aee2fda92f8229d8d572cc38c565e139a667a87dd8171194b'
   }
 
   /**
    * Dispatched some task.
    */
-  get asV1606(): {task: [number, number], id: (Uint8Array | undefined), result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {task: [number, number], id: (Uint8Array | undefined), result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -8653,13 +9102,13 @@ export class SudoSudidEvent {
    * A sudo just took place. \[result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('Sudo.Sudid') === 'ab888611b1630e8ada6ae91aa73bbcaa3417be141a0a0db92f4f509e4cfba02a'
+    return this._chain.getEventHash('Sudo.Sudid') === '8fdfbdd4d08d5c98b7a7eada31ee13c01f31ab10c8752e768b9d4f32f2edfd25'
   }
 
   /**
    * A sudo just took place. \[result\]
    */
-  get asV900(): Result<null, v900.DispatchError> {
+  get asV900(): v900.Type_43 {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8682,13 +9131,13 @@ export class SudoSudoAsDoneEvent {
    * A sudo just took place. \[result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('Sudo.SudoAsDone') === 'ab888611b1630e8ada6ae91aa73bbcaa3417be141a0a0db92f4f509e4cfba02a'
+    return this._chain.getEventHash('Sudo.SudoAsDone') === '8fdfbdd4d08d5c98b7a7eada31ee13c01f31ab10c8752e768b9d4f32f2edfd25'
   }
 
   /**
    * A sudo just took place. \[result\]
    */
-  get asV900(): Result<null, v900.DispatchError> {
+  get asV900(): v900.Type_43 {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -8795,6 +9244,21 @@ export class SystemExtrinsicFailedEvent {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * An extrinsic failed.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('System.ExtrinsicFailed') === '7a219a9eae41ad22651fdcb4f6a7453254b0ecc7be4b30821be2ab5b44e5f1b4'
+  }
+
+  /**
+   * An extrinsic failed.
+   */
+  get asV1901(): {dispatchError: v1901.DispatchError, dispatchInfo: v1901.DispatchInfo} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class SystemExtrinsicSuccessEvent {
@@ -8837,6 +9301,21 @@ export class SystemExtrinsicSuccessEvent {
    */
   get asV1300(): {dispatchInfo: v1300.DispatchInfo} {
     assert(this.isV1300)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An extrinsic completed successfully.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('System.ExtrinsicSuccess') === '6fc1e5ad9f5b3851c6e301764b8507ebb0861fd57381e6bc020a47f2b710167d'
+  }
+
+  /**
+   * An extrinsic completed successfully.
+   */
+  get asV1901(): {dispatchInfo: v1901.DispatchInfo} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -9129,14 +9608,14 @@ export class TechCommitteeCollectiveExecutedEvent {
    * \[proposal_hash, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '019142f0bd31225b17a5d98473d6ee9928b1e71bb401e1e42248abdb9dca92c7'
+    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '4c0b4a162aadee51101107186bcd8702d456d82a3b858208b7ecbf7f53187fbb'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9145,13 +9624,13 @@ export class TechCommitteeCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '5b848c4d2e38fbfb6752ba650f8662bd0df106f400d22ae305ed497d7574ee03'
+    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '985881284cd2d985dd366d839f2f998c085d1947cd3d3888f28b2b95e28572f1'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9160,13 +9639,13 @@ export class TechCommitteeCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '3f97432326c1bc7a1d2b8f8e2b864f870aa8a7a926361a7af32c8e5c45ed9c5e'
+    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '66d95d205ed46ac5925431190b235d9609aa48d16739fe72413be37096aa7cd0'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9175,13 +9654,13 @@ export class TechCommitteeCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.Executed') === 'e7bba992b17737087cf79037068ecde07b0ef6afb29be3ddbe1d7afe57e365aa'
+    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '277b4c0e428c2d4a9558753a98f57fb1fce7e27c7e6311138f5416b2baf86e33'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -9190,13 +9669,13 @@ export class TechCommitteeCollectiveExecutedEvent {
    * A motion was executed; result will be `Ok` if it returned without error.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.Executed') === '891fd2ad27e5f8bc799d45bb765ef77383902fd4e1cc4c6981cba99123803ac7'
+    return this._chain.getEventHash('TechCommitteeCollective.Executed') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
   }
 
   /**
    * A motion was executed; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -9220,14 +9699,14 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * \[proposal_hash, result\]
    */
   get isV900(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '019142f0bd31225b17a5d98473d6ee9928b1e71bb401e1e42248abdb9dca92c7'
+    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '4c0b4a162aadee51101107186bcd8702d456d82a3b858208b7ecbf7f53187fbb'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    * \[proposal_hash, result\]
    */
-  get asV900(): [Uint8Array, Result<null, v900.DispatchError>] {
+  get asV900(): [Uint8Array, v900.Type_43] {
     assert(this.isV900)
     return this._chain.decodeEvent(this.event)
   }
@@ -9236,13 +9715,13 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '5b848c4d2e38fbfb6752ba650f8662bd0df106f400d22ae305ed497d7574ee03'
+    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '985881284cd2d985dd366d839f2f998c085d1947cd3d3888f28b2b95e28572f1'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1201(): {proposalHash: Uint8Array, result: Result<null, v1201.DispatchError>} {
+  get asV1201(): {proposalHash: Uint8Array, result: v1201.Type_41} {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9251,13 +9730,13 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '3f97432326c1bc7a1d2b8f8e2b864f870aa8a7a926361a7af32c8e5c45ed9c5e'
+    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '66d95d205ed46ac5925431190b235d9609aa48d16739fe72413be37096aa7cd0'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1300(): {proposalHash: Uint8Array, result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {proposalHash: Uint8Array, result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9266,13 +9745,13 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === 'e7bba992b17737087cf79037068ecde07b0ef6afb29be3ddbe1d7afe57e365aa'
+    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '277b4c0e428c2d4a9558753a98f57fb1fce7e27c7e6311138f5416b2baf86e33'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1401(): {proposalHash: Uint8Array, result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {proposalHash: Uint8Array, result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -9281,13 +9760,13 @@ export class TechCommitteeCollectiveMemberExecutedEvent {
    * A single member did some action; result will be `Ok` if it returned without error.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === '891fd2ad27e5f8bc799d45bb765ef77383902fd4e1cc4c6981cba99123803ac7'
+    return this._chain.getEventHash('TechCommitteeCollective.MemberExecuted') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
   }
 
   /**
    * A single member did some action; result will be `Ok` if it returned without error.
    */
-  get asV1606(): {proposalHash: Uint8Array, result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {proposalHash: Uint8Array, result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -9389,6 +9868,37 @@ export class TechCommitteeCollectiveVotedEvent {
    */
   get asV1201(): {account: Uint8Array, proposalHash: Uint8Array, voted: boolean, yes: number, no: number} {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TransactionPaymentTransactionFeePaidEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TransactionPayment.TransactionFeePaid')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A transaction fee `actual_fee`, of which `tip` was added to the minimum inclusion fee,
+   * has been paid by `who`.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TransactionPayment.TransactionFeePaid') === '0e2aa7b73399d934ce51badc2f3fc832e2196aab6d6e820e3f58d4cf2c178b47'
+  }
+
+  /**
+   * A transaction fee `actual_fee`, of which `tip` was added to the minimum inclusion fee,
+   * has been paid by `who`.
+   */
+  get asV1802(): {who: Uint8Array, actualFee: bigint, tip: bigint} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -9659,6 +10169,35 @@ export class TreasuryRolloverEvent {
   }
 }
 
+export class TreasurySpendApprovedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'Treasury.SpendApproved')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A new spend proposal has been approved.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('Treasury.SpendApproved') === 'b4eb6b90eeb0d3e68cf78482f1b230bc81892df3e145784d4494e6832f0715c5'
+  }
+
+  /**
+   * A new spend proposal has been approved.
+   */
+  get asV1802(): {proposalIndex: number, amount: bigint, beneficiary: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
 export class TreasurySpendingEvent {
   private readonly _chain: Chain
   private readonly event: Event
@@ -9699,6 +10238,213 @@ export class TreasurySpendingEvent {
    */
   get asV1300(): {budgetRemaining: bigint} {
     assert(this.isV1300)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveApprovedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Approved')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A motion was approved by the required threshold.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Approved') === 'b8668610145a6851ad2d5b7dd4bfc15e29402d9a8558401ab955896007f866a5'
+  }
+
+  /**
+   * A motion was approved by the required threshold.
+   */
+  get asV1802(): {proposalHash: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveClosedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Closed')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A proposal was closed because its threshold was reached or after its duration was up.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Closed') === '084e73926c22836c888c17e49053d3b72e2feaa904b8f0175d21fb5b800542f9'
+  }
+
+  /**
+   * A proposal was closed because its threshold was reached or after its duration was up.
+   */
+  get asV1802(): {proposalHash: Uint8Array, yes: number, no: number} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveDisapprovedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Disapproved')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A motion was not approved by the required threshold.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Disapproved') === 'b8668610145a6851ad2d5b7dd4bfc15e29402d9a8558401ab955896007f866a5'
+  }
+
+  /**
+   * A motion was not approved by the required threshold.
+   */
+  get asV1802(): {proposalHash: Uint8Array} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveExecutedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Executed')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A motion was executed; result will be `Ok` if it returned without error.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Executed') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
+  }
+
+  /**
+   * A motion was executed; result will be `Ok` if it returned without error.
+   */
+  get asV1802(): {proposalHash: Uint8Array, result: v1802.Type_48} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveMemberExecutedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.MemberExecuted')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A single member did some action; result will be `Ok` if it returned without error.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.MemberExecuted') === 'e3462770cd5fd27e557ee1e7e9aa904092ca387f3eec55182b953d310847e044'
+  }
+
+  /**
+   * A single member did some action; result will be `Ok` if it returned without error.
+   */
+  get asV1802(): {proposalHash: Uint8Array, result: v1802.Type_48} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveProposedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Proposed')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A motion (given hash) has been proposed (by given account) with a threshold (given
+   * `MemberCount`).
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Proposed') === '2f562f77da96c6e9d914e5ea299d49ccdf6e5f2ac7298893761b08e64df38909'
+  }
+
+  /**
+   * A motion (given hash) has been proposed (by given account) with a threshold (given
+   * `MemberCount`).
+   */
+  get asV1802(): {account: Uint8Array, proposalIndex: number, proposalHash: Uint8Array, threshold: number} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+}
+
+export class TreasuryCouncilCollectiveVotedEvent {
+  private readonly _chain: Chain
+  private readonly event: Event
+
+  constructor(ctx: EventContext)
+  constructor(ctx: ChainContext, event: Event)
+  constructor(ctx: EventContext, event?: Event) {
+    event = event || ctx.event
+    assert(event.name === 'TreasuryCouncilCollective.Voted')
+    this._chain = ctx._chain
+    this.event = event
+  }
+
+  /**
+   * A motion (given hash) has been voted on by given account, leaving
+   * a tally (yes votes and no votes given respectively as `MemberCount`).
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('TreasuryCouncilCollective.Voted') === '21c6fc995cdece31f27f75fd29db36311e324efedc01dd968dcf754af1904de9'
+  }
+
+  /**
+   * A motion (given hash) has been voted on by given account, leaving
+   * a tally (yes votes and no votes given respectively as `MemberCount`).
+   */
+  get asV1802(): {account: Uint8Array, proposalHash: Uint8Array, voted: boolean, yes: number, no: number} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -9877,13 +10623,13 @@ export class UtilityDispatchedAsEvent {
    * A call was dispatched. \[result\]
    */
   get isV1201(): boolean {
-    return this._chain.getEventHash('Utility.DispatchedAs') === 'ab888611b1630e8ada6ae91aa73bbcaa3417be141a0a0db92f4f509e4cfba02a'
+    return this._chain.getEventHash('Utility.DispatchedAs') === '8fdfbdd4d08d5c98b7a7eada31ee13c01f31ab10c8752e768b9d4f32f2edfd25'
   }
 
   /**
    * A call was dispatched. \[result\]
    */
-  get asV1201(): Result<null, v1201.DispatchError> {
+  get asV1201(): v1201.Type_41 {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
@@ -9892,13 +10638,13 @@ export class UtilityDispatchedAsEvent {
    * A call was dispatched.
    */
   get isV1300(): boolean {
-    return this._chain.getEventHash('Utility.DispatchedAs') === 'a5f93f40c8dbc0e7785a5800c0344513f6a8b6a6a0394b0938320dec7e44be85'
+    return this._chain.getEventHash('Utility.DispatchedAs') === 'af161e703a60c2ed390f4fc5df450268eda69dfe8656e401e29072d2b13258f5'
   }
 
   /**
    * A call was dispatched.
    */
-  get asV1300(): {result: Result<null, v1300.DispatchError>} {
+  get asV1300(): {result: v1300.Type_41} {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
@@ -9907,13 +10653,13 @@ export class UtilityDispatchedAsEvent {
    * A call was dispatched.
    */
   get isV1401(): boolean {
-    return this._chain.getEventHash('Utility.DispatchedAs') === '437b0d6b61f01d02ca149f7d3a9e00406fc26ecde780532ed80e532801995307'
+    return this._chain.getEventHash('Utility.DispatchedAs') === '123f6c35bbf8bd8d1cc0ada05ce8ad9758b8462076e62ae91382a7270c95ff10'
   }
 
   /**
    * A call was dispatched.
    */
-  get asV1401(): {result: Result<null, v1401.DispatchError>} {
+  get asV1401(): {result: v1401.Type_42} {
     assert(this.isV1401)
     return this._chain.decodeEvent(this.event)
   }
@@ -9922,13 +10668,13 @@ export class UtilityDispatchedAsEvent {
    * A call was dispatched.
    */
   get isV1606(): boolean {
-    return this._chain.getEventHash('Utility.DispatchedAs') === 'cbb13e6f8f0e2a0b00b89705f05de04cf34bbb44653bcdccedddc8448bc95bfc'
+    return this._chain.getEventHash('Utility.DispatchedAs') === '7d690b5ed9f2caaea0254a371bcab7b5a7b6fa958ff0b07661390aaf23c39439'
   }
 
   /**
    * A call was dispatched.
    */
-  get asV1606(): {result: Result<null, v1606.DispatchError>} {
+  get asV1606(): {result: v1606.Type_47} {
     assert(this.isV1606)
     return this._chain.decodeEvent(this.event)
   }
@@ -10641,6 +11387,21 @@ export class XcmpQueueBadFormatEvent {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * Bad XCM format used.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.BadFormat') === 'ccbb82ba01a4d742bdd34e545836a89f2c435428f6887f28ce1ecf0166419df1'
+  }
+
+  /**
+   * Bad XCM format used.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined)} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class XcmpQueueBadVersionEvent {
@@ -10668,6 +11429,21 @@ export class XcmpQueueBadVersionEvent {
    */
   get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Bad XCM version used.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.BadVersion') === 'ccbb82ba01a4d742bdd34e545836a89f2c435428f6887f28ce1ecf0166419df1'
+  }
+
+  /**
+   * Bad XCM version used.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined)} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -10714,6 +11490,36 @@ export class XcmpQueueFailEvent {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * Some XCM failed.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.Fail') === '8ca5252e46336e4c6a7bffc1927807bb885a90bad49951c5e832eda183f4d365'
+  }
+
+  /**
+   * Some XCM failed.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined), error: v1802.V2Error, weight: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Some XCM failed.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('XcmpQueue.Fail') === 'd72a6fdcbedea7017572a7b9b1b30fb50d753160a20111c371f00be9c05691c2'
+  }
+
+  /**
+   * Some XCM failed.
+   */
+  get asV1901(): {messageHash: (Uint8Array | undefined), error: v1901.V2Error, weight: v1901.Weight} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class XcmpQueueOverweightEnqueuedEvent {
@@ -10741,6 +11547,36 @@ export class XcmpQueueOverweightEnqueuedEvent {
    */
   get asV1300(): [number, number, bigint, bigint] {
     assert(this.isV1300)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An XCM exceeded the individual message weight budget.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.OverweightEnqueued') === '66fcd6ac0f8478601d6008edf04a5f6e1988dad34d2e67484bc112967caeddbb'
+  }
+
+  /**
+   * An XCM exceeded the individual message weight budget.
+   */
+  get asV1802(): {sender: number, sentAt: number, index: bigint, required: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An XCM exceeded the individual message weight budget.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('XcmpQueue.OverweightEnqueued') === '067a3a3aa8ee6726ecb8bf35ab307ac7566fec3acc2a84c25854711f6279d584'
+  }
+
+  /**
+   * An XCM exceeded the individual message weight budget.
+   */
+  get asV1901(): {sender: number, sentAt: number, index: bigint, required: v1901.Weight} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -10772,6 +11608,36 @@ export class XcmpQueueOverweightServicedEvent {
     assert(this.isV1300)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * An XCM from the overweight queue was executed with the given actual weight used.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.OverweightServiced') === '6de49eae2a9c6e3c2fecdcc4baff436b4272b874de79a1f9f8955ca81e9f47bb'
+  }
+
+  /**
+   * An XCM from the overweight queue was executed with the given actual weight used.
+   */
+  get asV1802(): {index: bigint, used: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An XCM from the overweight queue was executed with the given actual weight used.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('XcmpQueue.OverweightServiced') === '05c4258fc96a5477a2e7d79afbaae99e134fdf08770b5619a826272ad1e82c22'
+  }
+
+  /**
+   * An XCM from the overweight queue was executed with the given actual weight used.
+   */
+  get asV1901(): {index: bigint, used: v1901.Weight} {
+    assert(this.isV1901)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class XcmpQueueSuccessEvent {
@@ -10799,6 +11665,36 @@ export class XcmpQueueSuccessEvent {
    */
   get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Some XCM was executed ok.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.Success') === '70e4953d4755440ebd53ef8a5482ada34f27cd1aac56b0493142d711aebc0e85'
+  }
+
+  /**
+   * Some XCM was executed ok.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined), weight: bigint} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * Some XCM was executed ok.
+   */
+  get isV1901(): boolean {
+    return this._chain.getEventHash('XcmpQueue.Success') === '305c23f5c5645b4330237519e6b8fa038af5dfc624c8dd8e1de3b97b6e51faf4'
+  }
+
+  /**
+   * Some XCM was executed ok.
+   */
+  get asV1901(): {messageHash: (Uint8Array | undefined), weight: v1901.Weight} {
+    assert(this.isV1901)
     return this._chain.decodeEvent(this.event)
   }
 }
@@ -10830,6 +11726,21 @@ export class XcmpQueueUpwardMessageSentEvent {
     assert(this.isV1201)
     return this._chain.decodeEvent(this.event)
   }
+
+  /**
+   * An upward message was sent to the relay chain.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.UpwardMessageSent') === 'ccbb82ba01a4d742bdd34e545836a89f2c435428f6887f28ce1ecf0166419df1'
+  }
+
+  /**
+   * An upward message was sent to the relay chain.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined)} {
+    assert(this.isV1802)
+    return this._chain.decodeEvent(this.event)
+  }
 }
 
 export class XcmpQueueXcmpMessageSentEvent {
@@ -10857,6 +11768,21 @@ export class XcmpQueueXcmpMessageSentEvent {
    */
   get asV1201(): (Uint8Array | undefined) {
     assert(this.isV1201)
+    return this._chain.decodeEvent(this.event)
+  }
+
+  /**
+   * An HRMP message was sent to a sibling parachain.
+   */
+  get isV1802(): boolean {
+    return this._chain.getEventHash('XcmpQueue.XcmpMessageSent') === 'ccbb82ba01a4d742bdd34e545836a89f2c435428f6887f28ce1ecf0166419df1'
+  }
+
+  /**
+   * An HRMP message was sent to a sibling parachain.
+   */
+  get asV1802(): {messageHash: (Uint8Array | undefined)} {
+    assert(this.isV1802)
     return this._chain.decodeEvent(this.event)
   }
 }

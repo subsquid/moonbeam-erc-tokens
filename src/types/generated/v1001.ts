@@ -1,4 +1,4 @@
-import type {Result} from './support'
+import type {Result, Option} from './support'
 
 export type AccountVote = AccountVote_Standard | AccountVote_Split
 
@@ -1614,10 +1614,10 @@ export interface EVMCall_call {
   source: Uint8Array
   target: Uint8Array
   input: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  gasPrice: bigint[]
-  nonce: (bigint[] | undefined)
+  gasPrice: bigint
+  nonce: (bigint | undefined)
 }
 
 /**
@@ -1628,10 +1628,10 @@ export interface EVMCall_create {
   __kind: 'create'
   source: Uint8Array
   init: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  gasPrice: bigint[]
-  nonce: (bigint[] | undefined)
+  gasPrice: bigint
+  nonce: (bigint | undefined)
 }
 
 /**
@@ -1642,10 +1642,10 @@ export interface EVMCall_create2 {
   source: Uint8Array
   init: Uint8Array
   salt: Uint8Array
-  value: bigint[]
+  value: bigint
   gasLimit: bigint
-  gasPrice: bigint[]
-  nonce: (bigint[] | undefined)
+  gasPrice: bigint
+  nonce: (bigint | undefined)
 }
 
 /**
@@ -2962,11 +2962,11 @@ export interface Judgement_Erroneous {
 }
 
 export interface LegacyTransaction {
-  nonce: bigint[]
-  gasPrice: bigint[]
-  gasLimit: bigint[]
+  nonce: bigint
+  gasPrice: bigint
+  gasLimit: bigint
   action: TransactionAction
-  value: bigint[]
+  value: bigint
   input: Uint8Array
   signature: TransactionSignature
 }
